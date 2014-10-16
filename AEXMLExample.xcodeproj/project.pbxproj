@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		8BD7A14519F0093F005F73F4 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 8BD7A14319F0093F005F73F4 /* LICENSE */; };
-		8BD7A14619F0093F005F73F4 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 8BD7A14419F0093F005F73F4 /* README.md */; };
 		8BFE78AF19F0054100914487 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFE78AE19F0054100914487 /* AppDelegate.swift */; };
 		8BFE78B119F0054100914487 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFE78B019F0054100914487 /* ViewController.swift */; };
 		8BFE78B419F0054100914487 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BFE78B219F0054100914487 /* Main.storyboard */; };
@@ -228,7 +227,6 @@
 			files = (
 				8BFE78B119F0054100914487 /* ViewController.swift in Sources */,
 				8BFE78CF19F0056D00914487 /* AEXML.swift in Sources */,
-				8BD7A14619F0093F005F73F4 /* README.md in Sources */,
 				8BFE78AF19F0054100914487 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
