@@ -13,6 +13,8 @@
 		8BFE78B619F0054100914487 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8BFE78B519F0054100914487 /* Images.xcassets */; };
 		8BFE78B919F0054200914487 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BFE78B719F0054200914487 /* LaunchScreen.xib */; };
 		8BFE78C519F0054200914487 /* AEXMLExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFE78C419F0054200914487 /* AEXMLExampleTests.swift */; };
+		8BFE78CF19F0056D00914487 /* AEXML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFE78CE19F0056D00914487 /* AEXML.swift */; };
+		8BFE78D119F0080B00914487 /* plant_catalog.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8BFE78D019F0080B00914487 /* plant_catalog.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,8 @@
 		8BFE78BE19F0054200914487 /* AEXMLExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AEXMLExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BFE78C319F0054200914487 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8BFE78C419F0054200914487 /* AEXMLExampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AEXMLExampleTests.swift; sourceTree = "<group>"; };
+		8BFE78CE19F0056D00914487 /* AEXML.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AEXML.swift; sourceTree = "<group>"; };
+		8BFE78D019F0080B00914487 /* plant_catalog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = plant_catalog.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +63,7 @@
 		8BFE78A019F0054100914487 = {
 			isa = PBXGroup;
 			children = (
+				8BFE78CE19F0056D00914487 /* AEXML.swift */,
 				8BFE78AB19F0054100914487 /* AEXMLExample */,
 				8BFE78C119F0054200914487 /* AEXMLExampleTests */,
 				8BFE78AA19F0054100914487 /* Products */,
@@ -90,6 +95,7 @@
 		8BFE78AC19F0054100914487 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				8BFE78D019F0080B00914487 /* plant_catalog.xml */,
 				8BFE78AD19F0054100914487 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -193,6 +199,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8BFE78B419F0054100914487 /* Main.storyboard in Resources */,
+				8BFE78D119F0080B00914487 /* plant_catalog.xml in Resources */,
 				8BFE78B919F0054200914487 /* LaunchScreen.xib in Resources */,
 				8BFE78B619F0054100914487 /* Images.xcassets in Resources */,
 			);
@@ -213,6 +220,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8BFE78B119F0054100914487 /* ViewController.swift in Sources */,
+				8BFE78CF19F0056D00914487 /* AEXML.swift in Sources */,
 				8BFE78AF19F0054100914487 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -407,6 +415,7 @@
 				8BFE78CA19F0054200914487 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8BFE78CB19F0054200914487 /* Build configuration list for PBXNativeTarget "AEXMLExampleTests" */ = {
 			isa = XCConfigurationList;
@@ -415,6 +424,7 @@
 				8BFE78CD19F0054200914487 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
