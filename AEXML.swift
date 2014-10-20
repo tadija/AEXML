@@ -215,13 +215,12 @@ class AEXMLParser: NSObject, NSXMLParserDelegate {
     }
     
     // returns NSError from NSXMLParser delegate callback "parseErrorOccurred"
-    // returns nil if NSXMLParser successfully finish parsing of XML data
+    // returns nil if NSXMLParser successfully parsed XML data
     func tryParsing() -> NSError? {
         var success = false
-        if let parser = NSXMLParser(data: xmlData) {
-            parser.delegate = self
-            success = parser.parse()
-        }
+        let parser = NSXMLParser(data: xmlData)
+        parser.delegate = self
+        success = parser.parse()
         return success ? nil : parseError
     }
     
