@@ -167,16 +167,20 @@ class AEXMLDocument: AEXMLElement {
         parent = nil
     }
     
-    convenience init?(version: Double = 1.0, encoding: String = "utf-8", data: NSData? = nil, inout error: NSError?) {
+    convenience init?(version: Double = 1.0, encoding: String = "utf-8", xmlData: NSData, inout error: NSError?) {
         self.init(version: version, encoding: encoding)
-        // try to parse XML data
-        if let xml = data {
-            let xmlParser = AEXMLParser(xmlDocument: self, xmlData: xml)
-            if let parseError = xmlParser.tryParsing() {
-                error = parseError
-                return nil
-            }
+        if let parseError = readXMLData(xmlData) {
+            error = parseError
+            return nil
         }
+    }
+    
+    // MARK: Read XML
+    
+    func readXMLData(data: NSData) -> NSError? {
+        children.removeAll(keepCapacity: false)
+        let xmlParser = AEXMLParser(xmlDocument: self, xmlData: data)
+        return xmlParser.tryParsing() ?? nil
     }
     
     // MARK: Override

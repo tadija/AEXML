@@ -13,22 +13,71 @@ class ViewController: UIViewController {
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var textView: UITextView!
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // example from README.md
+        if let xmlPath = NSBundle.mainBundle().pathForResource("example", ofType: "xml") {
+            if let data = NSData(contentsOfFile: xmlPath) {
+                
+                // works only if data is successfully parsed
+                // otherwise prints information about error with parsing
+                var error: NSError?
+                if let xmlDoc = AEXMLDocument(xmlData: data, error: &error) {
+                    
+                    // prints the same XML structure as original
+                    println(xmlDoc.xmlString)
+                    
+                    // prints info, features, installation
+                    for child in xmlDoc.rootElement.children {
+                        println(child.name)
+                    }
+                    
+                    // prints <features><feature>Read XML</feature><feature>Write XML</feature><feature>Easy to use</feature></features>
+                    println(xmlDoc["example"]["features"].xmlStringCompact)
+                    
+                    // prints Read XML (first element)
+                    println(xmlDoc["example"]["features"]["feature"].value)
+                    
+                    // prints Easy to use (last element)
+                    println(xmlDoc["example"]["features"]["feature"].last.value)
+                    
+                    // prints Read XML, Write XML, Easy to use (all "feature" elements)
+                    for feature in xmlDoc["example"]["features"]["feature"].all {
+                        println(feature.value)
+                    }
+                    
+                    // prints github
+                    println(xmlDoc.rootElement["info"]["url"].attributes["type"]!)
+                    
+                    // prints element <badexample> not found
+                    println(xmlDoc["badexample"]["installation"].value)
+                    
+                } else {
+                    println("description: \(error?.localizedDescription)\ninfo: \(error?.userInfo)")
+                }
+                
+            }
+        }
+    }
+    
     @IBAction func readXML(sender: UIBarButtonItem) {
         resetTextField()
         
         if let xmlPath = NSBundle.mainBundle().pathForResource("plant_catalog", ofType: "xml") {
-            let xmlData = NSData(contentsOfFile: xmlPath)
-            var error: NSError?
-            if let doc = AEXMLDocument(data: xmlData, error: &error) {
-                var parsedText = String()
-                // parse known structure
-                for plant in doc["CATALOG"]["PLANT"].all {
-                    parsedText += plant["COMMON"].value + "\n"
+            if let data = NSData(contentsOfFile: xmlPath) {
+                var error: NSError?
+                if let doc = AEXMLDocument(xmlData: data, error: &error) {
+                    var parsedText = String()
+                    // parse known structure
+                    for plant in doc["CATALOG"]["PLANT"].all {
+                        parsedText += plant["COMMON"].value + "\n"
+                    }
+                    textView.text = parsedText
+                } else {
+                    let err = "description: \(error?.localizedDescription)\ninfo: \(error?.userInfo)"
+                    textView.text = err
                 }
-                textView.text = parsedText
-            } else {
-                let err = "description: \(error?.localizedDescription)\ninfo: \(error?.userInfo)"
-                textView.text = err
             }
         }
     }
@@ -56,7 +105,7 @@ class ViewController: UIViewController {
         if let url = NSURL(string: textField.text) {
             if let data = NSData(contentsOfURL: url) {
                 var error: NSError?
-                if let doc = AEXMLDocument(data: data, error: &error) {
+                if let doc = AEXMLDocument(xmlData: data, error: &error) {
                     var parsedText = String()
                     // parse unknown structure
                     for child in doc.rootElement.children {

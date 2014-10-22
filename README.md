@@ -33,14 +33,14 @@ Just drag AEXML.swift into your project and start using it.
 </example>
 ```
 
-Let's say this is some XML data you picked up somewhere and made xmlData: NSData of it.
+Let's say this is some XML data you picked up somewhere and made variable data: NSData of it.
 This is how you use AEXML for parsing this data:
 
 ```swift
 // works only if data is successfully parsed
 // otherwise prints information about error with parsing
 var error: NSError?
-if let xmlDoc = AEXMLDocument(data: xmlData, error: &error) {
+if let xmlDoc = AEXMLDocument(xmlData: data, error: &error) {
 
   // prints the same XML structure as original
   println(xmlDoc.xmlString)
@@ -65,7 +65,7 @@ if let xmlDoc = AEXMLDocument(data: xmlData, error: &error) {
   }
   
   // prints github
-  println(xmlDoc.rootElement["info"]["url"].attributes["type"])
+  println(xmlDoc.rootElement["info"]["url"].attributes["type"]!)
   
   // prints element <badexample> not found
   println(xmlDoc["badexample"]["installation"].value)

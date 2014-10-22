@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8BD7A14519F0093F005F73F4 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 8BD7A14319F0093F005F73F4 /* LICENSE */; };
+		8BE1053419F6A43000716C35 /* example.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8BE1053319F6A43000716C35 /* example.xml */; };
 		8BFE78AF19F0054100914487 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFE78AE19F0054100914487 /* AppDelegate.swift */; };
 		8BFE78B119F0054100914487 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFE78B019F0054100914487 /* ViewController.swift */; };
 		8BFE78B419F0054100914487 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BFE78B219F0054100914487 /* Main.storyboard */; };
@@ -31,6 +32,7 @@
 /* Begin PBXFileReference section */
 		8BD7A14319F0093F005F73F4 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		8BD7A14419F0093F005F73F4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		8BE1053319F6A43000716C35 /* example.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = example.xml; sourceTree = "<group>"; };
 		8BFE78A919F0054100914487 /* AEXMLExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AEXMLExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BFE78AD19F0054100914487 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8BFE78AE19F0054100914487 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				8BFE78AD19F0054100914487 /* Info.plist */,
+				8BE1053319F6A43000716C35 /* example.xml */,
 				8BFE78D019F0080B00914487 /* plant_catalog.xml */,
 				8BD7A14319F0093F005F73F4 /* LICENSE */,
 				8BD7A14419F0093F005F73F4 /* README.md */,
@@ -203,6 +206,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8BE1053419F6A43000716C35 /* example.xml in Resources */,
 				8BFE78B419F0054100914487 /* Main.storyboard in Resources */,
 				8BFE78D119F0080B00914487 /* plant_catalog.xml in Resources */,
 				8BFE78B919F0054200914487 /* LaunchScreen.xib in Resources */,
@@ -303,6 +307,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -339,6 +344,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -352,6 +358,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = AEXMLExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -363,6 +370,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = AEXMLExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
