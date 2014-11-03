@@ -1,7 +1,7 @@
 //
 // AEXML.swift
 //
-// Copyright (c) 2014 Marko Tadic (http://markotadic.com/)
+// Copyright (c) 2014 Marko Tadic - http://markotadic.com
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -47,6 +47,7 @@ class AEXMLElement {
     
     // MARK: XML Read
     
+    // returns the first element with given name
     subscript(key: String) -> AEXMLElement {
         if name == "error" {
             return self
@@ -56,14 +57,14 @@ class AEXMLElement {
         }
     }
     
-    var all: [AEXMLElement] {
-        let filtered = parent?.children.filter { $0.name == self.name }
-        return filtered?.count > 0 ? filtered! : [self]
-    }
-    
     var last: AEXMLElement {
         let filtered = parent?.children.filter { $0.name == self.name }
         return filtered?.count > 0 ? filtered!.last! : self
+    }
+    
+    var all: [AEXMLElement] {
+        let filtered = parent?.children.filter { $0.name == self.name }
+        return filtered?.count > 0 ? filtered! : [self]
     }
     
     // MARK: XML Write

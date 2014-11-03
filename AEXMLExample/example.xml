@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<example>
-    <info>
-        <name platform="iOS" language="Swift">AEXML</name>
-        <url type="github">https://github.com/tadija/AEXML</url>
-    </info>
-    <features>
-        <feature>Read XML</feature>
-        <feature>Write XML</feature>
-        <feature>Easy to use</feature>
-    </features>
-    <installation>Just drag AEXML.swift into your project and start using it.</installation>
-</example>
+<animals>
+    <cats>
+        <cat breed="Siberian" color="lightgray">Tinna</cat>
+        <cat breed="Domestic" color="darkgray">Rose</cat>
+        <cat breed="Domestic" color="yellow">Caesar</cat>
+    </cats>
+    <dogs>
+        <dog breed="Bull Terrier" color="white">Villy</dog>
+        <dog breed="Bull Terrier" color="white">Spot</dog>
+        <dog breed="Golden Retriever" color="yellow">Betty</dog>
+        <dog breed="Miniature Schnauzer" color="black">Kika</dog>
+    </dogs>
+</animals>

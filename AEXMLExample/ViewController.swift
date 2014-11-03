@@ -28,30 +28,42 @@ class ViewController: UIViewController {
                     // prints the same XML structure as original
                     println(xmlDoc.xmlString)
                     
-                    // prints info, features, installation
+                    // prints cats, dogs
                     for child in xmlDoc.rootElement.children {
                         println(child.name)
                     }
                     
-                    // prints <features><feature>Read XML</feature><feature>Write XML</feature><feature>Easy to use</feature></features>
-                    println(xmlDoc["example"]["features"].xmlStringCompact)
+                    // prints Tinna (first element)
+                    println(xmlDoc.rootElement["cats"]["cat"].value)
                     
-                    // prints Read XML (first element)
-                    println(xmlDoc["example"]["features"]["feature"].value)
+                    // prints Kika (last element)
+                    println(xmlDoc.rootElement["dogs"]["dog"].last.value)
                     
-                    // prints Easy to use (last element)
-                    println(xmlDoc["example"]["features"]["feature"].last.value)
+                    // prints Betty (3rd element)
+                    println(xmlDoc.rootElement["dogs"].children[2].value)
                     
-                    // prints Read XML, Write XML, Easy to use (all "feature" elements)
-                    for feature in xmlDoc["example"]["features"]["feature"].all {
-                        println(feature.value)
+                    // prints Tinna, Rose, Caesar
+                    for cat in xmlDoc.rootElement["cats"]["cat"].all {
+                        println(cat.value)
                     }
                     
-                    // prints github
-                    println(xmlDoc.rootElement["info"]["url"].attributes["type"]!)
+                    // prints Villy, Spot
+                    for dog in xmlDoc.rootElement["dogs"]["dog"].all {
+                        if let color = dog.attributes["color"] as? NSString {
+                            if color == "white" {
+                                println(dog.value)
+                            }
+                        }
+                    }
+                    
+                    // prints Siberian
+                    println(xmlDoc.rootElement["cats"]["cat"].attributes["breed"]!)
+                    
+                    // prints <cat breed="Siberian" color="lightgray">Tinna</cat>
+                    println(xmlDoc.rootElement["cats"]["cat"].xmlStringCompact)
                     
                     // prints element <badexample> not found
-                    println(xmlDoc["badexample"]["installation"].value)
+                    println(xmlDoc["badexample"]["notexisting"].value)
                     
                 } else {
                     println("description: \(error?.localizedDescription)\ninfo: \(error?.userInfo)")
