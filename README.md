@@ -1,38 +1,39 @@
 # AEXML
-**Simple and lightweight XML parser for iOS in Swift**
+**Simple and lightweight XML parser for iOS written in Swift**
 
-AEXML is made of three classes: **AEXMLElement** (base class), **AEXMLDocument** (inherited from previous) and **AEXMLParser** (simple wrapper around NSXMLParser, you can consider it private).
+**AEXML** is a [minion](http://tadija.net/public/minion.png) which consists of three classes:  
 
-It's not robust full featured XML parser (at the moment), but rather really simple, smart and very easy to use utility for casual XML handling (it just works).
+Class | Description
+------------ | -------------
+AEXMLElement | Base class
+AEXMLDocument | Inherited from AEXMLElement
+AEXMLParser | Simple wrapper around NSXMLParser
+
+> This is not robust full featured XML parser (at the moment), but rather really simple, 
+smart and very easy to use utility for casual XML handling (it just works).
+
 
 ## Features
 - **Read XML** data
 - **Write XML** string
 - I believe that's all
 
+
 ## Index
-- [Requirements](#requirements)
-- [Installation](#installation)
 - [Example](#example)
   - [Read XML](#read-xml)
   - [Write XML](#write-xml)
 - [API](#api)
   - [AEXMLElement](#aexmlelement)
-  - [AEXMLDocument](#aexmldocument-(aexmlelement))
+  - [AEXMLDocument](#aexmldocument)
+- [Requirements](#requirements)
+- [Installation](#installation)
 - [License](#license)
 
-## Requirements
-- Xcode 6
-- iOS 7.0+ / Mac OS X 10.9+
-- AEXML doesn't require any additional libraries for it to work.
-
-## Installation
-Just drag AEXML.swift into your project and start using it.
 
 ## Example
 
 ### Read XML
-
 Let's say this is some XML data you picked up somewhere and made data: NSData of it.
 
 ```xml
@@ -106,8 +107,7 @@ if let xmlDoc = AEXMLDocument(xmlData: data, error: &error) {
 ```
 
 ### Write XML
-
-Let's say this is some SOAP XML request you need to generate.
+Let's say this is some SOAP XML request you need to generate.  
 Well, you could just build ordinary string for that?
 
 ```xml
@@ -139,84 +139,85 @@ getStockPrice.addChild("m:StockName", value: "AAPL")
 println(soapRequest.xmlString)
 ```
 
-## API
 
-### AEXMLElement
+# API
 
-```swift
-// MARK: Properties
+## AEXMLElement
+`class AEXMLElement`
 
-// XML element example: <name attributeName="attributeValue">value</name>
-let name: String
-var value: String
-var attributes: [NSObject : AnyObject] // read-only
+#### Properties
+- `let name: String`
+- `var value: String`
+- `var attributes: [NSObject : AnyObject]`
+- `var parent: AEXMLElement?`
+- `var children: [AEXMLElement] = [AEXMLElement]()`
 
-// every AEXMLElement has it's parent, instead of AEXMLDocument which parent is nil :(
-var parent: AEXMLElement? // read-only
-// array of all child elements
-var children: [AEXMLElement] = [AEXMLElement]() // read-only
+> **name**, **value**, **attributes** by example:  
+`<name attributeName="attributeValue">value</name>`  
+**parent** - every `AEXMLElement` has it's parent, instead of `AEXMLDocument` :(   
+**children** - array of all child elements
 
-// MARK: Init
+#### Initializers
+- `init(_ name: String, value: String = String(), attributes: [NSObject : AnyObject] = [NSObject : AnyObject]())`
 
-// designated initializer with default values for value and attributes
-init(_ name: String, value: String = String(), attributes: [NSObject : AnyObject] = [NSObject : AnyObject]())
+> **designated** initializer has default values for **value** and **attributes**, but **name** is required
 
-// MARK: Read XML
+#### Read from XML
+- `subscript(key: String) -> AEXMLElement`
+- `var last: AEXMLElement`
+- `var all: [AEXMLElement]`
 
-// returns the first element with given name
-subscript(key: String) -> AEXMLElement
+> get the **first** element with some name like this: `xmlDoc["someName"]`  
+**last** - returns the last element with name as `self.name`  
+**all** - returns all of the elements with name as `self.name`  
 
-// computed property which returns the last element with this instance name
-var last: AEXMLElement
+#### Write to XML
+- `func addChild(child: AEXMLElement) -> AEXMLElement`
+- `func addChild(name: String, value: String = String(), attributes: [NSObject : AnyObject] = [NSObject : AnyObject]()) -> AEXMLElement`
+- `func addAttribute(name: NSObject, value: AnyObject)`
+- `var xmlString: String`
+- `var xmlStringCompact: String`
 
-// computed property which returns all of the elements with this instance name
-var all: [AEXMLElement]
+> **addChild** - add child to `self.children` (then return that child)  
+**addAttribute** - add attribute to `self.attributes`  
+**xmlString** - complete hierarchy of `self` and `children` in XML formatted String  
+**xmlStringCompact** - same as `xmlString` but without `\n` and `\t` characters
 
-// MARK: Write XML
 
-// add child to self.children (then return that child)
-func addChild(child: AEXMLElement) -> AEXMLElement
+## AEXMLDocument
+`class AEXMLDocument: AEXMLElement`
 
-// add child to self.children (then return that child)
-func addChild(name: String, value: String = String(), attributes: [NSObject : AnyObject] = [NSObject : AnyObject]()) -> AEXMLElement
+#### Properties
+- `let version: Double`
+- `let encoding: String`
+- `var rootElement: AEXMLElement`
 
-// add attribute to self.attributes
-func addAttribute(name: NSObject, value: AnyObject)
+> **version** and **encoding** - used only for the first line in `xmlString` property:  
+`<?xml version="1.0" encoding="utf-8"?>`  
+**rootElement** - returns the first child element of XML document
 
-// prints complete structure of self and all of the children in XML format
-var xmlString: String
+#### Initializers
+- `init(version: Double = 1.0, encoding: String = "utf-8")`
+- `convenience init?(version: Double = 1.0, encoding: String = "utf-8", xmlData: NSData, inout error: NSError?)`
 
-// same as xmlString but without \n and \t characters
-var xmlStringCompact: String
-```
+> **designated** initializer has default values for **version** and **encoding** properties  
+**convenience** initializer also automatically calls **readXMLData** with given `NSData`
 
-### AEXMLDocument (AEXMLElement)
+#### Parse XML
+- `func readXMLData(data: NSData) -> NSError?`
 
-```swift
-// MARK: Properties
+> **readXMLData** - create instance of `AEXMLParser` and start parsing given XML data, return `NSError` if parsing is not successfull, otherwise `nil`
 
-// version and encoding are used only for the first line in xmlString
-// like this: <?xml version="1.0" encoding="utf-8"?>
-let version: Double
-let encoding: String
 
-// rootElement is computed property which returns root element of XML document (children.first)
-var rootElement: AEXMLElement
+## Requirements
+- Xcode 6+
+- iOS 7.0+ / Mac OS X 10.9+
+- AEXML doesn't require any additional libraries for it to work.
 
-// MARK: Init
 
-// designated initializer with default values for version and encoding properties
-init(version: Double = 1.0, encoding: String = "utf-8")
+## Installation
+Just drag AEXML.swift into your project and start using it.
 
-// convenience initializer which automatically calls readXMLData with given NSData
-convenience init?(version: Double = 1.0, encoding: String = "utf-8", xmlData: NSData, inout error: NSError?)
-
-// MARK: Parse XML
-
-// create instance of AEXMLParser and start parsing given XML data
-// return NSError if parsing is not successfull, otherwise nil
-func readXMLData(data: NSData) -> NSError?
-```
 
 ## License
 AEXML is released under the MIT license. See [LICENSE](LICENSE) for details.
