@@ -1,16 +1,16 @@
 # AEXML
 **Simple and lightweight XML parser for iOS written in Swift**
 
-**AEXML** is a [minion](http://tadija.net/public/minion.png) which consists of three classes:  
+> This is not robust full featured XML parser (at the moment), but rather really simple, 
+smart and very easy to use utility for casual XML handling (it just works).
+
+**AEXML** is a [minion](http://tadija.net/public/minion.png) which consists of these classes:  
 
 Class | Description
 ------------ | -------------
-AEXMLElement | Base class
-AEXMLDocument | Inherited from AEXMLElement
-AEXMLParser | Simple wrapper around NSXMLParser
-
-> This is not robust full featured XML parser (at the moment), but rather really simple, 
-smart and very easy to use utility for casual XML handling (it just works).
+`AEXMLElement` | Base class
+`AEXMLDocument` | Inherited from `AEXMLElement`
+`AEXMLParser` | Simple wrapper around `NSXMLParser`
 
 
 ## Features
@@ -140,73 +140,55 @@ println(soapRequest.xmlString)
 ```
 
 
-# API
+## API
 
-## AEXMLElement
+### AEXMLElement
 `class AEXMLElement`
 
-#### Properties
-- `let name: String`
-- `var value: String`
-- `var attributes: [NSObject : AnyObject]`
-- `var parent: AEXMLElement?`
-- `var children: [AEXMLElement] = [AEXMLElement]()`
+Property | Description
+------------ | -------------
+`let name: String` | XML element name
+`var value: String` | XML element value
+`var attributes: [NSObject : AnyObject]` | `readonly` XML element attributes
+`var parent: AEXMLElement?` | `readonly` parent XML element - every `AEXMLElement` has it's parent, instead of `AEXMLDocument` :(
+`var children: [AEXMLElement] = [AEXMLElement]()` | `readonly` child XML elements
 
-> **name**, **value**, **attributes** by example:  
-`<name attributeName="attributeValue">value</name>`  
-**parent** - every `AEXMLElement` has it's parent, instead of `AEXMLDocument` :(   
-**children** - array of all child elements
+Initializer | Description
+------------ | -------------
+`init(_ name: String, value: String = String(), attributes: [NSObject : AnyObject] = [NSObject : AnyObject]())` | designated initializer has default values for **value** and **attributes**, but **name** is required
 
-#### Initializers
-- `init(_ name: String, value: String = String(), attributes: [NSObject : AnyObject] = [NSObject : AnyObject]())`
+Read XML | Description
+------------ | -------------
+`subscript(key: String) -> AEXMLElement` | get the **first** element with some name like this: `xmlDoc["someName"]`
+`var last: AEXMLElement` | last element with name as `self.name`
+`var all: [AEXMLElement]` | all of the elements with name as `self.name`
 
-> **designated** initializer has default values for **value** and **attributes**, but **name** is required
-
-#### Read from XML
-- `subscript(key: String) -> AEXMLElement`
-- `var last: AEXMLElement`
-- `var all: [AEXMLElement]`
-
-> get the **first** element with some name like this: `xmlDoc["someName"]`  
-**last** - returns the last element with name as `self.name`  
-**all** - returns all of the elements with name as `self.name`  
-
-#### Write to XML
-- `func addChild(child: AEXMLElement) -> AEXMLElement`
-- `func addChild(name: String, value: String = String(), attributes: [NSObject : AnyObject] = [NSObject : AnyObject]()) -> AEXMLElement`
-- `func addAttribute(name: NSObject, value: AnyObject)`
-- `var xmlString: String`
-- `var xmlStringCompact: String`
-
-> **addChild** - add child to `self.children` (then return that child)  
-**addAttribute** - add attribute to `self.attributes`  
-**xmlString** - complete hierarchy of `self` and `children` in XML formatted String  
-**xmlStringCompact** - same as `xmlString` but without `\n` and `\t` characters
+Write XML | Description
+------------ | -------------
+`func addChild(child: AEXMLElement) -> AEXMLElement` | add child to `self.children` (then return that child)
+`func addChild(name: String, value: String = String(), attributes: [NSObject : AnyObject] = [NSObject : AnyObject]()) -> AEXMLElement` | add child to `self.children` (then return that child)
+`func addAttribute(name: NSObject, value: AnyObject)` | add attribute to `self.attributes`
+`var xmlString: String` | complete hierarchy of `self` and `children` in XML formatted String
+`var xmlStringCompact: String` | same as `xmlString` but without `\n` and `\t` characters
 
 
-## AEXMLDocument
+### AEXMLDocument
 `class AEXMLDocument: AEXMLElement`
 
-#### Properties
-- `let version: Double`
-- `let encoding: String`
-- `var rootElement: AEXMLElement`
+Property | Description
+------------ | -------------
+`let version: Double` | used only for the first line in `xmlString`
+`let encoding: String` | used only for the first line in `xmlString`
+`var rootElement: AEXMLElement` | the first child element of XML document
 
-> **version** and **encoding** - used only for the first line in `xmlString` property:  
-`<?xml version="1.0" encoding="utf-8"?>`  
-**rootElement** - returns the first child element of XML document
+Initializer | Description
+------------ | -------------
+`init(version: Double = 1.0, encoding: String = "utf-8")` | designated initializer has default values for **version** and **encoding** properties
+`convenience init?(version: Double = 1.0, encoding: String = "utf-8", xmlData: NSData, inout error: NSError?)` | convenience initializer also automatically calls **readXMLData** with given `NSData`
 
-#### Initializers
-- `init(version: Double = 1.0, encoding: String = "utf-8")`
-- `convenience init?(version: Double = 1.0, encoding: String = "utf-8", xmlData: NSData, inout error: NSError?)`
-
-> **designated** initializer has default values for **version** and **encoding** properties  
-**convenience** initializer also automatically calls **readXMLData** with given `NSData`
-
-#### Parse XML
-- `func readXMLData(data: NSData) -> NSError?`
-
-> **readXMLData** - create instance of `AEXMLParser` and start parsing given XML data, return `NSError` if parsing is not successfull, otherwise `nil`
+Parse XML | Description
+------------ | -------------
+`func readXMLData(data: NSData) -> NSError?` | create instance of `AEXMLParser` and start parsing given XML data, return `NSError` if parsing is not successfull, otherwise `nil`
 
 
 ## Requirements

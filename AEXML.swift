@@ -24,7 +24,7 @@
 
 import Foundation
 
-class AEXMLElement {
+public class AEXMLElement {
     
     // MARK: Properties
     
@@ -148,7 +148,7 @@ class AEXMLElement {
 
 // MARK: -
 
-class AEXMLDocument: AEXMLElement {
+public class AEXMLDocument: AEXMLElement {
     
     // MARK: Properties
     
@@ -198,7 +198,7 @@ class AEXMLDocument: AEXMLElement {
 
 // MARK: -
 
-class AEXMLParser: NSObject, NSXMLParserDelegate {
+private class AEXMLParser: NSObject, NSXMLParserDelegate {
     
     // MARK: Properties
     
@@ -219,8 +219,8 @@ class AEXMLParser: NSObject, NSXMLParserDelegate {
         super.init()
     }
     
-    // returns NSError from NSXMLParser delegate callback "parseErrorOccurred"
-    // returns nil if NSXMLParser successfully parsed XML data
+    // MARK: XML Parse
+    
     func tryParsing() -> NSError? {
         var success = false
         let parser = NSXMLParser(data: xmlData)
@@ -242,9 +242,7 @@ class AEXMLParser: NSObject, NSXMLParserDelegate {
         currentElement?.value = currentValue
     }
     
-    // because of the existing bug in NSXMLParser "didEndElement" delegate callback
-    // here are used unwrapped optionals for namespaceURI and qualifiedName and that's the only reason why AEXMLParser is not private class
-    func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String!, qualifiedName qName: String!) {
+    func parser(parser: NSXMLParser!, didEndElement elementName: String!, namespaceURI: String!, qualifiedName qName: String!) {
         currentParent = currentParent?.parent
     }
     
