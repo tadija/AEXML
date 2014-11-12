@@ -179,12 +179,13 @@ Property | Description
 ------------ | -------------
 `let version: Double` | used only for the first line in `xmlString`
 `let encoding: String` | used only for the first line in `xmlString`
+`let standalone: String = "no"` | used only for the first line in `xmlString`
 `var rootElement: AEXMLElement` | the first child element of XML document
 
 Initializer | Description
 ------------ | -------------
-`init(version: Double = 1.0, encoding: String = "utf-8")` | designated initializer has default values for **version** and **encoding** properties
-`convenience init?(version: Double = 1.0, encoding: String = "utf-8", xmlData: NSData, inout error: NSError?)` | convenience initializer also automatically calls **readXMLData** with given `NSData`
+`init(version: Double = 1.0, encoding: String = "utf-8", standalone: Bool = false)` | designated initializer has default values for **version**, **encoding** and **standalone** properties
+`convenience init?(version: Double = 1.0, encoding: String = "utf-8", standalone: Bool = false, xmlData: NSData, inout error: NSError?)` | convenience initializer also automatically calls **readXMLData** with given `NSData`
 
 Parse XML | Description
 ------------ | -------------
