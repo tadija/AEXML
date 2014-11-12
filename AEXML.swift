@@ -154,6 +154,7 @@ public class AEXMLDocument: AEXMLElement {
     
     let version: Double
     let encoding: String
+    let standalone: String = "no"
     
     var rootElement: AEXMLElement {
         return children.count == 1 ? children.first! : AEXMLElement("error", value: "document does not have root element")
@@ -161,15 +162,19 @@ public class AEXMLDocument: AEXMLElement {
     
     // MARK: Lifecycle
     
-    init(version: Double = 1.0, encoding: String = "utf-8") {
+    init(version: Double = 1.0, encoding: String = "utf-8", standalone: Bool = false) {
         self.version = version
         self.encoding = encoding
+        if standalone {
+            self.standalone = "yes"
+        }
+
         super.init("AEXMLDocumentRoot")
         parent = nil
     }
     
-    convenience init?(version: Double = 1.0, encoding: String = "utf-8", xmlData: NSData, inout error: NSError?) {
-        self.init(version: version, encoding: encoding)
+    convenience init?(version: Double = 1.0, encoding: String = "utf-8", standalone: Bool = false, xmlData: NSData, inout error: NSError?) {
+        self.init(version: version, encoding: encoding, standalone: standalone)
         if let parseError = readXMLData(xmlData) {
             error = parseError
             return nil
@@ -187,7 +192,7 @@ public class AEXMLDocument: AEXMLElement {
     // MARK: Override
     
     override var xmlString: String {
-        var xml =  "<?xml version=\"\(version)\" encoding=\"\(encoding)\"?>\n"
+        var xml =  "<?xml version=\"\(version)\" encoding=\"\(encoding)\" standalone=\"\(standalone)\"?>\n"
         for child in children {
             xml += child.xmlString
         }
