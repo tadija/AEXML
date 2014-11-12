@@ -56,6 +56,22 @@ class ViewController: UIViewController {
                         }
                     }
                     
+                    // prints Caesar
+                    if let cats = xmlDoc.rootElement["cats"]["cat"].allWithAttributes(["breed" : "Domestic", "color" : "yellow"]) {
+                        for cat in cats {
+                            println(cat.value)
+                        }
+                    }
+                    
+                    // prints 3
+                    println(xmlDoc.rootElement["cats"]["cat"].count)
+                    
+                    // prints 2
+                    println(xmlDoc.rootElement["dogs"]["dog"].countWithAttributes(["breed" : "Bull Terrier"]))
+                    
+                    // prints 1
+                    println(xmlDoc.rootElement["cats"]["cat"].countWithAttributes(["breed" : "Domestic", "color" : "darkgray"]))
+                    
                     // prints Siberian
                     println(xmlDoc.rootElement["cats"]["cat"].attributes["breed"]!)
                     

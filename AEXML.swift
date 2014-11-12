@@ -67,6 +67,35 @@ public class AEXMLElement {
         return filtered?.count > 0 ? filtered! : [self]
     }
     
+    var count: Int {
+        let filtered = parent?.children.filter { $0.name == self.name }
+        return filtered?.count ?? 0
+    }
+    
+    func allWithAttributes <K: NSObject, V: AnyObject where K: Equatable, V: Equatable> (attributes: [K : V]) -> [AEXMLElement]? {
+        var found = [AEXMLElement]()
+        if let filtered = (parent?.children.filter { $0.name == self.name }) {
+            for element in filtered {
+                var countAttributes = 0
+                for (key, value) in attributes {
+                    if element.attributes[key] as? V == value {
+                        countAttributes++
+                    }
+                }
+                if countAttributes == attributes.count {
+                    found.append(element)
+                }
+            }
+            return found.count > 0 ? found : nil
+        } else {
+            return nil
+        }
+    }
+    
+    func countWithAttributes<K: NSObject, V: AnyObject where K: Equatable, V: Equatable>(attributes: [K : V]) -> Int {
+        return allWithAttributes(attributes)?.count ?? 0
+    }
+    
     // MARK: XML Write
     
     func addChild(child: AEXMLElement) -> AEXMLElement {
@@ -154,6 +183,7 @@ public class AEXMLDocument: AEXMLElement {
     
     let version: Double
     let encoding: String
+    let standalone: String
     
     var rootElement: AEXMLElement {
         return children.count == 1 ? children.first! : AEXMLElement("error", value: "document does not have root element")
@@ -161,15 +191,16 @@ public class AEXMLDocument: AEXMLElement {
     
     // MARK: Lifecycle
     
-    init(version: Double = 1.0, encoding: String = "utf-8") {
+    init(version: Double = 1.0, encoding: String = "utf-8", standalone: String = "no") {
         self.version = version
         self.encoding = encoding
+        self.standalone = standalone
         super.init("AEXMLDocumentRoot")
         parent = nil
     }
     
-    convenience init?(version: Double = 1.0, encoding: String = "utf-8", xmlData: NSData, inout error: NSError?) {
-        self.init(version: version, encoding: encoding)
+    convenience init?(version: Double = 1.0, encoding: String = "utf-8", standalone: String = "no", xmlData: NSData, inout error: NSError?) {
+        self.init(version: version, encoding: encoding, standalone: standalone)
         if let parseError = readXMLData(xmlData) {
             error = parseError
             return nil
@@ -187,7 +218,7 @@ public class AEXMLDocument: AEXMLElement {
     // MARK: Override
     
     override var xmlString: String {
-        var xml =  "<?xml version=\"\(version)\" encoding=\"\(encoding)\"?>\n"
+        var xml =  "<?xml version=\"\(version)\" encoding=\"\(encoding)\" standalone=\"\(standalone)\"?>\n"
         for child in children {
             xml += child.xmlString
         }

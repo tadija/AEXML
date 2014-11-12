@@ -91,6 +91,22 @@ if let xmlDoc = AEXMLDocument(xmlData: data, error: &error) {
             }
         }
     }
+
+    // prints Caesar
+    if let cats = xmlDoc.rootElement["cats"]["cat"].allWithAttributes(["breed" : "Domestic", "color" : "yellow"]) {
+        for cat in cats {
+            println(cat.value)
+        }
+    }
+
+    // prints 3
+    println(xmlDoc.rootElement["cats"]["cat"].count)
+
+    // prints 2
+    println(xmlDoc.rootElement["dogs"]["dog"].countWithAttributes(["breed" : "Bull Terrier"]))
+
+    // prints 1
+    println(xmlDoc.rootElement["cats"]["cat"].countWithAttributes(["breed" : "Domestic", "color" : "darkgray"]))
     
     // prints Siberian
     println(xmlDoc.rootElement["cats"]["cat"].attributes["breed"]!)
@@ -162,6 +178,9 @@ Read XML | Description
 `subscript(key: String) -> AEXMLElement` | get the **first** element with some name like this: `xmlDoc["someName"]`
 `var last: AEXMLElement` | last element with name as `self.name`
 `var all: [AEXMLElement]` | all of the elements with name as `self.name`
+`var count: Int` | count of elements with name as `self.name`
+`func allWithAttributes <K: NSObject, V: AnyObject where K: Equatable, V: Equatable> (attributes: [K : V]) -> [AEXMLElement]?` | child elements which contain given `attributes`
+`func countWithAttributes<K: NSObject, V: AnyObject where K: Equatable, V: Equatable>(attributes: [K : V]) -> Int` | count of child elements which contain given `attributes`
 
 Write XML | Description
 ------------ | -------------
@@ -179,12 +198,13 @@ Property | Description
 ------------ | -------------
 `let version: Double` | used only for the first line in `xmlString`
 `let encoding: String` | used only for the first line in `xmlString`
+`let standalone: String` | used only for the first line in `xmlString`
 `var rootElement: AEXMLElement` | the first child element of XML document
 
 Initializer | Description
 ------------ | -------------
-`init(version: Double = 1.0, encoding: String = "utf-8")` | designated initializer has default values for **version** and **encoding** properties
-`convenience init?(version: Double = 1.0, encoding: String = "utf-8", xmlData: NSData, inout error: NSError?)` | convenience initializer also automatically calls **readXMLData** with given `NSData`
+`init(version: Double = 1.0, encoding: String = "utf-8", standalone: String = "no")` | designated initializer has default values for **version**, **encoding** and **standalone** properties
+`convenience init?(version: Double = 1.0, encoding: String = "utf-8", standalone: String = "no", xmlData: NSData, inout error: NSError?)` | convenience initializer also automatically calls **readXMLData** with given `NSData`
 
 Parse XML | Description
 ------------ | -------------
