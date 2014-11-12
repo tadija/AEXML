@@ -92,7 +92,7 @@ public class AEXMLElement {
         }
     }
     
-    func countWithAttributes<K: NSObject, V: AnyObject where K: Equatable, V: Equatable>(attributes: [K : V]) -> Int {
+    func countWithAttributes <K: NSObject, V: AnyObject where K: Equatable, V: Equatable> (attributes: [K : V]) -> Int {
         return allWithAttributes(attributes)?.count ?? 0
     }
     
