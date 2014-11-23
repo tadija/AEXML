@@ -32,7 +32,7 @@ public class AEXMLElement {
     var value: String
     private(set) var attributes: [NSObject : AnyObject]
     
-    private(set) var parent: AEXMLElement?
+    private(set) weak var parent: AEXMLElement?
     private(set) var children: [AEXMLElement] = [AEXMLElement]()
     
     private let indentChar = "\t"
