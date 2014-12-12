@@ -9,8 +9,8 @@ smart and very easy to use utility for casual XML handling (it just works).
 Class | Description
 ------------ | -------------
 `AEXMLElement` | Base class
-`AEXMLDocument` | Inherited from `AEXMLElement`
-`AEXMLParser` | Simple wrapper around `NSXMLParser`
+`AEXMLDocument` | `AEXMLElement` with a few addons
+`AEXMLParser` | Simple (private) wrapper around `NSXMLParser`
 
 
 ## Features
@@ -164,10 +164,13 @@ println(soapRequest.xmlString)
 Property | Description
 ------------ | -------------
 `let name: String` | XML element name
-`var value: String` | XML element value
+`var value: String` | XML element string value
 `var attributes: [NSObject : AnyObject]` | `readonly` XML element attributes
 `var parent: AEXMLElement?` | `readonly` parent XML element - every `AEXMLElement` has it's parent, instead of `AEXMLDocument` :(
 `var children: [AEXMLElement] = [AEXMLElement]()` | `readonly` child XML elements
+`var boolValue: Bool` | `value` converted to `Bool` (if value is "true" (case insensitive) or "1" then it's true, otherwise false)
+`var intValue: Int` | `value` converted to `Int` (if value can't be converted it's 0)
+`var doubleValue: Double` | `value` converted to `Double`
 
 Initializer | Description
 ------------ | -------------
