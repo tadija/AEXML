@@ -117,7 +117,7 @@ class AEXMLExampleTests: XCTestCase {
     
     func testNotExistingElement() {
         // non-optional
-        XCTAssertEqual(exampleXML.root["ducks"]["duck"].name, "error", "Should be able to tell you if element does not exist.")
+        XCTAssertEqual(exampleXML.root["ducks"]["duck"].name, AEXMLElement.errorElementName, "Should be able to tell you if element does not exist.")
         XCTAssertEqual(exampleXML.root["ducks"]["duck"].stringValue, "element <ducks> not found", "Should be able to tell you which element does not exist.")
         
         // optional

@@ -174,6 +174,7 @@ Property | Description
 `var boolValue: Bool` | `stringValue` converted to `Bool` (if stringValue is "true" (case insensitive) or "1" then it's true, otherwise false)
 `var intValue: Int` | `stringValue` converted to `Int` (if stringValue can't be converted it's 0)
 `var doubleValue: Double` | `stringValue` converted to `Double` (if stringValue can't be converted it's 0.0)
+`public class var errorElementName: String` | this element name is used when unable to find element
 
 Initializer | Description
 ------------ | -------------

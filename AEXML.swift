@@ -56,13 +56,16 @@ public class AEXMLElement {
     
     // MARK: XML Read
     
+    // this element name is used when unable to find element
+    public class var errorElementName: String { return "AEXMLError" }
+    
     // non-optional first element with given name (<error> element if not exists)
     public subscript(key: String) -> AEXMLElement {
-        if name == "error" {
+        if name == AEXMLElement.errorElementName {
             return self
         } else {
             let filtered = children.filter { $0.name == key }
-            return filtered.count > 0 ? filtered.first! : AEXMLElement("error", stringValue: "element <\(key)> not found")
+            return filtered.count > 0 ? filtered.first! : AEXMLElement(AEXMLElement.errorElementName, stringValue: "element <\(key)> not found")
         }
     }
     
@@ -202,7 +205,7 @@ public class AEXMLDocument: AEXMLElement {
     public let standalone: String
     
     public var root: AEXMLElement {
-        return children.count == 1 ? children.first! : AEXMLElement("error", stringValue: "XML Document must have root element.")
+        return children.count == 1 ? children.first! : AEXMLElement(AEXMLElement.errorElementName, stringValue: "XML Document must have root element.")
     }
     
     // MARK: Lifecycle
