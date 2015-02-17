@@ -43,6 +43,7 @@ Let's say this is some XML string you picked up somewhere and made a variable `d
         <cat breed="Siberian" color="lightgray">Tinna</cat>
         <cat breed="Domestic" color="darkgray">Rose</cat>
         <cat breed="Domestic" color="yellow">Caesar</cat>
+        <cat></cat>
     </cats>
     <dogs>
         <dog breed="Bull Terrier" color="white">Villy</dog>
@@ -70,19 +71,24 @@ if let xmlDoc = AEXMLDocument(xmlData: data, error: &error) {
         println(child.name)
     }
     
+    // prints Optional("Tinna") (first element)
+    println(xmlDoc.root["cats"]["cat"].value)
+
     // prints Tinna (first element)
     println(xmlDoc.root["cats"]["cat"].stringValue)
-    
-    // prints Kika (last element)
-    println(xmlDoc.root["dogs"]["dog"].last!.stringValue)
-    
+
+    // prints Optional("Kika") (last element)
+    println(xmlDoc.root["dogs"]["dog"].last?.value)
+
     // prints Betty (3rd element)
     println(xmlDoc.root["dogs"].children[2].stringValue)
-    
+
     // prints Tinna, Rose, Caesar
     if let cats = xmlDoc.root["cats"]["cat"].all {
         for cat in cats {
-            println(cat.stringValue)
+            if let name = cat.value {
+                println(name)
+            }
         }
     }
     
@@ -102,7 +108,7 @@ if let xmlDoc = AEXMLDocument(xmlData: data, error: &error) {
         }
     }
     
-    // prints 3
+    // prints 4
     println(xmlDoc.root["cats"]["cat"].count)
     
     // prints 2
@@ -152,9 +158,9 @@ let attributes = ["xmlns:xsi" : "http://www.w3.org/2001/XMLSchema-instance", "xm
 let envelope = soapRequest.addChild(name: "soap:Envelope", attributes: attributes)
 let header = envelope.addChild(name: "soap:Header")
 let body = envelope.addChild(name: "soap:Body")
-header.addChild(name: "m:Trans", stringValue: "234", attributes: ["xmlns:m" : "http://www.w3schools.com/transaction/", "soap:mustUnderstand" : "1"])
+header.addChild(name: "m:Trans", value: "234", attributes: ["xmlns:m" : "http://www.w3schools.com/transaction/", "soap:mustUnderstand" : "1"])
 let getStockPrice = body.addChild(name: "m:GetStockPrice")
-getStockPrice.addChild(name: "m:StockName", stringValue: "AAPL")
+getStockPrice.addChild(name: "m:StockName", value: "AAPL")
 println(soapRequest.xmlString)
 ```
 
@@ -170,7 +176,8 @@ Property | Description
 `var children: [AEXMLElement] = [AEXMLElement]()` | `readonly` child XML elements
 `let name: String` | XML element name
 `var attributes: [NSObject : AnyObject]` | `readonly` XML element attributes
-`var stringValue: String` | XML element string value
+`var value: String?` | XML element value (stored value property, others are computed)
+`var stringValue: String` | if `value` is nil, this is empty string, otherwise `value`
 `var boolValue: Bool` | `stringValue` converted to `Bool` (if stringValue is "true" (case insensitive) or "1" then it's true, otherwise false)
 `var intValue: Int` | `stringValue` converted to `Int` (if stringValue can't be converted it's 0)
 `var doubleValue: Double` | `stringValue` converted to `Double` (if stringValue can't be converted it's 0.0)
@@ -178,7 +185,7 @@ Property | Description
 
 Initializer | Description
 ------------ | -------------
-`init(_ name: String, stringValue: String = String(), attributes: [NSObject : AnyObject] = [NSObject : AnyObject]())` | designated initializer has default values for **stringValue** and **attributes**, but **name** is required
+`init(_ name: String, value: String? = nil, attributes: [NSObject : AnyObject] = [NSObject : AnyObject]())` | designated initializer has default values for **value** and **attributes**, but **name** is required
 
 Read XML | Description
 ------------ | -------------
@@ -193,7 +200,7 @@ Read XML | Description
 Write XML | Description
 ------------ | -------------
 `func addChild(child: AEXMLElement) -> AEXMLElement` | add child to `self.children` (then return that child)
-`func addChild(#name: String, stringValue: String = String(), attributes: [NSObject : AnyObject] = [NSObject : AnyObject]()) -> AEXMLElement` | add child to `self.children` (then return that child)
+`func addChild(#name: String, value: String? = nil, attributes: [NSObject : AnyObject] = [NSObject : AnyObject]()) -> AEXMLElement` | add child to `self.children` (then return that child)
 `func addAttribute(name: NSObject, value: AnyObject)` | add attribute to `self.attributes`
 `func addAttributes(attributes: [NSObject : AnyObject])` | add attributes to `self.attributes`
 `var xmlString: String` | complete hierarchy of `self` and `children` in XML formatted String

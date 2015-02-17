@@ -4,6 +4,7 @@
         <cat breed="Siberian" color="lightgray">Tinna</cat>
         <cat breed="Domestic" color="darkgray">Rose</cat>
         <cat breed="Domestic" color="yellow">Caesar</cat>
+        <cat></cat>
     </cats>
     <dogs>
         <dog breed="Bull Terrier" color="white">Villy</dog>

@@ -94,9 +94,30 @@ class AEXMLExampleTests: XCTestCase {
         }
     }
     
+    func testValue() {
+        let firstPlant = plantsXML.root["PLANT"]
+        
+        let firstPlantCommon = firstPlant["COMMON"].value!
+        XCTAssertEqual(firstPlantCommon, "Bloodroot", "Should be able to return element value as optional string.")
+        
+        let firstPlantElementWithoutValue = firstPlant["ELEMENTWITHOUTVALUE"].value
+        XCTAssertNil(firstPlantElementWithoutValue, "Should be able to have nil value.")
+        
+        let firstPlantEmptyElement = firstPlant["EMPTYELEMENT"].value
+        XCTAssertNil(firstPlantEmptyElement, "Should be able to have nil value.")
+    }
+    
     func testStringValue() {
-        let firstPlantCommon = plantsXML.root["PLANT"]["COMMON"].stringValue
+        let firstPlant = plantsXML.root["PLANT"]
+        
+        let firstPlantCommon = firstPlant["COMMON"].stringValue
         XCTAssertEqual(firstPlantCommon, "Bloodroot", "Should be able to return element value as string.")
+        
+        let firstPlantElementWithoutValue = firstPlant["ELEMENTWITHOUTVALUE"].stringValue
+        XCTAssertEqual(firstPlantElementWithoutValue, "", "Should be able to return empty string if element has no value.")
+        
+        let firstPlantEmptyElement = firstPlant["EMPTYELEMENT"].stringValue
+        XCTAssertEqual(firstPlantEmptyElement, String(), "Should be able to return empty string if element has no value.")
     }
     
     func testBoolValue() {
@@ -184,11 +205,10 @@ class AEXMLExampleTests: XCTestCase {
     // MARK: - XML Write
     
     func testAddChild() {
-        // TODO: #name
         let ducks = exampleXML.root.addChild(name: "ducks")
-        ducks.addChild(name: "duck", stringValue: "Donald")
-        ducks.addChild(name: "duck", stringValue: "Daisy")
-        ducks.addChild(name: "duck", stringValue: "Scrooge")
+        ducks.addChild(name: "duck", value: "Donald")
+        ducks.addChild(name: "duck", value: "Daisy")
+        ducks.addChild(name: "duck", value: "Scrooge")
         
         let animalsCount = exampleXML.root.children.count
         XCTAssertEqual(animalsCount, 3, "Should be able to add child elements to an element.")
@@ -209,10 +229,11 @@ class AEXMLExampleTests: XCTestCase {
     func testXMLString() {
         let newXMLDocument = AEXMLDocument()
         let children = newXMLDocument.addChild(name: "children")
-        let child = children.addChild(name: "child", stringValue: "value", attributes: ["attribute" : "attributeValue"])
+        let childWithValue = children.addChild(name: "child", value: "value", attributes: ["attribute" : "attributeValue"])
+        let childWithoutValue = children.addChild(name: "child")
         
-        XCTAssertEqual(newXMLDocument.xmlString, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<children>\n\t<child attribute=\"attributeValue\">value</child>\n</children>", "Should be able to print XML formatted string.")
-        XCTAssertEqual(newXMLDocument.xmlStringCompact, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><children><child attribute=\"attributeValue\">value</child></children>", "Should be able to print compact XML string.")
+        XCTAssertEqual(newXMLDocument.xmlString, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<children>\n\t<child attribute=\"attributeValue\">value</child>\n\t<child />\n</children>", "Should be able to print XML formatted string.")
+        XCTAssertEqual(newXMLDocument.xmlStringCompact, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><children><child attribute=\"attributeValue\">value</child><child /></children>", "Should be able to print compact XML string.")
     }
     
     // MARK: - XML Parse Performance

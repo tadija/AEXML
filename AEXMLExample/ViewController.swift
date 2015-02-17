@@ -33,11 +33,14 @@ class ViewController: UIViewController {
                         println(child.name)
                     }
                     
+                    // prints Optional("Tinna") (first element)
+                    println(xmlDoc.root["cats"]["cat"].value)
+                    
                     // prints Tinna (first element)
                     println(xmlDoc.root["cats"]["cat"].stringValue)
                     
-                    // prints Kika (last element)
-                    println(xmlDoc.root["dogs"]["dog"].last!.stringValue)
+                    // prints Optional("Kika") (last element)
+                    println(xmlDoc.root["dogs"]["dog"].last?.value)
                     
                     // prints Betty (3rd element)
                     println(xmlDoc.root["dogs"].children[2].stringValue)
@@ -45,7 +48,9 @@ class ViewController: UIViewController {
                     // prints Tinna, Rose, Caesar
                     if let cats = xmlDoc.root["cats"]["cat"].all {
                         for cat in cats {
-                            println(cat.stringValue)
+                            if let name = cat.value {
+                                println(name)
+                            }
                         }
                     }
                     
@@ -65,7 +70,7 @@ class ViewController: UIViewController {
                         }
                     }
                     
-                    // prints 3
+                    // prints 4
                     println(xmlDoc.root["cats"]["cat"].count)
                     
                     // prints 2
@@ -120,9 +125,9 @@ class ViewController: UIViewController {
         let envelope = soapRequest.addChild(name: "soap:Envelope", attributes: attributes)
         let header = envelope.addChild(name: "soap:Header")
         let body = envelope.addChild(name: "soap:Body")
-        header.addChild(name: "m:Trans", stringValue: "234", attributes: ["xmlns:m" : "http://www.w3schools.com/transaction/", "soap:mustUnderstand" : "1"])
+        header.addChild(name: "m:Trans", value: "234", attributes: ["xmlns:m" : "http://www.w3schools.com/transaction/", "soap:mustUnderstand" : "1"])
         let getStockPrice = body.addChild(name: "m:GetStockPrice")
-        getStockPrice.addChild(name: "m:StockName", stringValue: "AAPL")
+        getStockPrice.addChild(name: "m:StockName", value: "AAPL")
         textView.text = soapRequest.xmlString
     }
     

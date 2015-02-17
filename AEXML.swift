@@ -33,9 +33,11 @@ public class AEXMLElement {
     
     public let name: String
     public private(set) var attributes: [NSObject : AnyObject]
+    public var value: String?
     
-    public var stringValue: String
-    
+    public var stringValue: String {
+        return value ?? String()
+    }
     public var boolValue: Bool {
         return stringValue.lowercaseString == "true" || stringValue.toInt() == 1 ? true : false
     }
@@ -48,10 +50,10 @@ public class AEXMLElement {
     
     // MARK: Lifecycle
     
-    public init(_ name: String, stringValue: String = String(), attributes: [NSObject : AnyObject] = [NSObject : AnyObject]()) {
+    public init(_ name: String, value: String? = nil, attributes: [NSObject : AnyObject] = [NSObject : AnyObject]()) {
         self.name = name
-        self.stringValue = stringValue
         self.attributes = attributes
+        self.value = value
     }
     
     // MARK: XML Read
@@ -65,7 +67,7 @@ public class AEXMLElement {
             return self
         } else {
             let filtered = children.filter { $0.name == key }
-            return filtered.count > 0 ? filtered.first! : AEXMLElement(AEXMLElement.errorElementName, stringValue: "element <\(key)> not found")
+            return filtered.count > 0 ? filtered.first! : AEXMLElement(AEXMLElement.errorElementName, value: "element <\(key)> not found")
         }
     }
     
@@ -117,8 +119,8 @@ public class AEXMLElement {
         return child
     }
     
-    public func addChild(#name: String, stringValue: String = String(), attributes: [NSObject : AnyObject] = [NSObject : AnyObject]()) -> AEXMLElement {
-        let child = AEXMLElement(name, stringValue: stringValue, attributes: attributes)
+    public func addChild(#name: String, value: String? = nil, attributes: [NSObject : AnyObject] = [NSObject : AnyObject]()) -> AEXMLElement {
+        let child = AEXMLElement(name, value: value, attributes: attributes)
         return addChild(child)
     }
     
@@ -166,7 +168,7 @@ public class AEXMLElement {
             }
         }
         
-        if stringValue == "" && children.count == 0 {
+        if value == nil && children.count == 0 {
             // close element
             xml += " />"
         } else {
@@ -180,7 +182,7 @@ public class AEXMLElement {
                 xml += indentation(parentsCount - 1)
                 xml += "</\(name)>"
             } else {
-                // insert value and close element
+                // insert string value and close element
                 xml += ">\(stringValue)</\(name)>"
             }
         }
@@ -205,7 +207,7 @@ public class AEXMLDocument: AEXMLElement {
     public let standalone: String
     
     public var root: AEXMLElement {
-        return children.count == 1 ? children.first! : AEXMLElement(AEXMLElement.errorElementName, stringValue: "XML Document must have root element.")
+        return children.count == 1 ? children.first! : AEXMLElement(AEXMLElement.errorElementName, value: "XML Document must have root element.")
     }
     
     // MARK: Lifecycle
@@ -299,7 +301,8 @@ private class AEXMLParser: NSObject, NSXMLParserDelegate {
     
     func parser(parser: NSXMLParser, foundCharacters string: String) {
         currentValue += string
-        currentElement?.stringValue = currentValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        let newValue = currentValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        currentElement?.value = newValue == String() ? nil : newValue
     }
     
     func parser(parser: NSXMLParser!, didEndElement elementName: String!, namespaceURI: String!, qualifiedName qName: String!) {
