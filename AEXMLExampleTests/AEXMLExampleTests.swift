@@ -68,7 +68,7 @@ class AEXMLExampleTests: XCTestCase {
         for cat in exampleXML.root["cats"].children {
             count++
         }
-        XCTAssertEqual(count, 3, "Should be able to iterate children elements")
+        XCTAssertEqual(count, 4, "Should be able to iterate children elements")
     }
     
     func testName() {
@@ -156,7 +156,7 @@ class AEXMLExampleTests: XCTestCase {
                 count++
             }
         }
-        XCTAssertEqual(count, 3, "Should be able to iterate all elements")
+        XCTAssertEqual(count, 4, "Should be able to iterate all elements")
     }
     
     func testFirstElement() {
@@ -176,7 +176,7 @@ class AEXMLExampleTests: XCTestCase {
     
     func testLastElement() {
         if let cat = exampleXML.root["cats"]["cat"].last {
-            XCTAssertEqual(cat.stringValue, "Caesar", "Should be able to find the last element.")
+            XCTAssertEqual(cat.stringValue, "", "Should be able to find the last element.")
         } else {
             XCTFail("Should be able to find the last element.")
         }
