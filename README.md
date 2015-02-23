@@ -228,7 +228,7 @@ Parse XML | Description
 
 
 ## Requirements
-- Xcode 6.1+
+- Xcode 6.1.1
 - iOS 7.0+
 - AEXML doesn't require any additional libraries for it to work.
 

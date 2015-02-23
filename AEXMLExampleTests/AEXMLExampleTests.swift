@@ -175,8 +175,8 @@ class AEXMLExampleTests: XCTestCase {
     }
     
     func testLastElement() {
-        if let cat = exampleXML.root["cats"]["cat"].last {
-            XCTAssertEqual(cat.stringValue, "", "Should be able to find the last element.")
+        if let cat = exampleXML.root["dogs"]["dog"].last {
+            XCTAssertEqual(cat.stringValue, "Kika", "Should be able to find the last element.")
         } else {
             XCTFail("Should be able to find the last element.")
         }
