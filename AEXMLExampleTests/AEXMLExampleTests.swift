@@ -223,7 +223,7 @@ class AEXMLExampleTests: XCTestCase {
         firstCat.addAttributes(["speed" : "fast", "years" : 7])
         
         XCTAssertEqual(firstCat.attributes.count, 5, "Should be able to add attributes to an element.")
-        XCTAssertEqual(firstCat.attributes["years"] as Int, 7, "Should be able to get any attribute value now.")
+        XCTAssertEqual(firstCat.attributes["years"] as! Int, 7, "Should be able to get any attribute value now.")
     }
     
     func testXMLString() {
