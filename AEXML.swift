@@ -307,6 +307,7 @@ class AEXMLParser: NSObject, NSXMLParserDelegate {
     
     func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         currentParent = currentParent?.parent
+        currentElement = nil
     }
     
     func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
