@@ -9,6 +9,6 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   s.osx.deployment_target = '10.9'
   s.ios.deployment_target = '8.0'
-  s.source      = { :git => 'https://github.com/offfffz/AEXML.git' }
-  s.source_files = '/AEXML.swift'
+  s.source      = { :git => 'https://github.com/offfffz/AEXML.git', :branch => 'add-cocoapods' }
+  s.source_files = 'AEXML.swift'
 end
