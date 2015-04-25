@@ -8,9 +8,9 @@
 
 import UIKit
 import XCTest
-import AEXML
+import AEXMLExample
 
-class AEXMLExampleTests: XCTestCase {
+class AEXMLTests: XCTestCase {
     
     // MARK: - Properties
     

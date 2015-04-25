@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8BFE78A819F0054100914487"
-               BuildableName = "AEXML.app"
+               BuildableName = "AEXMLExample.app"
                BlueprintName = "AEXMLExample"
                ReferencedContainer = "container:AEXML.xcodeproj">
             </BuildableReference>
@@ -57,7 +57,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8BFE78A819F0054100914487"
-            BuildableName = "AEXML.app"
+            BuildableName = "AEXMLExample.app"
             BlueprintName = "AEXMLExample"
             ReferencedContainer = "container:AEXML.xcodeproj">
          </BuildableReference>
@@ -77,7 +77,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8BFE78A819F0054100914487"
-            BuildableName = "AEXML.app"
+            BuildableName = "AEXMLExample.app"
             BlueprintName = "AEXMLExample"
             ReferencedContainer = "container:AEXML.xcodeproj">
          </BuildableReference>
@@ -96,7 +96,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8BFE78A819F0054100914487"
-            BuildableName = "AEXML.app"
+            BuildableName = "AEXMLExample.app"
             BlueprintName = "AEXMLExample"
             ReferencedContainer = "container:AEXML.xcodeproj">
          </BuildableReference>

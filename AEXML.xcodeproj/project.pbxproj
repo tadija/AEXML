@@ -399,7 +399,7 @@
 				INFOPLIST_FILE = AEXMLTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = AEXMLTests;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AEXML.app/AEXML";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AEXMLExample.app/AEXMLExample";
 			};
 			name = Debug;
 		};
@@ -414,7 +414,7 @@
 				INFOPLIST_FILE = AEXMLTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = AEXMLTests;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AEXML.app/AEXML";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AEXMLExample.app/AEXMLExample";
 			};
 			name = Release;
 		};
