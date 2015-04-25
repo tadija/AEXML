@@ -65,10 +65,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8BFE78A019F0054100914487 = {
+		8BD5EE981AEC407800A8BB45 /* AEXML */ = {
 			isa = PBXGroup;
 			children = (
 				8BFE78CE19F0056D00914487 /* AEXML.swift */,
+			);
+			path = AEXML;
+			sourceTree = "<group>";
+		};
+		8BFE78A019F0054100914487 = {
+			isa = PBXGroup;
+			children = (
+				8BD5EE981AEC407800A8BB45 /* AEXML */,
 				8BFE78AB19F0054100914487 /* AEXMLExample */,
 				8BFE78C119F0054200914487 /* AEXMLExampleTests */,
 				8BFE78AA19F0054100914487 /* Products */,
