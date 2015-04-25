@@ -234,8 +234,17 @@ Parse XML | Description
 
 
 ## Installation
-Just drag AEXML.swift into your project and start using it.
 
+- Using [CocoaPods](http://cocoapods.org/):
+
+  ```ruby
+  use_frameworks!
+  pod 'AEXML'
+  ```
+
+- Manually:
+
+  Just drag AEXML.swift into your project and start using it.
 
 ## License
 AEXML is released under the MIT license. See [LICENSE](LICENSE) for details.
