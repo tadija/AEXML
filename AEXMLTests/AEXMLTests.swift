@@ -1,6 +1,6 @@
 //
-//  AEXMLExampleTests.swift
-//  AEXMLExampleTests
+//  AEXMLTests.swift
+//  AEXMLTests
 //
 //  Created by Marko Tadic on 10/16/14.
 //  Copyright (c) 2014 ae. All rights reserved.
@@ -10,7 +10,7 @@ import UIKit
 import XCTest
 import AEXMLExample
 
-class AEXMLExampleTests: XCTestCase {
+class AEXMLTests: XCTestCase {
     
     // MARK: - Properties
     
