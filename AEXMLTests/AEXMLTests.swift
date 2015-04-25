@@ -8,7 +8,7 @@
 
 import UIKit
 import XCTest
-import AEXMLExample
+import AEXML
 
 class AEXMLExampleTests: XCTestCase {
     

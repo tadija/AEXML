@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8BFE78A819F0054100914487"
-               BuildableName = "AEXMLExample.app"
-               BlueprintName = "AEXMLExample"
-               ReferencedContainer = "container:AEXMLExample.xcodeproj">
+               BuildableName = "AEXML.app"
+               BlueprintName = "AEXML"
+               ReferencedContainer = "container:AEXML.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8BFE78BD19F0054200914487"
-               BuildableName = "AEXMLExampleTests.xctest"
-               BlueprintName = "AEXMLExampleTests"
-               ReferencedContainer = "container:AEXMLExample.xcodeproj">
+               BuildableName = "AEXMLTests.xctest"
+               BlueprintName = "AEXMLTests"
+               ReferencedContainer = "container:AEXML.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8BFE78BD19F0054200914487"
-               BuildableName = "AEXMLExampleTests.xctest"
-               BlueprintName = "AEXMLExampleTests"
-               ReferencedContainer = "container:AEXMLExample.xcodeproj">
+               BuildableName = "AEXMLTests.xctest"
+               BlueprintName = "AEXMLTests"
+               ReferencedContainer = "container:AEXML.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -57,9 +57,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8BFE78A819F0054100914487"
-            BuildableName = "AEXMLExample.app"
-            BlueprintName = "AEXMLExample"
-            ReferencedContainer = "container:AEXMLExample.xcodeproj">
+            BuildableName = "AEXML.app"
+            BlueprintName = "AEXML"
+            ReferencedContainer = "container:AEXML.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -77,9 +77,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8BFE78A819F0054100914487"
-            BuildableName = "AEXMLExample.app"
-            BlueprintName = "AEXMLExample"
-            ReferencedContainer = "container:AEXMLExample.xcodeproj">
+            BuildableName = "AEXML.app"
+            BlueprintName = "AEXML"
+            ReferencedContainer = "container:AEXML.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -96,9 +96,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8BFE78A819F0054100914487"
-            BuildableName = "AEXMLExample.app"
-            BlueprintName = "AEXMLExample"
-            ReferencedContainer = "container:AEXMLExample.xcodeproj">
+            BuildableName = "AEXML.app"
+            BlueprintName = "AEXML"
+            ReferencedContainer = "container:AEXML.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
