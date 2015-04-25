@@ -33,7 +33,7 @@
 		8BD7A14319F0093F005F73F4 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		8BD7A14419F0093F005F73F4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		8BE1053319F6A43000716C35 /* example.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = example.xml; sourceTree = "<group>"; };
-		8BFE78A919F0054100914487 /* AEXML.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AEXML.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8BFE78A919F0054100914487 /* AEXMLExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AEXMLExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BFE78AD19F0054100914487 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8BFE78AE19F0054100914487 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8BFE78B019F0054100914487 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -77,8 +77,8 @@
 			isa = PBXGroup;
 			children = (
 				8BD5EE981AEC407800A8BB45 /* AEXML */,
-				8BFE78AB19F0054100914487 /* AEXMLExample */,
 				8BFE78C119F0054200914487 /* AEXMLTests */,
+				8BFE78AB19F0054100914487 /* AEXMLExample */,
 				8BFE78AA19F0054100914487 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -86,7 +86,7 @@
 		8BFE78AA19F0054100914487 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8BFE78A919F0054100914487 /* AEXML.app */,
+				8BFE78A919F0054100914487 /* AEXMLExample.app */,
 				8BFE78BE19F0054200914487 /* AEXMLTests.xctest */,
 			);
 			name = Products;
@@ -137,9 +137,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8BFE78A819F0054100914487 /* AEXML */ = {
+		8BFE78A819F0054100914487 /* AEXMLExample */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8BFE78C819F0054200914487 /* Build configuration list for PBXNativeTarget "AEXML" */;
+			buildConfigurationList = 8BFE78C819F0054200914487 /* Build configuration list for PBXNativeTarget "AEXMLExample" */;
 			buildPhases = (
 				8BFE78A519F0054100914487 /* Sources */,
 				8BFE78A619F0054100914487 /* Frameworks */,
@@ -149,9 +149,9 @@
 			);
 			dependencies = (
 			);
-			name = AEXML;
+			name = AEXMLExample;
 			productName = AEXMLExample;
-			productReference = 8BFE78A919F0054100914487 /* AEXML.app */;
+			productReference = 8BFE78A919F0054100914487 /* AEXMLExample.app */;
 			productType = "com.apple.product-type.application";
 		};
 		8BFE78BD19F0054200914487 /* AEXMLTests */ = {
@@ -203,7 +203,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8BFE78A819F0054100914487 /* AEXML */,
+				8BFE78A819F0054100914487 /* AEXMLExample */,
 				8BFE78BD19F0054200914487 /* AEXMLTests */,
 			);
 		};
@@ -256,7 +256,7 @@
 /* Begin PBXTargetDependency section */
 		8BFE78C019F0054200914487 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8BFE78A819F0054100914487 /* AEXML */;
+			target = 8BFE78A819F0054100914487 /* AEXMLExample */;
 			targetProxy = 8BFE78BF19F0054200914487 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -368,7 +368,7 @@
 				INFOPLIST_FILE = AEXMLExample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = AEXML;
+				PRODUCT_NAME = AEXMLExample;
 			};
 			name = Debug;
 		};
@@ -380,7 +380,7 @@
 				INFOPLIST_FILE = AEXMLExample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = AEXML;
+				PRODUCT_NAME = AEXMLExample;
 			};
 			name = Release;
 		};
@@ -430,7 +430,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8BFE78C819F0054200914487 /* Build configuration list for PBXNativeTarget "AEXML" */ = {
+		8BFE78C819F0054200914487 /* Build configuration list for PBXNativeTarget "AEXMLExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8BFE78C919F0054200914487 /* Debug */,
