@@ -14,7 +14,7 @@
 		8BFE78B419F0054100914487 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BFE78B219F0054100914487 /* Main.storyboard */; };
 		8BFE78B619F0054100914487 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8BFE78B519F0054100914487 /* Images.xcassets */; };
 		8BFE78B919F0054200914487 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BFE78B719F0054200914487 /* LaunchScreen.xib */; };
-		8BFE78C519F0054200914487 /* AEXMLExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFE78C419F0054200914487 /* AEXMLExampleTests.swift */; };
+		8BFE78C519F0054200914487 /* AEXMLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFE78C419F0054200914487 /* AEXMLTests.swift */; };
 		8BFE78CF19F0056D00914487 /* AEXML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFE78CE19F0056D00914487 /* AEXML.swift */; };
 		8BFE78D119F0080B00914487 /* plant_catalog.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8BFE78D019F0080B00914487 /* plant_catalog.xml */; };
 /* End PBXBuildFile section */
@@ -42,7 +42,7 @@
 		8BFE78B819F0054200914487 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		8BFE78BE19F0054200914487 /* AEXMLExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AEXMLExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BFE78C319F0054200914487 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8BFE78C419F0054200914487 /* AEXMLExampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AEXMLExampleTests.swift; sourceTree = "<group>"; };
+		8BFE78C419F0054200914487 /* AEXMLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AEXMLTests.swift; sourceTree = "<group>"; };
 		8BFE78CE19F0056D00914487 /* AEXML.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AEXML.swift; sourceTree = "<group>"; };
 		8BFE78D019F0080B00914487 /* plant_catalog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = plant_catalog.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -78,7 +78,7 @@
 			children = (
 				8BD5EE981AEC407800A8BB45 /* AEXML */,
 				8BFE78AB19F0054100914487 /* AEXMLExample */,
-				8BFE78C119F0054200914487 /* AEXMLExampleTests */,
+				8BFE78C119F0054200914487 /* AEXMLTests */,
 				8BFE78AA19F0054100914487 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -117,13 +117,13 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		8BFE78C119F0054200914487 /* AEXMLExampleTests */ = {
+		8BFE78C119F0054200914487 /* AEXMLTests */ = {
 			isa = PBXGroup;
 			children = (
-				8BFE78C419F0054200914487 /* AEXMLExampleTests.swift */,
+				8BFE78C419F0054200914487 /* AEXMLTests.swift */,
 				8BFE78C219F0054200914487 /* Supporting Files */,
 			);
-			path = AEXMLExampleTests;
+			path = AEXMLTests;
 			sourceTree = "<group>";
 		};
 		8BFE78C219F0054200914487 /* Supporting Files */ = {
@@ -247,7 +247,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8BFE78C519F0054200914487 /* AEXMLExampleTests.swift in Sources */,
+				8BFE78C519F0054200914487 /* AEXMLTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
