@@ -164,7 +164,7 @@ public class AEXMLElement {
         if attributes.count > 0 {
             // insert attributes
             for att in attributes {
-                xml += " \(att.0.description)=\"\(att.1.description)\""
+                xml += " \(att.0)=\"\(att.1)\""
             }
         }
         
