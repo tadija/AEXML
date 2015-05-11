@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name = 'AEXML'
-s.version = '1.2.1'
+s.version = '1.3.0'
 s.license = { :type => 'MIT', :file => 'LICENSE' }
 s.summary = 'Simple and lightweight XML parser for iOS written in Swift'
 
