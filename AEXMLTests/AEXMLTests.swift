@@ -175,8 +175,8 @@ class AEXMLTests: XCTestCase {
     }
     
     func testLastElement() {
-        if let cat = exampleXML.root["dogs"]["dog"].last {
-            XCTAssertEqual(cat.stringValue, "Kika", "Should be able to find the last element.")
+        if let dog = exampleXML.root["dogs"]["dog"].last {
+            XCTAssertEqual(dog.stringValue, "Kika", "Should be able to find the last element.")
         } else {
             XCTFail("Should be able to find the last element.")
         }
@@ -215,6 +215,26 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(exampleXML.root["ducks"]["duck"].last!.stringValue, "Scrooge", "Should be able to iterate ducks now.")
     }
     
+    func testAddChildWithAttributes() {
+        let cats = exampleXML.root["cats"]
+        let dogs = exampleXML.root["dogs"]
+        
+        cats.addChild(name: "cat", value: "Garfield", attributes: ["breed" : "tabby", "color" : "orange"])
+        dogs.addChild(name: "dog", value: "Snoopy", attributes: ["breed" : "beagle", "color" : "white"])
+        
+        let catsCount = cats["cat"].count
+        let dogsCount = dogs["dog"].count
+        
+        let lastCat = cats["cat"].last!
+        let penultDog = dogs.children[3]
+        
+        XCTAssertEqual(catsCount, 5, "Should be able to add child element with attributes to an element.")
+        XCTAssertEqual(dogsCount, 5, "Should be able to add child element with attributes to an element.")
+        
+        XCTAssertEqual(lastCat.attributes["color"] as! String, "orange", "Should be able to get attribute value from added element.")
+        XCTAssertEqual(penultDog.stringValue, "Kika", "Should be able to add child with attributes without overwrites existing elements. (Github Issue #28)")
+    }
+    
     func testAddAttributes() {
         let firstCat = exampleXML.root["cats"]["cat"]
         // add single attribute
@@ -226,10 +246,24 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(firstCat.attributes["years"] as! Int, 7, "Should be able to get any attribute value now.")
     }
     
+    func testRemoveChild() {
+        let cats = exampleXML.root["cats"]
+        let lastCat = cats["cat"].last!
+        let duplicateCat = cats.addChild(name: "cat", value: "Tinna", attributes: ["breed" : "Siberian", "color" : "lightgray"])
+        
+        lastCat.removeFromParent()
+        duplicateCat.removeFromParent()
+        
+        let catsCount = cats["cat"].count
+        let firstCat = cats["cat"]
+        XCTAssertEqual(catsCount, 3, "Should be able to remove element from parent.")
+        XCTAssertEqual(firstCat.stringValue, "Tinna", "Should be able to remove the exact element from parent.")
+    }
+    
     func testXMLString() {
         let newXMLDocument = AEXMLDocument()
         let children = newXMLDocument.addChild(name: "children")
-        let childWithValue = children.addChild(name: "child", value: "value", attributes: ["attribute" : "attributeValue"])
+        let childWithValueAndAttributes = children.addChild(name: "child", value: "value", attributes: ["attribute" : "attributeValue"])
         let childWithoutValue = children.addChild(name: "child")
         
         XCTAssertEqual(newXMLDocument.xmlString, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<children>\n\t<child attribute=\"attributeValue\">value</child>\n\t<child />\n</children>", "Should be able to print XML formatted string.")

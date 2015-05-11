@@ -24,7 +24,27 @@
 
 import Foundation
 
-public class AEXMLElement {
+// MARK: Equatable
+
+private func !=(lhs: [NSObject: AnyObject], rhs: [NSObject: AnyObject]) -> Bool {
+    for (key, lhsValue) in lhs {
+        if let rhsValue: AnyObject = rhs[key] {
+            if !(lhsValue === rhsValue) { return true }
+        } else { return true }
+    }
+    return false
+}
+
+public func ==(lhs: AEXMLElement, rhs: AEXMLElement) -> Bool {
+    if lhs.name != rhs.name { return false }
+    if lhs.value != rhs.value { return false }
+    if lhs.parent != rhs.parent { return false }
+    if lhs.children != rhs.children { return false }
+    if lhs.attributes != rhs.attributes { return false }
+    return true
+}
+
+public class AEXMLElement: Equatable {
     
     // MARK: Properties
     
@@ -32,8 +52,8 @@ public class AEXMLElement {
     public private(set) var children: [AEXMLElement] = [AEXMLElement]()
     
     public let name: String
-    public private(set) var attributes: [NSObject : AnyObject]
     public var value: String?
+    public private(set) var attributes: [NSObject : AnyObject]
     
     public var stringValue: String {
         return value ?? String()
@@ -52,8 +72,8 @@ public class AEXMLElement {
     
     public init(_ name: String, value: String? = nil, attributes: [NSObject : AnyObject] = [NSObject : AnyObject]()) {
         self.name = name
-        self.attributes = attributes
         self.value = value
+        self.attributes = attributes
     }
     
     // MARK: XML Read
@@ -134,6 +154,16 @@ public class AEXMLElement {
         }
     }
     
+    public func removeFromParent() {
+        parent?.removeChild(self)
+    }
+    
+    private func removeChild(child: AEXMLElement) {
+        if let childIndex = find(children, child) {
+            children.removeAtIndex(childIndex)
+        }
+    }
+    
     private var parentsCount: Int {
         var count = 0
         var element = self
@@ -163,8 +193,8 @@ public class AEXMLElement {
         
         if attributes.count > 0 {
             // insert attributes
-            for att in attributes {
-                xml += " \(att.0)=\"\(att.1)\""
+            for (key, value) in attributes {
+                xml += " \(key)=\"\(value)\""
             }
         }
         
