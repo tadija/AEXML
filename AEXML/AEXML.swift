@@ -53,7 +53,7 @@ public class AEXMLElement: Equatable {
     
     public let name: String
     public var value: String?
-    public private(set) var attributes: [NSObject : AnyObject]
+    public var attributes: [NSObject : AnyObject]
     
     public var stringValue: String {
         return value ?? String()
