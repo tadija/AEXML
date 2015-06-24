@@ -1,6 +1,8 @@
 # AEXML
 **Simple and lightweight XML parser for iOS written in Swift**
 
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+
 > This is not robust full featured XML parser (at the moment), but rather simple,  
 and very easy to use utility for casual XML handling (it just works).
 

@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D5DF6B891B3B30B70058F091"
-               BuildableName = "AEXML.framework"
-               BlueprintName = "AEXML"
+               BlueprintIdentifier = "8BFE78A819F0054100914487"
+               BuildableName = "AEXMLExample.app"
+               BlueprintName = "AEXMLExample"
                ReferencedContainer = "container:AEXML.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,6 +29,15 @@
       buildConfiguration = "Debug">
       <Testables>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "8BFE78A819F0054100914487"
+            BuildableName = "AEXMLExample.app"
+            BlueprintName = "AEXMLExample"
+            ReferencedContainer = "container:AEXML.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
@@ -39,15 +48,16 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D5DF6B891B3B30B70058F091"
-            BuildableName = "AEXML.framework"
-            BlueprintName = "AEXML"
+            BlueprintIdentifier = "8BFE78A819F0054100914487"
+            BuildableName = "AEXMLExample.app"
+            BlueprintName = "AEXMLExample"
             ReferencedContainer = "container:AEXML.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -57,15 +67,16 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D5DF6B891B3B30B70058F091"
-            BuildableName = "AEXML.framework"
-            BlueprintName = "AEXML"
+            BlueprintIdentifier = "8BFE78A819F0054100914487"
+            BuildableName = "AEXMLExample.app"
+            BlueprintName = "AEXMLExample"
             ReferencedContainer = "container:AEXML.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
