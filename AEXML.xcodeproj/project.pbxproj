@@ -15,7 +15,8 @@
 		8BFE78B919F0054200914487 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BFE78B719F0054200914487 /* LaunchScreen.xib */; };
 		8BFE78CF19F0056D00914487 /* AEXML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFE78CE19F0056D00914487 /* AEXML.swift */; };
 		8BFE78D119F0080B00914487 /* plant_catalog.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8BFE78D019F0080B00914487 /* plant_catalog.xml */; };
-		D5DF6B8F1B3B30B70058F091 /* AEXML.h in Headers */ = {isa = PBXBuildFile; fileRef = D5DF6B8E1B3B30B70058F091 /* AEXML.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D5DF6BA61B3B32BF0058F091 /* AEXML.swift in Headers */ = {isa = PBXBuildFile; fileRef = 8BFE78CE19F0056D00914487 /* AEXML.swift */; };
+		D5DF6BA71B3B32C90058F091 /* AEXML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFE78CE19F0056D00914487 /* AEXML.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,7 +35,6 @@
 		8BFE78D019F0080B00914487 /* plant_catalog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = plant_catalog.xml; sourceTree = "<group>"; };
 		D5DF6B8A1B3B30B70058F091 /* AEXML.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AEXML.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5DF6B8D1B3B30B70058F091 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D5DF6B8E1B3B30B70058F091 /* AEXML.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AEXML.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,20 +55,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8BD5EE981AEC407800A8BB45 /* AEXML */ = {
-			isa = PBXGroup;
-			children = (
-				8BFE78CE19F0056D00914487 /* AEXML.swift */,
-			);
-			path = AEXML;
-			sourceTree = "<group>";
-		};
 		8BFE78A019F0054100914487 = {
 			isa = PBXGroup;
 			children = (
-				8BD5EE981AEC407800A8BB45 /* AEXML */,
-				8BFE78AB19F0054100914487 /* AEXMLExample */,
 				D5DF6B8B1B3B30B70058F091 /* AEXML */,
+				8BFE78AB19F0054100914487 /* AEXMLExample */,
 				8BFE78AA19F0054100914487 /* Products */,
 				8BD7A14319F0093F005F73F4 /* LICENSE */,
 				8BD7A14419F0093F005F73F4 /* README.md */,
@@ -111,7 +102,7 @@
 		D5DF6B8B1B3B30B70058F091 /* AEXML */ = {
 			isa = PBXGroup;
 			children = (
-				D5DF6B8E1B3B30B70058F091 /* AEXML.h */,
+				8BFE78CE19F0056D00914487 /* AEXML.swift */,
 				D5DF6B8C1B3B30B70058F091 /* Supporting Files */,
 			);
 			path = AEXML;
@@ -132,7 +123,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D5DF6B8F1B3B30B70058F091 /* AEXML.h in Headers */,
+				D5DF6BA61B3B32BF0058F091 /* AEXML.swift in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,6 +238,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D5DF6BA71B3B32C90058F091 /* AEXML.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,7 +383,7 @@
 				);
 				INFOPLIST_FILE = AEXML/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -413,7 +405,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = AEXML/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -450,6 +442,7 @@
 				D5DF6B9E1B3B30B70058F091 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
