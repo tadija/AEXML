@@ -22,34 +22,34 @@ class ViewController: UIViewController {
                 
                 // works only if data is successfully parsed
                 // otherwise prints information about error with parsing
-                var error: NSError?
-                if let xmlDoc = AEXMLDocument(xmlData: data, error: &error) {
+                do {
+                    let xmlDoc = try AEXMLDocument(xmlData: data)
                     
                     // prints the same XML structure as original
-                    println(xmlDoc.xmlString)
+                    print(xmlDoc.xmlString)
                     
                     // prints cats, dogs
                     for child in xmlDoc.root.children {
-                        println(child.name)
+                        print(child.name)
                     }
                     
                     // prints Optional("Tinna") (first element)
-                    println(xmlDoc.root["cats"]["cat"].value)
+                    print(xmlDoc.root["cats"]["cat"].value)
                     
                     // prints Tinna (first element)
-                    println(xmlDoc.root["cats"]["cat"].stringValue)
+                    print(xmlDoc.root["cats"]["cat"].stringValue)
                     
                     // prints Optional("Kika") (last element)
-                    println(xmlDoc.root["dogs"]["dog"].last?.value)
+                    print(xmlDoc.root["dogs"]["dog"].last?.value)
                     
                     // prints Betty (3rd element)
-                    println(xmlDoc.root["dogs"].children[2].stringValue)
+                    print(xmlDoc.root["dogs"].children[2].stringValue)
                     
                     // prints Tinna, Rose, Caesar
                     if let cats = xmlDoc.root["cats"]["cat"].all {
                         for cat in cats {
                             if let name = cat.value {
-                                println(name)
+                                print(name)
                             }
                         }
                     }
@@ -58,7 +58,7 @@ class ViewController: UIViewController {
                     for dog in xmlDoc.root["dogs"]["dog"].all! {
                         if let color = dog.attributes["color"] as? String {
                             if color == "white" {
-                                println(dog.stringValue)
+                                print(dog.stringValue)
                             }
                         }
                     }
@@ -66,30 +66,30 @@ class ViewController: UIViewController {
                     // prints Caesar
                     if let cats = xmlDoc.root["cats"]["cat"].allWithAttributes(["breed" : "Domestic", "color" : "yellow"]) {
                         for cat in cats {
-                            println(cat.stringValue)
+                            print(cat.stringValue)
                         }
                     }
                     
                     // prints 4
-                    println(xmlDoc.root["cats"]["cat"].count)
+                    print(xmlDoc.root["cats"]["cat"].count)
                     
                     // prints 2
-                    println(xmlDoc.root["dogs"]["dog"].countWithAttributes(["breed" : "Bull Terrier"]))
+                    print(xmlDoc.root["dogs"]["dog"].countWithAttributes(["breed" : "Bull Terrier"]))
                     
                     // prints 1
-                    println(xmlDoc.root["cats"]["cat"].countWithAttributes(["breed" : "Domestic", "color" : "darkgray"]))
+                    print(xmlDoc.root["cats"]["cat"].countWithAttributes(["breed" : "Domestic", "color" : "darkgray"]))
                     
                     // prints Siberian
-                    println(xmlDoc.root["cats"]["cat"].attributes["breed"]!)
+                    print(xmlDoc.root["cats"]["cat"].attributes["breed"]!)
                     
                     // prints <cat breed="Siberian" color="lightgray">Tinna</cat>
-                    println(xmlDoc.root["cats"]["cat"].xmlStringCompact)
+                    print(xmlDoc.root["cats"]["cat"].xmlStringCompact)
                     
                     // prints element <badexample> not found
-                    println(xmlDoc["badexample"]["notexisting"].stringValue)
+                    print(xmlDoc["badexample"]["notexisting"].stringValue)
                     
-                } else {
-                    println("description: \(error?.localizedDescription)\ninfo: \(error?.userInfo)")
+                } catch let error as NSError {
+					print("description: \(error.localizedDescription)\ninfo: \(error.userInfo)")
                 }
                 
             }
@@ -101,16 +101,16 @@ class ViewController: UIViewController {
         
         if let xmlPath = NSBundle.mainBundle().pathForResource("plant_catalog", ofType: "xml") {
             if let data = NSData(contentsOfFile: xmlPath) {
-                var error: NSError?
-                if let doc = AEXMLDocument(xmlData: data, error: &error) {
+                do {
+                    let doc = try AEXMLDocument(xmlData: data)
                     var parsedText = String()
                     // parse known structure
                     for plant in doc["CATALOG"]["PLANT"].all! {
                         parsedText += plant["COMMON"].stringValue + "\n"
                     }
                     textView.text = parsedText
-                } else {
-                    let err = "description: \(error?.localizedDescription)\ninfo: \(error?.userInfo)"
+                } catch let error as NSError {
+                    let err = "description: \(error.localizedDescription)\ninfo: \(error.userInfo)"
                     textView.text = err
                 }
             }
@@ -137,18 +137,18 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tryRemoteXML(sender: UIButton) {
-        if let url = NSURL(string: textField.text) {
+        if let url = NSURL(string: textField.text!) {
             if let data = NSData(contentsOfURL: url) {
-                var error: NSError?
-                if let doc = AEXMLDocument(xmlData: data, error: &error) {
+                do {
+                    let doc = try AEXMLDocument(xmlData: data)
                     var parsedText = String()
                     // parse unknown structure
                     for child in doc.root.children {
                         parsedText += child.xmlString + "\n"
                     }
                     textView.text = parsedText
-                } else {
-                    let err = "description: \(error?.localizedDescription)\ninfo: \(error?.userInfo)"
+                } catch let error as NSError {
+                    let err = "description: \(error.localizedDescription)\ninfo: \(error.userInfo)"
                     textView.text = err
                 }
             }
