@@ -11,4 +11,5 @@ s.social_media_url = 'http://twitter.com/tadija'
 s.source = { :git => 'https://github.com/tadija/AEXML.git', :tag => s.version }
 s.source_files = 'AEXML/*.swift'
 s.ios.deployment_target = '8.0'
+s.osx.deployment_target = '10.10'
 end
