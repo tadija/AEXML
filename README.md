@@ -16,16 +16,14 @@ Class | Description
 ## Features
 - **Read XML** data
 - **Write XML** string
-- I believe that's all
+- Covered with **unit tests**
+- Covered with [docs](http://tadija.net/projects/AEXML/docs/)
 
 
 ## Index
 - [Example](#example)
   - [Read XML](#read-xml)
   - [Write XML](#write-xml)
-- [API](#api)
-  - [AEXMLElement](#aexmlelement)
-  - [AEXMLDocument](#aexmldocument)
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [License](#license)
@@ -165,71 +163,9 @@ println(soapRequest.xmlString)
 ```
 
 
-## API
-
-### AEXMLElement
-`class AEXMLElement`
-
-Property | Description
------------- | -------------
-`var parent: AEXMLElement?` | `readonly` parent XML element - every `AEXMLElement` has it's parent, instead of `AEXMLDocument` :(
-`var children: [AEXMLElement] = [AEXMLElement]()` | `readonly` child XML elements
-`let name: String` | XML element name
-`var attributes: [NSObject : AnyObject]` | `readonly` XML element attributes
-`var value: String?` | XML element value (stored value property, others are computed)
-`var stringValue: String` | if `value` is nil, this is empty string, otherwise `value`
-`var boolValue: Bool` | `stringValue` converted to `Bool` (if stringValue is "true" (case insensitive) or "1" then it's true, otherwise false)
-`var intValue: Int` | `stringValue` converted to `Int` (if stringValue can't be converted it's 0)
-`var doubleValue: Double` | `stringValue` converted to `Double` (if stringValue can't be converted it's 0.0)
-`public class var errorElementName: String` | this element name is used when unable to find element
-
-Initializer | Description
------------- | -------------
-`init(_ name: String, value: String? = nil, attributes: [NSObject : AnyObject] = [NSObject : AnyObject]())` | designated initializer has default values for **value** and **attributes**, but **name** is required
-
-Read XML | Description
------------- | -------------
-`subscript(key: String) -> AEXMLElement` | get the **first** element with given name (`xmlDoc["someName"]`), it's non-optional so it returns dummy element if element with given name is not found
-`var all: [AEXMLElement]?` | all of the elements with name as `self.name`
-`var first: AEXMLElement?` | the first element with name as `self.name` (same as subscript but optional)
-`var last: AEXMLElement?` | last element with name as `self.name`
-`var count: Int` | count of elements with name as `self.name`
-`func allWithAttributes <K: NSObject, V: AnyObject where K: Equatable, V: Equatable> (attributes: [K : V]) -> [AEXMLElement]?` | child elements which contain given `attributes`
-`func countWithAttributes<K: NSObject, V: AnyObject where K: Equatable, V: Equatable>(attributes: [K : V]) -> Int` | count of child elements which contain given `attributes`
-
-Write XML | Description
------------- | -------------
-`func addChild(child: AEXMLElement) -> AEXMLElement` | add child to `self.children` (then return that child)
-`func addChild(#name: String, value: String? = nil, attributes: [NSObject : AnyObject] = [NSObject : AnyObject]()) -> AEXMLElement` | add child to `self.children` (then return that child)
-`func addAttribute(name: NSObject, value: AnyObject)` | add attribute to `self.attributes`
-`func addAttributes(attributes: [NSObject : AnyObject])` | add attributes to `self.attributes`
-`var xmlString: String` | complete hierarchy of `self` and `children` in XML formatted String
-`var xmlStringCompact: String` | same as `xmlString` but without `\n` and `\t` characters
-
-
-### AEXMLDocument
-`class AEXMLDocument: AEXMLElement`
-
-Property | Description
------------- | -------------
-`let version: Double` | used only for the first line in `xmlString`
-`let encoding: String` | used only for the first line in `xmlString`
-`let standalone: String` | used only for the first line in `xmlString`
-`var root: AEXMLElement` | the first child element of XML document
-
-Initializer | Description
------------- | -------------
-`init(version: Double = 1.0, encoding: String = "utf-8", standalone: String = "no", root: AEXMLElement? = nil)` | designated initializer with default values for all of the properties
-`convenience init?(version: Double = 1.0, encoding: String = "utf-8", standalone: String = "no", xmlData: NSData, inout error: NSError?)` | convenience initializer also automatically calls **readXMLData** with given `NSData`
-
-Parse XML | Description
------------- | -------------
-`func readXMLData(data: NSData) -> NSError?` | create instance of `AEXMLParser` and start parsing given XML data, return `NSError` if parsing is not successfull, otherwise `nil`
-
-
 ## Requirements
-- Xcode 6.1.1
-- iOS 7.0+
+- Xcode 6.4+
+- iOS 8.0+
 - AEXML doesn't require any additional libraries for it to work.
 
 
