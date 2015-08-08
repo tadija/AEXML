@@ -240,6 +240,7 @@
 		8BFE78A119F0054100914487 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = ae;
 				TargetAttributes = {
@@ -566,6 +567,7 @@
 				7CAE13B61B7453F400426183 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8BFE78A419F0054100914487 /* Build configuration list for PBXProject "AEXML" */ = {
 			isa = XCConfigurationList;

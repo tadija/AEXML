@@ -260,7 +260,49 @@ public class AEXMLElement: Equatable {
         
         return xml
     }
+    /// Complete hierarchy of `self` and `children` in **XML** formatted String Canonnicalized
+    public var xmlStringC14N: String {
+        var xml = String()
+        
+        // open element
+        xml += indentation(parentsCount - 1)
+        xml += "<\(name)"
+        
+        if attributes.count > 0 {
+            // insert attributes
+            let attribArray = Array(attributes).sorted(){
+                let s1 = String(_cocoaString: $0.0)
+                let s2 = String(_cocoaString: $1.0)
+                return s1.substringToIndex(advance(s1.startIndex, 4)) == "nsxml" || s1 < s2
+            }
+            for (key, value) in  attribArray {
+                xml += " \(key)=\"\(value)\""
+            }
+        }
+        
+        if value == nil && children.count == 0 {
+            // close element
+            xml += "></\(name)>"
+        } else {
+            if children.count > 0 {
+                // add children
+                xml += ">\n"
+                for child in children {
+                    xml += "\(child.xmlStringC14N)\n"
+                }
+                // add indentation
+                xml += indentation(parentsCount - 1)
+                xml += "</\(name)>"
+            } else {
+                // insert string value and close element
+                xml += ">\(stringValue)</\(name)>"
+            }
+        }
+        
+        return xml
+    }
     
+
     /// Same as `xmlString` but without `\n` and `\t` characters
     public var xmlStringCompact: String {
         let chars = NSCharacterSet(charactersInString: "\n\t")
