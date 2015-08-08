@@ -263,12 +263,12 @@ class AEXMLTests: XCTestCase {
     func testXMLString() {
         let newXMLDocument = AEXMLDocument()
         let children = newXMLDocument.addChild(name: "children")
-        let childWithValueAndAttributes = children.addChild(name: "child", value: "value", attributes: ["battribute" : "attributeValue", "attribute" : "attributeValue", "xmlns:ds" : "attributeValue"])
+        let childWithValueAndAttributes = children.addChild(name: "child", value: "value", attributes: ["ID" : "attributeValue", "attribute" : "attributeValue", "xmlns:ds" : "attributeValue"])
         let childWithoutValue = children.addChild(name: "child")
         
-        XCTAssertEqual(newXMLDocument.xmlString, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<children>\n\t<child attribute=\"attributeValue\" battribute=\"attributeValue\" xmlns:ds=\"attributeValue\">value</child>\n\t<child />\n</children>", "Should be able to print XML formatted string.")
-        XCTAssertEqual(newXMLDocument.xmlStringCompact, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><children><child attribute=\"attributeValue\" battribute=\"attributeValue\" xmlns:ds=\"attributeValue\">value</child><child /></children>", "Should be able to print compact XML string.")
-        XCTAssertEqual(newXMLDocument.xmlStringC14N, "<children><child xmlns:ds=\"attributeValue\" attribute=\"attributeValue\" battribute=\"attributeValue\">value</child><child></child></children>", "Should be able to print a canonical XML string.")
+        XCTAssertEqual(newXMLDocument.xmlString, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<children>\n\t<child attribute=\"attributeValue\" ID=\"attributeValue\" xmlns:ds=\"attributeValue\">value</child>\n\t<child />\n</children>", "Should be able to print XML formatted string.")
+        XCTAssertEqual(newXMLDocument.xmlStringCompact, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><children><child attribute=\"attributeValue\" ID=\"attributeValue\" xmlns:ds=\"attributeValue\">value</child><child /></children>", "Should be able to print compact XML string.")
+        XCTAssertEqual(newXMLDocument.xmlStringC14N, "<children><child xmlns:ds=\"attributeValue\" attribute=\"attributeValue\" ID=\"attributeValue\">value</child><child></child></children>", "Should be able to print a canonical XML string.")
     }
     
     // MARK: - XML Parse Performance

@@ -271,9 +271,10 @@ public class AEXMLElement: Equatable {
         if attributes.count > 0 {
             // insert attributes
             let attribArray = Array(attributes).sorted(){
-                let s1 = String(_cocoaString: $0.0)
-                let s2 = String(_cocoaString: $1.0)
-                return s1.substringToIndex(advance(s1.startIndex, 5)) == "xmlns" || s1 < s2
+                let s1 = String(_cocoaString: $0.0),
+                    s2 = String(_cocoaString: $1.0),
+                index = Swift.count(s1) >= 5 ? advance(s1.startIndex, 5) : s1.endIndex
+                return s1.substringToIndex(index) == "xmlns" || s1.lowercaseString < s2.lowercaseString
             }
             for (key, value) in  attribArray {
                 xml += " \(key)=\"\(value)\""
