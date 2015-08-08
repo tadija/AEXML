@@ -273,7 +273,7 @@ public class AEXMLElement: Equatable {
             let attribArray = Array(attributes).sorted(){
                 let s1 = String(_cocoaString: $0.0)
                 let s2 = String(_cocoaString: $1.0)
-                return s1.substringToIndex(advance(s1.startIndex, 4)) == "nsxml" || s1 < s2
+                return s1.substringToIndex(advance(s1.startIndex, 5)) == "xmlns" || s1 < s2
             }
             for (key, value) in  attribArray {
                 xml += " \(key)=\"\(value)\""
@@ -299,7 +299,8 @@ public class AEXMLElement: Equatable {
             }
         }
         
-        return xml
+        let chars = NSCharacterSet(charactersInString: "\n\t")
+        return join("", xml.componentsSeparatedByCharactersInSet(chars))
     }
     
 
@@ -407,7 +408,14 @@ public class AEXMLDocument: AEXMLElement {
         }
         return xml
     }
-    
+    public override var xmlStringC14N: String {
+        var xml =  ""
+        for child in children {
+            xml += child.xmlStringC14N
+        }
+        return xml
+    }
+
 }
 
 // MARK: -
