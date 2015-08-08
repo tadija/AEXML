@@ -271,6 +271,16 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(newXMLDocument.xmlStringC14N, "<children><child xmlns:ds=\"attributeValue\" attribute=\"attributeValue\" ID=\"attributeValue\">value</child><child></child></children>", "Should be able to print a canonical XML string.")
     }
     
+    func testXMLStringC14NEdgeCases() {
+        let newXMLDocument = AEXMLDocument()
+        let children = newXMLDocument.addChild(name: "children")
+        let childWithValueAndAttributes = children.addChild(name: "child", value: "value", attributes: ["xmlns:a" : "attributeValue", "ID" : "attributeValue", "attribute" : "attributeValue", "xmlns:b" : "attributeValue"])
+        let childWithoutValue = children.addChild(name: "child")
+        
+        XCTAssertEqual(newXMLDocument.xmlStringC14N, "<children><child xmlns:a=\"attributeValue\" xmlns:b=\"attributeValue\" attribute=\"attributeValue\" ID=\"attributeValue\">value</child><child></child></children>", "Should be able to print a canonical XML string.")
+    }
+
+    
     // MARK: - XML Parse Performance
     
     func testReadXMLPerformance() {

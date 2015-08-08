@@ -271,10 +271,19 @@ public class AEXMLElement: Equatable {
         if attributes.count > 0 {
             // insert attributes
             let attribArray = Array(attributes).sorted(){
-                let s1 = String(_cocoaString: $0.0),
-                    s2 = String(_cocoaString: $1.0),
-                index = Swift.count(s1) >= 5 ? advance(s1.startIndex, 5) : s1.endIndex
-                return s1.substringToIndex(index) == "xmlns" || s1.lowercaseString < s2.lowercaseString
+                let s1 = String(_cocoaString: $0.0).lowercaseString,
+                    s2 = String(_cocoaString: $1.0).lowercaseString
+                
+                switch(s1.subString(0, length: 5),s2.subString(0, length: 5)) {
+                case ("xmlns", "xmlns"):
+                    return s1 < s2
+                case ("xmlns", _):
+                    return true
+                case (_, "xmlns"):
+                    return false
+                default:
+                    return s1 < s2
+                }
             }
             for (key, value) in  attribArray {
                 xml += " \(key)=\"\(value)\""
@@ -501,4 +510,20 @@ public func !=(lhs: [NSObject: AnyObject], rhs: [NSObject: AnyObject]) -> Bool {
         } else { return true }
     }
     return false
+}
+
+extension String
+{
+    var length: Int {
+        get {
+            return Swift.count(self)
+        }
+    }
+    
+    func subString(startIndex: Int, length: Int) -> String
+    {
+        var start = self.length >= startIndex ? advance(self.startIndex, startIndex) : self.endIndex
+        var end = self.length >= startIndex + length ? advance(self.startIndex, startIndex + length) : self.endIndex
+        return self.substringWithRange(Range<String.Index>(start: start, end: end))
+    }
 }
