@@ -179,7 +179,8 @@
 		8BFE78A119F0054100914487 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = ae;
 				TargetAttributes = {
 					8BFE78A819F0054100914487 = {
@@ -301,6 +302,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -368,6 +370,7 @@
 				INFOPLIST_FILE = AEXMLExample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.tadija.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = AEXMLExample;
 			};
 			name = Debug;
@@ -380,6 +383,7 @@
 				INFOPLIST_FILE = AEXMLExample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.tadija.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = AEXMLExample;
 			};
 			name = Release;
@@ -398,6 +402,7 @@
 				);
 				INFOPLIST_FILE = AEXMLTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.tadija.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = AEXMLTests;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AEXMLExample.app/AEXMLExample";
 			};
@@ -413,6 +418,7 @@
 				);
 				INFOPLIST_FILE = AEXMLTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.tadija.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = AEXMLTests;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AEXMLExample.app/AEXMLExample";
 			};
