@@ -23,12 +23,14 @@ class AEXMLTests: XCTestCase {
         var xmlDocument = AEXMLDocument()
         
         // parse xml file
-        if let xmlPath = NSBundle.mainBundle().pathForResource(filename, ofType: "xml") {
-            if let data = NSData(contentsOfFile: xmlPath) {
-                var error: NSError?
-                if let xmlDoc = AEXMLDocument(xmlData: data, error: &error) {
-                    xmlDocument = xmlDoc
-                }
+        if let
+            xmlPath = NSBundle.mainBundle().pathForResource(filename, ofType: "xml"),
+            data = NSData(contentsOfFile: xmlPath)
+        {
+            do {
+                xmlDocument = try AEXMLDocument(xmlData: data)
+            } catch {
+                print("\(error)")
             }
         }
         

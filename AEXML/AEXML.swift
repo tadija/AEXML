@@ -291,6 +291,13 @@ public class AEXMLDocument: AEXMLElement {
     /// Root (the first child element) element of XML Document **(AEXMLError element if not exists)**.
     public var root: AEXMLElement { return children.count == 1 ? children.first! : AEXMLElement(AEXMLElement.errorElementName, value: "XML Document must have root element.") }
     
+    private struct Defaults {
+        static let version = 1.0
+        static let encoding = "utf-8"
+        static let standalone = "no"
+        static let documentName = "AEXMLDocument"
+    }
+    
     // MARK: Lifecycle
     
     /**
@@ -303,14 +310,14 @@ public class AEXMLDocument: AEXMLElement {
     
         :returns: An initialized XML Document object.
     */
-    public init(version: Double = 1.0, encoding: String = "utf-8", standalone: String = "no", root: AEXMLElement? = nil) {
+    public init(version: Double = Defaults.version, encoding: String = Defaults.encoding, standalone: String = Defaults.standalone, root: AEXMLElement? = nil) {
         // set document properties
         self.version = version
         self.encoding = encoding
         self.standalone = standalone
         
         // init super with default name
-        super.init("AEXMLDocument")
+        super.init(Defaults.documentName)
         
         // document has no parent element
         parent = nil
@@ -332,12 +339,9 @@ public class AEXMLDocument: AEXMLElement {
     
         :returns: An initialized XML Document object containing the parsed data. Returns `nil` if the data could not be parsed.
     */
-    public convenience init?(version: Double = 1.0, encoding: String = "utf-8", standalone: String = "no", xmlData: NSData, inout error: NSError?) {
+    public convenience init(version: Double = Defaults.version, encoding: String = Defaults.encoding, standalone: String = Defaults.standalone, xmlData: NSData) throws {
         self.init(version: version, encoding: encoding, standalone: standalone)
-        if let parseError = readXMLData(xmlData) {
-            error = parseError
-            return nil
-        }
+        try readXMLData(xmlData)
     }
     
     // MARK: Read XML
@@ -349,10 +353,10 @@ public class AEXMLDocument: AEXMLElement {
     
         :returns: `NSError` if parsing is not successfull, otherwise `nil`.
     */
-    public func readXMLData(data: NSData) -> NSError? {
+    public func readXMLData(data: NSData) throws {
         children.removeAll(keepCapacity: false)
         let xmlParser = AEXMLParser(xmlDocument: self, xmlData: data)
-        return xmlParser.tryParsing() ?? nil
+        try xmlParser.parse()
     }
     
     // MARK: Override
@@ -370,7 +374,7 @@ public class AEXMLDocument: AEXMLElement {
 
 // MARK: -
 
-class AEXMLParser: NSObject, NSXMLParserDelegate {
+private class AEXMLParser: NSObject, NSXMLParserDelegate {
     
     // MARK: Properties
     
@@ -393,34 +397,35 @@ class AEXMLParser: NSObject, NSXMLParserDelegate {
     
     // MARK: XML Parse
     
-    func tryParsing() -> NSError? {
-        var success = false
+    func parse() throws {
         let parser = NSXMLParser(data: xmlData)
         parser.delegate = self
-        success = parser.parse()
-        return success ? nil : parseError
+        let success = parser.parse()
+        if !success {
+            throw parseError ?? NSError(domain: "net.tadija.AEXML", code: 1, userInfo: nil)
+        }
     }
     
     // MARK: NSXMLParserDelegate
     
-    func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
+    @objc func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
         currentValue = String()
         currentElement = currentParent?.addChild(name: elementName, attributes: attributeDict)
         currentParent = currentElement
     }
     
-    func parser(parser: NSXMLParser, foundCharacters string: String) {
-        currentValue += string ?? String()
+    @objc func parser(parser: NSXMLParser, foundCharacters string: String) {
+        currentValue += string
         let newValue = currentValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         currentElement?.value = newValue == String() ? nil : newValue
     }
     
-    func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+    @objc func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         currentParent = currentParent?.parent
         currentElement = nil
     }
     
-    func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
+    @objc func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
         self.parseError = parseError
     }
     
