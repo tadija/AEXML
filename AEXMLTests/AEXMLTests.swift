@@ -269,7 +269,6 @@ class AEXMLTests: XCTestCase {
         let _ = children.addChild(name: "child")
         
         XCTAssertEqual(newXMLDocument.xmlString, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<children>\n\t<child attribute=\"attributeValue\">value</child>\n\t<child />\n</children>", "Should be able to print XML formatted string.")
-        XCTAssertEqual(newXMLDocument.xmlStringCompact, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><children><child attribute=\"attributeValue\">value</child><child /></children>", "Should be able to print compact XML string.")
     }
     
     // MARK: - XML Parse Performance
