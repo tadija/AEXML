@@ -341,7 +341,7 @@ public class AEXMLDocument: AEXMLElement {
     */
     public convenience init(version: Double = Defaults.version, encoding: String = Defaults.encoding, standalone: String = Defaults.standalone, xmlData: NSData) throws {
         self.init(version: version, encoding: encoding, standalone: standalone)
-        try readXMLData(xmlData)
+        try loadXMLData(xmlData)
     }
     
     // MARK: Read XML
@@ -353,7 +353,7 @@ public class AEXMLDocument: AEXMLElement {
     
         :returns: `NSError` if parsing is not successfull, otherwise `nil`.
     */
-    public func readXMLData(data: NSData) throws {
+    public func loadXMLData(data: NSData) throws {
         children.removeAll(keepCapacity: false)
         let xmlParser = AEXMLParser(xmlDocument: self, xmlData: data)
         try xmlParser.parse()
