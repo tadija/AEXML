@@ -65,7 +65,7 @@ class AEXMLTests: XCTestCase {
     
     func testChildrenElements() {
         var count = 0
-        for cat in exampleXML.root["cats"].children {
+        for _ in exampleXML.root["cats"].children {
             count++
         }
         XCTAssertEqual(count, 4, "Should be able to iterate children elements")
@@ -81,7 +81,7 @@ class AEXMLTests: XCTestCase {
         
         // iterate attributes
         var count = 0
-        for attribute in firstCatAttributes {
+        for _ in firstCatAttributes {
             count++
         }
         XCTAssertEqual(count, 2, "Should be able to iterate element attributes.")
@@ -142,7 +142,7 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(exampleXML.root["ducks"]["duck"].stringValue, "element <ducks> not found", "Should be able to tell you which element does not exist.")
         
         // optional
-        if let duck = exampleXML.root["ducks"]["duck"].first {
+        if let _ = exampleXML.root["ducks"]["duck"].first {
             XCTFail("Should not be able to find ducks here.")
         } else {
             XCTAssert(true)
@@ -152,7 +152,7 @@ class AEXMLTests: XCTestCase {
     func testAllElements() {
         var count = 0
         if let cats = exampleXML.root["cats"]["cat"].all {
-            for cat in cats {
+            for _ in cats {
                 count++
             }
         }
@@ -190,7 +190,7 @@ class AEXMLTests: XCTestCase {
     func testFindWithAttributes() {
         var count = 0
         if let bulls = exampleXML.root["dogs"]["dog"].allWithAttributes(["color" : "white"]) {
-            for bull in bulls {
+            for _ in bulls {
                 count++
             }
         }
@@ -231,7 +231,7 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(catsCount, 5, "Should be able to add child element with attributes to an element.")
         XCTAssertEqual(dogsCount, 5, "Should be able to add child element with attributes to an element.")
         
-        XCTAssertEqual(lastCat.attributes["color"] as! String, "orange", "Should be able to get attribute value from added element.")
+        XCTAssertEqual(lastCat.attributes["color"] as? String, "orange", "Should be able to get attribute value from added element.")
         XCTAssertEqual(penultDog.stringValue, "Kika", "Should be able to add child with attributes without overwrites existing elements. (Github Issue #28)")
     }
     
@@ -243,7 +243,7 @@ class AEXMLTests: XCTestCase {
         firstCat.addAttributes(["speed" : "fast", "years" : 7])
         
         XCTAssertEqual(firstCat.attributes.count, 5, "Should be able to add attributes to an element.")
-        XCTAssertEqual(firstCat.attributes["years"] as! Int, 7, "Should be able to get any attribute value now.")
+        XCTAssertEqual(firstCat.attributes["years"] as? Int, 7, "Should be able to get any attribute value now.")
     }
     
     func testRemoveChild() {
@@ -263,8 +263,8 @@ class AEXMLTests: XCTestCase {
     func testXMLString() {
         let newXMLDocument = AEXMLDocument()
         let children = newXMLDocument.addChild(name: "children")
-        let childWithValueAndAttributes = children.addChild(name: "child", value: "value", attributes: ["attribute" : "attributeValue"])
-        let childWithoutValue = children.addChild(name: "child")
+        let _ = children.addChild(name: "child", value: "value", attributes: ["attribute" : "attributeValue"])
+        let _ = children.addChild(name: "child")
         
         XCTAssertEqual(newXMLDocument.xmlString, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<children>\n\t<child attribute=\"attributeValue\">value</child>\n\t<child />\n</children>", "Should be able to print XML formatted string.")
         XCTAssertEqual(newXMLDocument.xmlStringCompact, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><children><child attribute=\"attributeValue\">value</child><child /></children>", "Should be able to print compact XML string.")
@@ -274,13 +274,13 @@ class AEXMLTests: XCTestCase {
     
     func testReadXMLPerformance() {
         self.measureBlock() {
-            let document = self.readXMLFromFile("plant_catalog")
+            _ = self.readXMLFromFile("plant_catalog")
         }
     }
     
     func testWriteXMLPerformance() {
         self.measureBlock() {
-            let xmlString = self.plantsXML.xmlString
+            _ = self.plantsXML.xmlString
         }
     }
     
