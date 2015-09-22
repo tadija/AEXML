@@ -41,13 +41,13 @@ public class AEXMLElement: NSObject {
     public private(set) var children: [AEXMLElement] = [AEXMLElement]()
     
     /// XML Element name.
-    public let name: String
+    public var name: String
     
     /// XML Element value.
     public var value: String?
     
     /// XML Element attributes.
-    public var attributes: [String : String] = [String : String]()
+    public var attributes: [String : String]
     
     /// String representation of `value` property (if `value` is `nil` this is empty String).
     public var stringValue: String { return value ?? String() }
@@ -63,6 +63,11 @@ public class AEXMLElement: NSObject {
     
     // MARK: Lifecycle
     
+    private struct Defaults {
+        static let name = String()
+        static let attributes = [String : String]()
+    }
+    
     /**
         Designated initializer - `name` is required, others are optional.
     
@@ -72,12 +77,10 @@ public class AEXMLElement: NSObject {
     
         :returns: An initialized `AEXMLElement` object.
     */
-    public init(_ name: String, value: String? = nil, attributes: [String : String]? = nil) {
-        self.name = name
+    public init(_ name: String? = nil, value: String? = nil, attributes: [String : String]? = nil) {
+        self.name = name ?? Defaults.name
         self.value = value
-        if let initialAttributes = attributes {
-            self.attributes = initialAttributes
-        }
+        self.attributes = attributes ?? Defaults.attributes
     }
     
     // MARK: XML Read
