@@ -47,7 +47,7 @@ public class AEXMLElement: NSObject {
     public var value: String?
     
     /// XML Element attributes.
-    public private(set) var attributes: [String : String]
+    public var attributes: [String : String] = [String : String]()
     
     /// String representation of `value` property (if `value` is `nil` this is empty String).
     public var stringValue: String { return value ?? String() }
@@ -72,10 +72,12 @@ public class AEXMLElement: NSObject {
     
         :returns: An initialized `AEXMLElement` object.
     */
-    public init(_ name: String, value: String? = nil, attributes: [String : String] = [String : String]()) {
+    public init(_ name: String, value: String? = nil, attributes: [String : String]? = nil) {
         self.name = name
         self.value = value
-        self.attributes = attributes
+        if let initialAttributes = attributes {
+            self.attributes = initialAttributes
+        }
     }
     
     // MARK: XML Read
@@ -167,30 +169,9 @@ public class AEXMLElement: NSObject {
         
         :returns: Child XML element with `self` as `parent`.
     */
-    public func addChild(name name: String, value: String? = nil, attributes: [String : String] = [String : String]()) -> AEXMLElement {
+    public func addChild(name name: String, value: String? = nil, attributes: [String : String]? = nil) -> AEXMLElement {
         let child = AEXMLElement(name, value: value, attributes: attributes)
         return addChild(child)
-    }
-    
-    /**
-        Adds given attribute to `self`.
-    
-        :param: name Attribute name.
-        :param: value Attribute value.
-    */
-    public func addAttribute(name: String, value: String) {
-        attributes[name] = value
-    }
-    
-    /**
-        Adds given attributes to `self`.
-        
-        :param: attributes Dictionary of Attribute names and values.
-    */
-    public func addAttributes(attributes: [String : String]) {
-        for (attributeName, attributeValue) in attributes {
-            addAttribute(attributeName, value: attributeValue)
-        }
     }
     
     /// Removes `self` from `parent` XML element.

@@ -239,10 +239,10 @@ class AEXMLTests: XCTestCase {
     
     func testAddAttributes() {
         let firstCat = exampleXML.root["cats"]["cat"]
-        // add single attribute
-        firstCat.addAttribute("funny", value: "true")
-        // add multiple attributes
-        firstCat.addAttributes(["speed" : "fast", "years" : "7"])
+
+        firstCat.attributes["funny"] = "true"
+        firstCat.attributes["speed"] = "fast"
+        firstCat.attributes["years"] = "7"
         
         XCTAssertEqual(firstCat.attributes.count, 5, "Should be able to add attributes to an element.")
         XCTAssertEqual(Int(firstCat.attributes["years"]!), 7, "Should be able to get any attribute value now.")
