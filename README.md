@@ -18,6 +18,7 @@ Class | Description
 - **Write XML** string
 - Covered with **unit tests**
 - Covered with [docs](http://tadija.net/projects/AEXML/docs/)
+- **Swift 2.0** ready
 
 
 ## Index
@@ -56,76 +57,77 @@ This is how you can use AEXML for working with this data:
 (for even more examples, look at the unit tests code included in project)
 
 ```swift
-// works only if data is successfully parsed
-// otherwise prints information about error with parsing
-var error: NSError?
-if let xmlDoc = AEXMLDocument(xmlData: data, error: &error) {
-    
+guard let
+    xmlPath = NSBundle.mainBundle().pathForResource("example", ofType: "xml"),
+    data = NSData(contentsOfFile: xmlPath)
+else { return }
+
+do {
+    let xmlDoc = try AEXMLDocument(xmlData: data)
+
     // prints the same XML structure as original
-    println(xmlDoc.xmlString)
-    
+    print(xmlDoc.xmlString)
+
     // prints cats, dogs
     for child in xmlDoc.root.children {
-        println(child.name)
+        print(child.name)
     }
-    
+
     // prints Optional("Tinna") (first element)
-    println(xmlDoc.root["cats"]["cat"].value)
+    print(xmlDoc.root["cats"]["cat"].value)
 
     // prints Tinna (first element)
-    println(xmlDoc.root["cats"]["cat"].stringValue)
+    print(xmlDoc.root["cats"]["cat"].stringValue)
 
     // prints Optional("Kika") (last element)
-    println(xmlDoc.root["dogs"]["dog"].last?.value)
+    print(xmlDoc.root["dogs"]["dog"].last?.value)
 
     // prints Betty (3rd element)
-    println(xmlDoc.root["dogs"].children[2].stringValue)
+    print(xmlDoc.root["dogs"].children[2].stringValue)
 
     // prints Tinna, Rose, Caesar
     if let cats = xmlDoc.root["cats"]["cat"].all {
         for cat in cats {
             if let name = cat.value {
-                println(name)
+                print(name)
             }
         }
     }
-    
+
     // prints Villy, Spot
     for dog in xmlDoc.root["dogs"]["dog"].all! {
-        if let color = dog.attributes["color"] as? String {
+        if let color = dog.attributes["color"] {
             if color == "white" {
-                println(dog.stringValue)
+                print(dog.stringValue)
             }
         }
     }
-    
+
+    // prints Tinna
+    if let cats = xmlDoc.root["cats"]["cat"].allWithValue("Tinna") {
+        for cat in cats {
+            print(cat.stringValue)
+        }
+    }
+
     // prints Caesar
     if let cats = xmlDoc.root["cats"]["cat"].allWithAttributes(["breed" : "Domestic", "color" : "yellow"]) {
         for cat in cats {
-            println(cat.stringValue)
+            print(cat.stringValue)
         }
     }
-    
+
     // prints 4
-    println(xmlDoc.root["cats"]["cat"].count)
-    
-    // prints 2
-    println(xmlDoc.root["dogs"]["dog"].countWithAttributes(["breed" : "Bull Terrier"]))
-    
-    // prints 1
-    println(xmlDoc.root["cats"]["cat"].countWithAttributes(["breed" : "Domestic", "color" : "darkgray"]))
-    
+    print(xmlDoc.root["cats"]["cat"].count)
+
     // prints Siberian
-    println(xmlDoc.root["cats"]["cat"].attributes["breed"]!)
-    
-    // prints <cat breed="Siberian" color="lightgray">Tinna</cat>
-    println(xmlDoc.root["cats"]["cat"].xmlStringCompact)
-    
+    print(xmlDoc.root["cats"]["cat"].attributes["breed"]!)
+
     // prints element <badexample> not found
-    println(xmlDoc["badexample"]["notexisting"].stringValue)
-    
-} else {
-    println("description: \(error?.localizedDescription)\ninfo: \(error?.userInfo)")
+    print(xmlDoc["badexample"]["notexisting"].stringValue)
+    }
+catch {
+    print("\(error)")
 }
 ```
 
@@ -164,7 +166,7 @@ println(soapRequest.xmlString)
 
 
 ## Requirements
-- Xcode 6.4+
+- Xcode 7.0
 - iOS 8.0+
 - AEXML doesn't require any additional libraries for it to work.
 
