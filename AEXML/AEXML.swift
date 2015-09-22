@@ -331,7 +331,7 @@ public class AEXMLDocument: AEXMLElement {
     }
     
     /**
-        Convenience initializer - used for parsing XML data (by calling `readXMLData:` internally).
+        Convenience initializer - used for parsing XML data (by calling `loadXMLData:` internally).
     
         :param: version Version value for XML Document header (defaults to 1.0).
         :param: encoding Encoding value for XML Document header (defaults to "utf-8").
