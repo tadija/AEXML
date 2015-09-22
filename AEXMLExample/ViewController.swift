@@ -56,7 +56,7 @@ class ViewController: UIViewController {
             
             // prints Villy, Spot
             for dog in xmlDoc.root["dogs"]["dog"].all! {
-                if let color = dog.attributes["color"] as? String {
+                if let color = dog.attributes["color"] {
                     if color == "white" {
                         print(dog.stringValue)
                     }

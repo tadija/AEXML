@@ -89,7 +89,7 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(count, 2, "Should be able to iterate element attributes.")
         
         // get attribute value
-        if let firstCatBreed = firstCatAttributes["breed"] as? String {
+        if let firstCatBreed = firstCatAttributes["breed"] {
             XCTAssertEqual(firstCatBreed, "Siberian", "Should be able to return attribute value.")
         } else {
             XCTFail("The first cat should have breed attribute.")
@@ -233,19 +233,19 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(catsCount, 5, "Should be able to add child element with attributes to an element.")
         XCTAssertEqual(dogsCount, 5, "Should be able to add child element with attributes to an element.")
         
-        XCTAssertEqual(lastCat.attributes["color"] as? String, "orange", "Should be able to get attribute value from added element.")
+        XCTAssertEqual(lastCat.attributes["color"], "orange", "Should be able to get attribute value from added element.")
         XCTAssertEqual(penultDog.stringValue, "Kika", "Should be able to add child with attributes without overwrites existing elements. (Github Issue #28)")
     }
     
     func testAddAttributes() {
         let firstCat = exampleXML.root["cats"]["cat"]
         // add single attribute
-        firstCat.addAttribute("funny", value: true)
+        firstCat.addAttribute("funny", value: "true")
         // add multiple attributes
-        firstCat.addAttributes(["speed" : "fast", "years" : 7])
+        firstCat.addAttributes(["speed" : "fast", "years" : "7"])
         
         XCTAssertEqual(firstCat.attributes.count, 5, "Should be able to add attributes to an element.")
-        XCTAssertEqual(firstCat.attributes["years"] as? Int, 7, "Should be able to get any attribute value now.")
+        XCTAssertEqual(Int(firstCat.attributes["years"]!), 7, "Should be able to get any attribute value now.")
     }
     
     func testRemoveChild() {

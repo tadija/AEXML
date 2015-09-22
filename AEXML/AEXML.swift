@@ -30,7 +30,7 @@ import Foundation
 
     You can access its structure by using subscript like this: `element["foo"]["bar"]` would return `<bar></bar>` element from `<element><foo><bar></bar></foo></element>` XML as an `AEXMLElement` object.
 */
-public class AEXMLElement: Equatable {
+public class AEXMLElement: NSObject {
     
     // MARK: Properties
     
@@ -47,7 +47,7 @@ public class AEXMLElement: Equatable {
     public var value: String?
     
     /// XML Element attributes.
-    public private(set) var attributes: [NSObject : AnyObject]
+    public private(set) var attributes: [String : String]
     
     /// String representation of `value` property (if `value` is `nil` this is empty String).
     public var stringValue: String { return value ?? String() }
@@ -72,7 +72,7 @@ public class AEXMLElement: Equatable {
     
         :returns: An initialized `AEXMLElement` object.
     */
-    public init(_ name: String, value: String? = nil, attributes: [NSObject : AnyObject] = [NSObject : AnyObject]()) {
+    public init(_ name: String, value: String? = nil, attributes: [String : String] = [String : String]()) {
         self.name = name
         self.value = value
         self.attributes = attributes
@@ -81,7 +81,7 @@ public class AEXMLElement: Equatable {
     // MARK: XML Read
     
     /// This element name is used when unable to find element.
-    public class var errorElementName: String { return "AEXMLError" }
+    public static let errorElementName = "AEXMLError"
     
     // The first element with given name **(AEXMLError element if not exists)**.
     public subscript(key: String) -> AEXMLElement {
@@ -112,13 +112,13 @@ public class AEXMLElement: Equatable {
     
         :returns: Optional Array of found XML elements.
     */
-    public func allWithAttributes <K: NSObject, V: AnyObject where K: Equatable, V: Equatable> (attributes: [K : V]) -> [AEXMLElement]? {
+    public func allWithAttributes(attributes: [String : String]) -> [AEXMLElement]? {
         var found = [AEXMLElement]()
         if let elements = all {
             for element in elements {
                 var countAttributes = 0
                 for (key, value) in attributes {
-                    if element.attributes[key] as? V == value {
+                    if element.attributes[key] == value {
                         countAttributes++
                     }
                 }
@@ -139,7 +139,7 @@ public class AEXMLElement: Equatable {
     
         :returns: Number of elements.
     */
-    public func countWithAttributes <K: NSObject, V: AnyObject where K: Equatable, V: Equatable> (attributes: [K : V]) -> Int {
+    public func countWithAttributes(attributes: [String : String]) -> Int {
         return allWithAttributes(attributes)?.count ?? 0
     }
     
@@ -167,7 +167,7 @@ public class AEXMLElement: Equatable {
         
         :returns: Child XML element with `self` as `parent`.
     */
-    public func addChild(name name: String, value: String? = nil, attributes: [NSObject : AnyObject] = [NSObject : AnyObject]()) -> AEXMLElement {
+    public func addChild(name name: String, value: String? = nil, attributes: [String : String] = [String : String]()) -> AEXMLElement {
         let child = AEXMLElement(name, value: value, attributes: attributes)
         return addChild(child)
     }
@@ -178,7 +178,7 @@ public class AEXMLElement: Equatable {
         :param: name Attribute name.
         :param: value Attribute value.
     */
-    public func addAttribute(name: NSObject, value: AnyObject) {
+    public func addAttribute(name: String, value: String) {
         attributes[name] = value
     }
     
@@ -187,7 +187,7 @@ public class AEXMLElement: Equatable {
         
         :param: attributes Dictionary of Attribute names and values.
     */
-    public func addAttributes(attributes: [NSObject : AnyObject]) {
+    public func addAttributes(attributes: [String : String]) {
         for (attributeName, attributeValue) in attributes {
             addAttribute(attributeName, value: attributeValue)
         }
@@ -214,12 +214,11 @@ public class AEXMLElement: Equatable {
         return count
     }
     
-    private func indentation(count: Int) -> String {
+    private func indentation(var count: Int) -> String {
         var indent = String()
-        if count > 0 {
-            for _ in 0..<count {
-                indent += "\t"
-            }
+        while count > 0 {
+            indent += "\t"
+            count--
         }
         return indent
     }
@@ -424,30 +423,4 @@ private class AEXMLParser: NSObject, NSXMLParserDelegate {
         self.parseError = parseError
     }
     
-}
-
-// MARK: - Equatable
-
-/**
-    Implementation of `Equatable` protocol for `AEXMLElement`.
-*/
-public func ==(lhs: AEXMLElement, rhs: AEXMLElement) -> Bool {
-    if lhs.name != rhs.name { return false }
-    if lhs.value != rhs.value { return false }
-    if lhs.parent != rhs.parent { return false }
-    if lhs.children != rhs.children { return false }
-    if lhs.attributes != rhs.attributes { return false }
-    return true
-}
-
-/**
-    Implementation of `Equatable` protocol for `AEXMLElement`.
-*/
-public func !=(lhs: [NSObject: AnyObject], rhs: [NSObject: AnyObject]) -> Bool {
-    for (key, lhsValue) in lhs {
-        if let rhsValue: AnyObject = rhs[key] {
-            if !(lhsValue === rhsValue) { return true }
-        } else { return true }
-    }
-    return false
 }
