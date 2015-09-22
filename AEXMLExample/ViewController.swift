@@ -63,6 +63,13 @@ class ViewController: UIViewController {
                 }
             }
             
+            // prints Tinna
+            if let cats = xmlDoc.root["cats"]["cat"].allWithValue("Tinna") {
+                for cat in cats {
+                    print(cat.stringValue)
+                }
+            }
+            
             // prints Caesar
             if let cats = xmlDoc.root["cats"]["cat"].allWithAttributes(["breed" : "Domestic", "color" : "yellow"]) {
                 for cat in cats {

@@ -24,11 +24,11 @@
 
 import Foundation
 
-
 /**
     This is base class for holding XML structure.
 
-    You can access its structure by using subscript like this: `element["foo"]["bar"]` would return `<bar></bar>` element from `<element><foo><bar></bar></foo></element>` XML as an `AEXMLElement` object.
+    You can access its structure by using subscript like this: 
+    `element["foo"]["bar"]` would return `<bar></bar>` element from `<element><foo><bar></bar></foo></element>` XML as an `AEXMLElement` object.
 */
 public class AEXMLElement: NSObject {
     
@@ -40,13 +40,13 @@ public class AEXMLElement: NSObject {
     /// Child XML elements.
     public private(set) var children: [AEXMLElement] = [AEXMLElement]()
     
-    /// XML Element name.
+    /// XML Element name (defaults to empty string).
     public var name: String
     
     /// XML Element value.
     public var value: String?
     
-    /// XML Element attributes.
+    /// XML Element attributes (defaults to empty dictionary).
     public var attributes: [String : String]
     
     /// String representation of `value` property (if `value` is `nil` this is empty String).
@@ -75,15 +75,15 @@ public class AEXMLElement: NSObject {
     /// Double representation of `value` property (this is **0.00** if `value` can't be represented as Double).
     public var doubleValue: Double { return (stringValue as NSString).doubleValue }
     
-    // MARK: Lifecycle
-    
     private struct Defaults {
         static let name = String()
         static let attributes = [String : String]()
     }
     
+    // MARK: Lifecycle
+    
     /**
-        Designated initializer - `name` is required, others are optional.
+        Designated initializer - all parameters are optional.
     
         :param: name XML element name.
         :param: value XML element value
@@ -123,14 +123,7 @@ public class AEXMLElement: NSObject {
     
     /// Returns number of all elements with equal name as `self`.
     public var count: Int { return all?.count ?? 0 }
-    
-    /**
-        Returns all element with given condition.
-        
-        :param: fulfillCondition Block which checks if condition for given element is met. Returns true if it is, otherwise false.
-        
-        :returns: Optional Array of found XML elements.
-    */
+
     private func allWithCondition(fulfillCondition: (element: AEXMLElement) -> Bool) -> [AEXMLElement]? {
         var found = [AEXMLElement]()
         if let elements = all {
@@ -146,9 +139,9 @@ public class AEXMLElement: NSObject {
     }
     
     /**
-        Returns all element with given value.
+        Returns all elements with given value.
         
-        :param: value Element value.
+        :param: value XML element value.
         
         :returns: Optional Array of found XML elements.
     */
@@ -160,7 +153,7 @@ public class AEXMLElement: NSObject {
     }
     
     /**
-        Returns all element with given attributes.
+        Returns all elements with given attributes.
     
         :param: attributes Dictionary of Keys and Values of attributes.
     
@@ -238,7 +231,7 @@ public class AEXMLElement: NSObject {
         return indent
     }
     
-    /// Complete hierarchy of `self` and `children` in **XML** formatted String
+    /// Complete hierarchy of `self` and `children` in **XML** escaped and formatted String
     public var xmlString: String {
         var xml = String()
         
