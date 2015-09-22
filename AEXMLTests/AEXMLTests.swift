@@ -154,7 +154,8 @@ class AEXMLTests: XCTestCase {
     func testAllElements() {
         var count = 0
         if let cats = exampleXML.root["cats"]["cat"].all {
-            for _ in cats {
+            for cat in cats {
+                XCTAssertNotNil(cat.parent, "Each child element should have its parent element.")
                 count++
             }
         }
