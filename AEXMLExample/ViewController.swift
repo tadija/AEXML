@@ -73,12 +73,6 @@ class ViewController: UIViewController {
             // prints 4
             print(xmlDoc.root["cats"]["cat"].count)
             
-            // prints 2
-            print(xmlDoc.root["dogs"]["dog"].countWithAttributes(["breed" : "Bull Terrier"]))
-            
-            // prints 1
-            print(xmlDoc.root["cats"]["cat"].countWithAttributes(["breed" : "Domestic", "color" : "darkgray"]))
-            
             // prints Siberian
             print(xmlDoc.root["cats"]["cat"].attributes["breed"]!)
             

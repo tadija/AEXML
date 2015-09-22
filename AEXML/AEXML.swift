@@ -111,23 +111,17 @@ public class AEXMLElement: NSObject {
     public var count: Int { return all?.count ?? 0 }
     
     /**
-        Returns all element with given attributes.
-    
-        :param: attributes Array of Keys (`NSObject`) and Value (`AnyObject`) - both must conform to `Equatable` protocol.
-    
+        Returns all element with given condition.
+        
+        :param: fulfillCondition Block which checks if condition for given element is met. Returns true if it is, otherwise false.
+        
         :returns: Optional Array of found XML elements.
     */
-    public func allWithAttributes(attributes: [String : String]) -> [AEXMLElement]? {
+    private func allWithCondition(fulfillCondition: (element: AEXMLElement) -> Bool) -> [AEXMLElement]? {
         var found = [AEXMLElement]()
         if let elements = all {
             for element in elements {
-                var countAttributes = 0
-                for (key, value) in attributes {
-                    if element.attributes[key] == value {
-                        countAttributes++
-                    }
-                }
-                if countAttributes == attributes.count {
+                if fulfillCondition(element: element) {
                     found.append(element)
                 }
             }
@@ -138,14 +132,37 @@ public class AEXMLElement: NSObject {
     }
     
     /**
-        Counts elements with given attributes.
-    
-        :param: attributes Array of Keys (`NSObject`) and Value (`AnyObject`) - both must conform to `Equatable` protocol.
-    
-        :returns: Number of elements.
+        Returns all element with given value.
+        
+        :param: value Element value.
+        
+        :returns: Optional Array of found XML elements.
     */
-    public func countWithAttributes(attributes: [String : String]) -> Int {
-        return allWithAttributes(attributes)?.count ?? 0
+    public func allWithValue(value: String) -> [AEXMLElement]? {
+        let found = allWithCondition { (element) -> Bool in
+            return element.value == value
+        }
+        return found
+    }
+    
+    /**
+        Returns all element with given attributes.
+    
+        :param: attributes Dictionary of Keys and Values of attributes.
+    
+        :returns: Optional Array of found XML elements.
+    */
+    public func allWithAttributes(attributes: [String : String]) -> [AEXMLElement]? {
+        let found = allWithCondition { (element) -> Bool in
+            var countAttributes = 0
+            for (key, value) in attributes {
+                if element.attributes[key] == value {
+                    countAttributes++
+                }
+            }
+            return countAttributes == attributes.count
+        }
+        return found
     }
     
     // MARK: XML Write

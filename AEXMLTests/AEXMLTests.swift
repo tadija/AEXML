@@ -190,19 +190,27 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(dogsCount, 4, "Should be able to count elements.")
     }
     
-    func testFindWithAttributes() {
+    func testAllWithValue() {
+        let cats = exampleXML.root["cats"]
+        cats.addChild(name: "cat", value: "Tinna")
+        
+        var count = 0
+        if let tinnas = cats["cat"].allWithValue("Tinna") {
+            for _ in tinnas {
+                count++
+            }
+        }
+        XCTAssertEqual(count, 2, "Should be able to return elements with given value.")
+    }
+    
+    func testAllWithAttributes() {
         var count = 0
         if let bulls = exampleXML.root["dogs"]["dog"].allWithAttributes(["color" : "white"]) {
             for _ in bulls {
                 count++
             }
         }
-        XCTAssertEqual(count, 2, "Should be able to iterate elements with given attributes.")
-    }
-    
-    func testCountWithAttributes() {
-        let darkGrayDomesticCatsCount = exampleXML.root["cats"]["cat"].countWithAttributes(["breed" : "Domestic", "color" : "darkgray"])
-        XCTAssertEqual(darkGrayDomesticCatsCount, 1, "Should be able to count elements with given attributes.")
+        XCTAssertEqual(count, 2, "Should be able to return elements with given attributes.")
     }
     
     // MARK: - XML Write
