@@ -24,13 +24,13 @@
 
 import Foundation
 
-
 /**
     This is base class for holding XML structure.
 
-    You can access its structure by using subscript like this: `element["foo"]["bar"]` would return `<bar></bar>` element from `<element><foo><bar></bar></foo></element>` XML as an `AEXMLElement` object.
+    You can access its structure by using subscript like this: 
+    `element["foo"]["bar"]` would return `<bar></bar>` element from `<element><foo><bar></bar></foo></element>` XML as an `AEXMLElement` object.
 */
-public class AEXMLElement: Equatable {
+public class AEXMLElement: NSObject {
     
     // MARK: Properties
     
@@ -40,31 +40,50 @@ public class AEXMLElement: Equatable {
     /// Child XML elements.
     public private(set) var children: [AEXMLElement] = [AEXMLElement]()
     
-    /// XML Element name.
-    public let name: String
+    /// XML Element name (defaults to empty string).
+    public var name: String
     
     /// XML Element value.
     public var value: String?
     
-    /// XML Element attributes.
-    public private(set) var attributes: [NSObject : AnyObject]
+    /// XML Element attributes (defaults to empty dictionary).
+    public var attributes: [String : String]
     
     /// String representation of `value` property (if `value` is `nil` this is empty String).
     public var stringValue: String { return value ?? String() }
     
+    /// String representation of `value` property with special characters escaped (if `value` is `nil` this is empty String).
+    public var escapedStringValue: String {
+        // we need to make sure "&" is escaped first. Not doing this may break escaping the other characters
+        var escapedString = stringValue.stringByReplacingOccurrencesOfString("&", withString: "&amp;", options: .LiteralSearch)
+        
+        // replace the other four special characters
+        let escapeChars = ["<" : "&lt;", ">" : "&gt;", "'" : "&apos;", "\"" : "&quot;"]
+        for (char, echar) in escapeChars {
+            escapedString = escapedString.stringByReplacingOccurrencesOfString(char, withString: echar, options: .LiteralSearch)
+        }
+        
+        return escapedString
+    }
+    
     /// Boolean representation of `value` property (if `value` is "true" or 1 this is `True`, otherwise `False`).
-    public var boolValue: Bool { return stringValue.lowercaseString == "true" || stringValue.toInt() == 1 ? true : false }
+    public var boolValue: Bool { return stringValue.lowercaseString == "true" || Int(stringValue) == 1 ? true : false }
     
     /// Integer representation of `value` property (this is **0** if `value` can't be represented as Integer).
-    public var intValue: Int { return stringValue.toInt() ?? 0 }
+    public var intValue: Int { return Int(stringValue) ?? 0 }
     
     /// Double representation of `value` property (this is **0.00** if `value` can't be represented as Double).
     public var doubleValue: Double { return (stringValue as NSString).doubleValue }
     
+    private struct Defaults {
+        static let name = String()
+        static let attributes = [String : String]()
+    }
+    
     // MARK: Lifecycle
     
     /**
-        Designated initializer - `name` is required, others are optional.
+        Designated initializer - all parameters are optional.
     
         :param: name XML element name.
         :param: value XML element value
@@ -72,16 +91,16 @@ public class AEXMLElement: Equatable {
     
         :returns: An initialized `AEXMLElement` object.
     */
-    public init(_ name: String, value: String? = nil, attributes: [NSObject : AnyObject] = [NSObject : AnyObject]()) {
-        self.name = name
+    public init(_ name: String? = nil, value: String? = nil, attributes: [String : String]? = nil) {
+        self.name = name ?? Defaults.name
         self.value = value
-        self.attributes = attributes
+        self.attributes = attributes ?? Defaults.attributes
     }
     
     // MARK: XML Read
     
     /// This element name is used when unable to find element.
-    public class var errorElementName: String { return "AEXMLError" }
+    public static let errorElementName = "AEXMLError"
     
     // The first element with given name **(AEXMLError element if not exists)**.
     public subscript(key: String) -> AEXMLElement {
@@ -104,25 +123,12 @@ public class AEXMLElement: Equatable {
     
     /// Returns number of all elements with equal name as `self`.
     public var count: Int { return all?.count ?? 0 }
-    
-    /**
-        Returns all element with given attributes.
-    
-        :param: attributes Array of Keys (`NSObject`) and Value (`AnyObject`) - both must conform to `Equatable` protocol.
-    
-        :returns: Optional Array of found XML elements.
-    */
-    public func allWithAttributes <K: NSObject, V: AnyObject where K: Equatable, V: Equatable> (attributes: [K : V]) -> [AEXMLElement]? {
+
+    private func allWithCondition(fulfillCondition: (element: AEXMLElement) -> Bool) -> [AEXMLElement]? {
         var found = [AEXMLElement]()
         if let elements = all {
             for element in elements {
-                var countAttributes = 0
-                for (key, value) in attributes {
-                    if element.attributes[key] as? V == value {
-                        countAttributes++
-                    }
-                }
-                if countAttributes == attributes.count {
+                if fulfillCondition(element: element) {
                     found.append(element)
                 }
             }
@@ -133,14 +139,37 @@ public class AEXMLElement: Equatable {
     }
     
     /**
-        Counts elements with given attributes.
-    
-        :param: attributes Array of Keys (`NSObject`) and Value (`AnyObject`) - both must conform to `Equatable` protocol.
-    
-        :returns: Number of elements.
+        Returns all elements with given value.
+        
+        :param: value XML element value.
+        
+        :returns: Optional Array of found XML elements.
     */
-    public func countWithAttributes <K: NSObject, V: AnyObject where K: Equatable, V: Equatable> (attributes: [K : V]) -> Int {
-        return allWithAttributes(attributes)?.count ?? 0
+    public func allWithValue(value: String) -> [AEXMLElement]? {
+        let found = allWithCondition { (element) -> Bool in
+            return element.value == value
+        }
+        return found
+    }
+    
+    /**
+        Returns all elements with given attributes.
+    
+        :param: attributes Dictionary of Keys and Values of attributes.
+    
+        :returns: Optional Array of found XML elements.
+    */
+    public func allWithAttributes(attributes: [String : String]) -> [AEXMLElement]? {
+        let found = allWithCondition { (element) -> Bool in
+            var countAttributes = 0
+            for (key, value) in attributes {
+                if element.attributes[key] == value {
+                    countAttributes++
+                }
+            }
+            return countAttributes == attributes.count
+        }
+        return found
     }
     
     // MARK: XML Write
@@ -167,30 +196,9 @@ public class AEXMLElement: Equatable {
         
         :returns: Child XML element with `self` as `parent`.
     */
-    public func addChild(#name: String, value: String? = nil, attributes: [NSObject : AnyObject] = [NSObject : AnyObject]()) -> AEXMLElement {
+    public func addChild(name name: String, value: String? = nil, attributes: [String : String]? = nil) -> AEXMLElement {
         let child = AEXMLElement(name, value: value, attributes: attributes)
         return addChild(child)
-    }
-    
-    /**
-        Adds given attribute to `self`.
-    
-        :param: name Attribute name.
-        :param: value Attribute value.
-    */
-    public func addAttribute(name: NSObject, value: AnyObject) {
-        attributes[name] = value
-    }
-    
-    /**
-        Adds given attributes to `self`.
-        
-        :param: attributes Dictionary of Attribute names and values.
-    */
-    public func addAttributes(attributes: [NSObject : AnyObject]) {
-        for (attributeName, attributeValue) in attributes {
-            addAttribute(attributeName, value: attributeValue)
-        }
     }
     
     /// Removes `self` from `parent` XML element.
@@ -199,7 +207,7 @@ public class AEXMLElement: Equatable {
     }
     
     private func removeChild(child: AEXMLElement) {
-        if let childIndex = find(children, child) {
+        if let childIndex = children.indexOf(child) {
             children.removeAtIndex(childIndex)
         }
     }
@@ -214,17 +222,16 @@ public class AEXMLElement: Equatable {
         return count
     }
     
-    private func indentation(count: Int) -> String {
+    private func indentation(var count: Int) -> String {
         var indent = String()
-        if count > 0 {
-            for i in 0..<count {
-                indent += "\t"
-            }
+        while count > 0 {
+            indent += "\t"
+            count--
         }
         return indent
     }
     
-    /// Complete hierarchy of `self` and `children` in **XML** formatted String
+    /// Complete hierarchy of `self` and `children` in **XML** escaped and formatted String
     public var xmlString: String {
         var xml = String()
         
@@ -254,18 +261,13 @@ public class AEXMLElement: Equatable {
                 xml += "</\(name)>"
             } else {
                 // insert string value and close element
-                xml += ">\(stringValue)</\(name)>"
+                xml += ">\(escapedStringValue)</\(name)>"
             }
         }
         
         return xml
     }
-    
-    /// Same as `xmlString` but without `\n` and `\t` characters
-    public var xmlStringCompact: String {
-        let chars = NSCharacterSet(charactersInString: "\n\t")
-        return join("", xmlString.componentsSeparatedByCharactersInSet(chars))
-    }
+
 }
 
 // MARK: -
@@ -291,6 +293,13 @@ public class AEXMLDocument: AEXMLElement {
     /// Root (the first child element) element of XML Document **(AEXMLError element if not exists)**.
     public var root: AEXMLElement { return children.count == 1 ? children.first! : AEXMLElement(AEXMLElement.errorElementName, value: "XML Document must have root element.") }
     
+    private struct Defaults {
+        static let version = 1.0
+        static let encoding = "utf-8"
+        static let standalone = "no"
+        static let documentName = "AEXMLDocument"
+    }
+    
     // MARK: Lifecycle
     
     /**
@@ -303,14 +312,14 @@ public class AEXMLDocument: AEXMLElement {
     
         :returns: An initialized XML Document object.
     */
-    public init(version: Double = 1.0, encoding: String = "utf-8", standalone: String = "no", root: AEXMLElement? = nil) {
+    public init(version: Double = Defaults.version, encoding: String = Defaults.encoding, standalone: String = Defaults.standalone, root: AEXMLElement? = nil) {
         // set document properties
         self.version = version
         self.encoding = encoding
         self.standalone = standalone
         
         // init super with default name
-        super.init("AEXMLDocument")
+        super.init(Defaults.documentName)
         
         // document has no parent element
         parent = nil
@@ -322,7 +331,7 @@ public class AEXMLDocument: AEXMLElement {
     }
     
     /**
-        Convenience initializer - used for parsing XML data (by calling `readXMLData:` internally).
+        Convenience initializer - used for parsing XML data (by calling `loadXMLData:` internally).
     
         :param: version Version value for XML Document header (defaults to 1.0).
         :param: encoding Encoding value for XML Document header (defaults to "utf-8").
@@ -332,12 +341,9 @@ public class AEXMLDocument: AEXMLElement {
     
         :returns: An initialized XML Document object containing the parsed data. Returns `nil` if the data could not be parsed.
     */
-    public convenience init?(version: Double = 1.0, encoding: String = "utf-8", standalone: String = "no", xmlData: NSData, inout error: NSError?) {
+    public convenience init(version: Double = Defaults.version, encoding: String = Defaults.encoding, standalone: String = Defaults.standalone, xmlData: NSData) throws {
         self.init(version: version, encoding: encoding, standalone: standalone)
-        if let parseError = readXMLData(xmlData) {
-            error = parseError
-            return nil
-        }
+        try loadXMLData(xmlData)
     }
     
     // MARK: Read XML
@@ -349,10 +355,10 @@ public class AEXMLDocument: AEXMLElement {
     
         :returns: `NSError` if parsing is not successfull, otherwise `nil`.
     */
-    public func readXMLData(data: NSData) -> NSError? {
+    public func loadXMLData(data: NSData) throws {
         children.removeAll(keepCapacity: false)
         let xmlParser = AEXMLParser(xmlDocument: self, xmlData: data)
-        return xmlParser.tryParsing() ?? nil
+        try xmlParser.parse()
     }
     
     // MARK: Override
@@ -370,7 +376,7 @@ public class AEXMLDocument: AEXMLElement {
 
 // MARK: -
 
-class AEXMLParser: NSObject, NSXMLParserDelegate {
+private class AEXMLParser: NSObject, NSXMLParserDelegate {
     
     // MARK: Properties
     
@@ -393,61 +399,36 @@ class AEXMLParser: NSObject, NSXMLParserDelegate {
     
     // MARK: XML Parse
     
-    func tryParsing() -> NSError? {
-        var success = false
+    func parse() throws {
         let parser = NSXMLParser(data: xmlData)
         parser.delegate = self
-        success = parser.parse()
-        return success ? nil : parseError
+        let success = parser.parse()
+        if !success {
+            throw parseError ?? NSError(domain: "net.tadija.AEXML", code: 1, userInfo: nil)
+        }
     }
     
     // MARK: NSXMLParserDelegate
     
-    func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [NSObject : AnyObject]) {
+    @objc func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
         currentValue = String()
         currentElement = currentParent?.addChild(name: elementName, attributes: attributeDict)
         currentParent = currentElement
     }
     
-    func parser(parser: NSXMLParser, foundCharacters string: String?) {
-        currentValue += string ?? String()
+    @objc func parser(parser: NSXMLParser, foundCharacters string: String) {
+        currentValue += string
         let newValue = currentValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         currentElement?.value = newValue == String() ? nil : newValue
     }
     
-    func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+    @objc func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         currentParent = currentParent?.parent
         currentElement = nil
     }
     
-    func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
+    @objc func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
         self.parseError = parseError
     }
     
-}
-
-// MARK: - Equatable
-
-/**
-    Implementation of `Equatable` protocol for `AEXMLElement`.
-*/
-public func ==(lhs: AEXMLElement, rhs: AEXMLElement) -> Bool {
-    if lhs.name != rhs.name { return false }
-    if lhs.value != rhs.value { return false }
-    if lhs.parent != rhs.parent { return false }
-    if lhs.children != rhs.children { return false }
-    if lhs.attributes != rhs.attributes { return false }
-    return true
-}
-
-/**
-    Implementation of `Equatable` protocol for `AEXMLElement`.
-*/
-public func !=(lhs: [NSObject: AnyObject], rhs: [NSObject: AnyObject]) -> Bool {
-    for (key, lhsValue) in lhs {
-        if let rhsValue: AnyObject = rhs[key] {
-            if !(lhsValue === rhsValue) { return true }
-        } else { return true }
-    }
-    return false
 }
