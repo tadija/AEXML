@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>D5B902C5-C7EF-4A13-9E72-34D04BC5D6D1</string>
+	<key>IDESourceControlProjectName</key>
+	<string>AEXML</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>A480BB2849036CF504F1F2E5D43B67BE59D35121</key>
+		<string>https://github.com/fumitoito/AEXML.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>AEXML.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>A480BB2849036CF504F1F2E5D43B67BE59D35121</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/fumitoito/AEXML.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>A480BB2849036CF504F1F2E5D43B67BE59D35121</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>A480BB2849036CF504F1F2E5D43B67BE59D35121</string>
+			<key>IDESourceControlWCCName</key>
+			<string>AEXML</string>
+		</dict>
+	</array>
+</dict>
+</plist>
