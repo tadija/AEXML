@@ -19,7 +19,7 @@ class AEXMLTests: XCTestCase {
     
     // MARK: - Helper
     
-    func readXMLFromFile(filename: String) -> AEXMLDocument {
+    func readXMLFromFile(filename: String, shouldIncludeNamespaces: Bool = true) -> AEXMLDocument {
         var xmlDocument = AEXMLDocument()
         
         // parse xml file
@@ -28,7 +28,8 @@ class AEXMLTests: XCTestCase {
             data = NSData(contentsOfFile: xmlPath)
         {
             do {
-                xmlDocument = try AEXMLDocument(xmlData: data)
+                xmlDocument = AEXMLDocument()
+                try xmlDocument.loadXMLData(data, shouldIncludeNamespaces: shouldIncludeNamespaces)
             } catch {
                 print("\(error)")
             }
@@ -293,6 +294,18 @@ class AEXMLTests: XCTestCase {
         self.measureBlock() {
             _ = self.plantsXML.xmlString
         }
+    }
+    
+    func testSoapWithNamespaces() {
+        let soapXML = readXMLFromFile("soap")
+        let item = soapXML.root["soap:Body"]["m:GetPrice"]["m:Item"].stringValue
+        XCTAssertEqual(item, "Apples")
+    }
+    
+    func testSoapWithoutNamespaces() {
+        let soapXML = readXMLFromFile("soap", shouldIncludeNamespaces: false)
+        let item = soapXML.root["Body"]["GetPrice"]["Item"].stringValue
+        XCTAssertEqual(item, "Apples")
     }
     
 }

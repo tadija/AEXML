@@ -16,6 +16,7 @@
 		8BFE78C519F0054200914487 /* AEXMLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFE78C419F0054200914487 /* AEXMLTests.swift */; };
 		8BFE78CF19F0056D00914487 /* AEXML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFE78CE19F0056D00914487 /* AEXML.swift */; };
 		8BFE78D119F0080B00914487 /* plant_catalog.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8BFE78D019F0080B00914487 /* plant_catalog.xml */; };
+		9775D9BB1BD6CB5F00D5A74A /* soap.xml in Resources */ = {isa = PBXBuildFile; fileRef = 9775D9BA1BD6CB5F00D5A74A /* soap.xml */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		8BFE78C419F0054200914487 /* AEXMLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AEXMLTests.swift; sourceTree = "<group>"; };
 		8BFE78CE19F0056D00914487 /* AEXML.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AEXML.swift; sourceTree = "<group>"; };
 		8BFE78D019F0080B00914487 /* plant_catalog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = plant_catalog.xml; sourceTree = "<group>"; };
+		9775D9BA1BD6CB5F00D5A74A /* soap.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = soap.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,9 +113,10 @@
 		8BFE78AC19F0054100914487 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				8BFE78AD19F0054100914487 /* Info.plist */,
 				8BE1053319F6A43000716C35 /* example.xml */,
+				8BFE78AD19F0054100914487 /* Info.plist */,
 				8BFE78D019F0080B00914487 /* plant_catalog.xml */,
+				9775D9BA1BD6CB5F00D5A74A /* soap.xml */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -216,6 +219,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9775D9BB1BD6CB5F00D5A74A /* soap.xml in Resources */,
 				8BE1053419F6A43000716C35 /* example.xml in Resources */,
 				8BFE78B419F0054100914487 /* Main.storyboard in Resources */,
 				8BFE78D119F0080B00914487 /* plant_catalog.xml in Resources */,
