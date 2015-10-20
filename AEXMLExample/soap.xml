@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<soap:Envelope
+    xmlns:soap="http://www.w3.org/2001/12/soap-envelope"
+    soap:encodingStyle="http://www.w3.org/2001/12/soap-encoding">
+    
+    <soap:Body>
+        <m:GetPrice xmlns:m="http://www.w3schools.com/prices">
+            <m:Item>Apples</m:Item>
+        </m:GetPrice>
+    </soap:Body>
+    
+</soap:Envelope>

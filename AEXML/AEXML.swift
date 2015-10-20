@@ -298,6 +298,7 @@ public class AEXMLDocument: AEXMLElement {
         static let encoding = "utf-8"
         static let standalone = "no"
         static let documentName = "AEXMLDocument"
+        static let shouldIncludeNamespaces = true
     }
     
     // MARK: Lifecycle
@@ -309,7 +310,7 @@ public class AEXMLDocument: AEXMLElement {
         :param: encoding Encoding value for XML Document header (defaults to "utf-8").
         :param: standalone Standalone value for XML Document header (defaults to "no").
         :param: root Root XML element for XML Document (defaults to `nil`).
-    
+
         :returns: An initialized XML Document object.
     */
     public init(version: Double = Defaults.version, encoding: String = Defaults.encoding, standalone: String = Defaults.standalone, root: AEXMLElement? = nil) {
@@ -341,7 +342,7 @@ public class AEXMLDocument: AEXMLElement {
     
         :returns: An initialized XML Document object containing the parsed data. Returns `nil` if the data could not be parsed.
     */
-    public convenience init(version: Double = Defaults.version, encoding: String = Defaults.encoding, standalone: String = Defaults.standalone, xmlData: NSData) throws {
+    public convenience init(version: Double = Defaults.version, encoding: String = Defaults.encoding, standalone: String = Defaults.standalone, shouldIncludeNamespaces: Bool = Defaults.shouldIncludeNamespaces, xmlData: NSData) throws {
         self.init(version: version, encoding: encoding, standalone: standalone)
         try loadXMLData(xmlData)
     }
@@ -355,9 +356,9 @@ public class AEXMLDocument: AEXMLElement {
     
         :returns: `NSError` if parsing is not successfull, otherwise `nil`.
     */
-    public func loadXMLData(data: NSData) throws {
+    public func loadXMLData(data: NSData, shouldIncludeNamespaces: Bool = Defaults.shouldIncludeNamespaces) throws {
         children.removeAll(keepCapacity: false)
-        let xmlParser = AEXMLParser(xmlDocument: self, xmlData: data)
+        let xmlParser = AEXMLParser(xmlDocument: self, xmlData: data, shouldIncludeNamespaces: shouldIncludeNamespaces)
         try xmlParser.parse()
     }
     
@@ -387,13 +388,15 @@ private class AEXMLParser: NSObject, NSXMLParserDelegate {
     var currentElement: AEXMLElement?
     var currentValue = String()
     var parseError: NSError?
+    var shouldIncludeNamespaces: Bool
     
     // MARK: Lifecycle
     
-    init(xmlDocument: AEXMLDocument, xmlData: NSData) {
+    init(xmlDocument: AEXMLDocument, xmlData: NSData, shouldIncludeNamespaces: Bool) {
         self.xmlDocument = xmlDocument
         self.xmlData = xmlData
         currentParent = xmlDocument
+        self.shouldIncludeNamespaces = shouldIncludeNamespaces
         super.init()
     }
     
@@ -402,6 +405,12 @@ private class AEXMLParser: NSObject, NSXMLParserDelegate {
     func parse() throws {
         let parser = NSXMLParser(data: xmlData)
         parser.delegate = self
+        
+        if (!self.shouldIncludeNamespaces) {
+            parser.shouldProcessNamespaces = true
+            parser.shouldReportNamespacePrefixes = false
+        }
+        
         let success = parser.parse()
         if !success {
             throw parseError ?? NSError(domain: "net.tadija.AEXML", code: 1, userInfo: nil)
