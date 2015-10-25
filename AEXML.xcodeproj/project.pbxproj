@@ -65,20 +65,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8BD5EE981AEC407800A8BB45 /* AEXML */ = {
+		8BD5EE981AEC407800A8BB45 /* Source */ = {
 			isa = PBXGroup;
 			children = (
 				8BFE78CE19F0056D00914487 /* AEXML.swift */,
 			);
-			path = AEXML;
+			path = Source;
 			sourceTree = "<group>";
 		};
 		8BFE78A019F0054100914487 = {
 			isa = PBXGroup;
 			children = (
-				8BD5EE981AEC407800A8BB45 /* AEXML */,
-				8BFE78C119F0054200914487 /* AEXMLTests */,
-				8BFE78AB19F0054100914487 /* AEXMLExample */,
+				8BD5EE981AEC407800A8BB45 /* Source */,
+				8BFE78C119F0054200914487 /* Tests */,
+				8BFE78AB19F0054100914487 /* Example */,
 				8BFE78AA19F0054100914487 /* Products */,
 				8BD7A14319F0093F005F73F4 /* LICENSE */,
 				8BD7A14419F0093F005F73F4 /* README.md */,
@@ -95,7 +95,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		8BFE78AB19F0054100914487 /* AEXMLExample */ = {
+		8BFE78AB19F0054100914487 /* Example */ = {
 			isa = PBXGroup;
 			children = (
 				8BFE78AE19F0054100914487 /* AppDelegate.swift */,
@@ -105,7 +105,7 @@
 				8BFE78B719F0054200914487 /* LaunchScreen.xib */,
 				8BFE78AC19F0054100914487 /* Supporting Files */,
 			);
-			path = AEXMLExample;
+			path = Example;
 			sourceTree = "<group>";
 		};
 		8BFE78AC19F0054100914487 /* Supporting Files */ = {
@@ -118,13 +118,13 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		8BFE78C119F0054200914487 /* AEXMLTests */ = {
+		8BFE78C119F0054200914487 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 				8BFE78C419F0054200914487 /* AEXMLTests.swift */,
 				8BFE78C219F0054200914487 /* Supporting Files */,
 			);
-			path = AEXMLTests;
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		8BFE78C219F0054200914487 /* Supporting Files */ = {
@@ -366,7 +366,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = AEXMLExample/Info.plist;
+				INFOPLIST_FILE = Example/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.tadija.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = AEXMLExample;
@@ -377,7 +377,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = AEXMLExample/Info.plist;
+				INFOPLIST_FILE = Example/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.tadija.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = AEXMLExample;
@@ -392,7 +392,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = AEXMLTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.tadija.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = AEXMLTests;
@@ -404,7 +404,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = AEXMLTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.tadija.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = AEXMLTests;
