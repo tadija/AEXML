@@ -20,6 +20,20 @@
                ReferencedContainer = "container:AEXML.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8B4A92AA1BDD54F50011F36F"
+               BuildableName = "AEXML OSX Tests.xctest"
+               BlueprintName = "AEXML OSX Tests"
+               ReferencedContainer = "container:AEXML.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -28,7 +42,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8B4A92AA1BDD54F50011F36F"
+               BuildableName = "AEXML OSX Tests.xctest"
+               BlueprintName = "AEXML OSX Tests"
+               ReferencedContainer = "container:AEXML.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "8B4A92891BDD49390011F36F"
+            BuildableName = "AEXML.framework"
+            BlueprintName = "AEXML OSX"
+            ReferencedContainer = "container:AEXML.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
