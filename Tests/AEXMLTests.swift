@@ -1,14 +1,30 @@
 //
-//  AEXMLTests.swift
-//  AEXMLTests
+// AEXMLTests.swift
 //
-//  Created by Marko Tadic on 10/16/14.
-//  Copyright (c) 2014 ae. All rights reserved.
+// Copyright (c) 2014 Marko Tadić <tadija@me.com> http://tadija.net
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 //
 
-import UIKit
+import AEXML
+import Foundation
 import XCTest
-import AEXMLExample
 
 class AEXMLTests: XCTestCase {
     
@@ -17,24 +33,30 @@ class AEXMLTests: XCTestCase {
     var exampleXML = AEXMLDocument()
     var plantsXML = AEXMLDocument()
     
-    // MARK: - Helper
+    // MARK: - Helpers
     
-    func readXMLFromFile(filename: String) -> AEXMLDocument {
+    func URLForResource(fileName: String, withExtension: String) -> NSURL {
+        let bundle = NSBundle(forClass: AEXMLTests.self)
+        return bundle.URLForResource(fileName, withExtension: withExtension)!
+    }
+    
+    func xmlDocumentFromURL(url: NSURL) -> AEXMLDocument {
         var xmlDocument = AEXMLDocument()
         
-        // parse xml file
-        if let
-            xmlPath = NSBundle.mainBundle().pathForResource(filename, ofType: "xml"),
-            data = NSData(contentsOfFile: xmlPath)
-        {
+        if let data = NSData(contentsOfURL: url) {
             do {
                 xmlDocument = try AEXMLDocument(xmlData: data)
             } catch {
-                print("\(error)")
+                print(error)
             }
         }
         
         return xmlDocument
+    }
+    
+    func readXMLFromFile(filename: String) -> AEXMLDocument {
+        let url = URLForResource(filename, withExtension: "xml")
+        return xmlDocumentFromURL(url)
     }
     
     // MARK: - Setup & Teardown
