@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8B4A92891BDD49390011F36F"
-               BuildableName = "AEXML OSX.framework"
+               BuildableName = "AEXML.framework"
                BlueprintName = "AEXML OSX"
                ReferencedContainer = "container:AEXML.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8B4A92891BDD49390011F36F"
-            BuildableName = "AEXML OSX.framework"
+            BuildableName = "AEXML.framework"
             BlueprintName = "AEXML OSX"
             ReferencedContainer = "container:AEXML.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8B4A92891BDD49390011F36F"
-            BuildableName = "AEXML OSX.framework"
+            BuildableName = "AEXML.framework"
             BlueprintName = "AEXML OSX"
             ReferencedContainer = "container:AEXML.xcodeproj">
          </BuildableReference>

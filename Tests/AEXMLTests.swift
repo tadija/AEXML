@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 ae. All rights reserved.
 //
 
-import UIKit
+import AEXML
+import Foundation
 import XCTest
-import AEXMLExample
 
 class AEXMLTests: XCTestCase {
     
@@ -17,24 +17,30 @@ class AEXMLTests: XCTestCase {
     var exampleXML = AEXMLDocument()
     var plantsXML = AEXMLDocument()
     
-    // MARK: - Helper
+    // MARK: - Helpers
     
-    func readXMLFromFile(filename: String) -> AEXMLDocument {
+    func URLForResource(fileName: String, withExtension: String) -> NSURL {
+        let bundle = NSBundle(forClass: AEXMLTests.self)
+        return bundle.URLForResource(fileName, withExtension: withExtension)!
+    }
+    
+    func xmlDocumentFromURL(url: NSURL) -> AEXMLDocument {
         var xmlDocument = AEXMLDocument()
         
-        // parse xml file
-        if let
-            xmlPath = NSBundle.mainBundle().pathForResource(filename, ofType: "xml"),
-            data = NSData(contentsOfFile: xmlPath)
-        {
+        if let data = NSData(contentsOfURL: url) {
             do {
                 xmlDocument = try AEXMLDocument(xmlData: data)
             } catch {
-                print("\(error)")
+                print(error)
             }
         }
         
         return xmlDocument
+    }
+    
+    func readXMLFromFile(filename: String) -> AEXMLDocument {
+        let url = URLForResource(filename, withExtension: "xml")
+        return xmlDocumentFromURL(url)
     }
     
     // MARK: - Setup & Teardown
