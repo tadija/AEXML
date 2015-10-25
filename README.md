@@ -1,5 +1,5 @@
 # AEXML
-**Simple and lightweight XML parser for iOS written in Swift**
+**Simple and lightweight XML parser written in Swift**
 
 > This is not robust full featured XML parser (at the moment), but rather simple,  
 and very easy to use utility for casual XML handling (it just works).
@@ -173,16 +173,21 @@ println(soapRequest.xmlString)
 
 ## Installation
 
-- Using [CocoaPods](http://cocoapods.org/):
+- [CocoaPods](http://cocoapods.org/):
 
-  ```ruby
-  use_frameworks!
-  pod 'AEXML'
-  ```
+	```ruby
+	pod 'AEXML'
+	```
+  
+- [Carthage](https://github.com/Carthage/Carthage):
+
+	```ogdl
+	github "tadija/AEXML"
+	```
 
 - Manually:
 
-  Just drag AEXML.swift into your project and start using it.
+  Just drag **AEXML.swift** into your project and start using it.
 
 ## License
 AEXML is released under the MIT license. See [LICENSE](LICENSE) for details.
