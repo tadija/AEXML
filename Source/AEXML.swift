@@ -54,16 +54,61 @@ public class AEXMLElement: NSObject {
     
     /// String representation of `value` property with special characters escaped (if `value` is `nil` this is empty String).
     public var escapedStringValue: String {
-        // we need to make sure "&" is escaped first. Not doing this may break escaping the other characters
-        var escapedString = stringValue.stringByReplacingOccurrencesOfString("&", withString: "&amp;", options: .LiteralSearch)
-        
-        // replace the other four special characters
-        let escapeChars = ["<" : "&lt;", ">" : "&gt;", "'" : "&apos;", "\"" : "&quot;"]
-        for (char, echar) in escapeChars {
-            escapedString = escapedString.stringByReplacingOccurrencesOfString(char, withString: echar, options: .LiteralSearch)
+        func escapedString(stringValue: String) -> String {
+            // we need to make sure "&" is escaped first. Not doing this may break escaping the other characters
+            var escapedString = stringValue.stringByReplacingOccurrencesOfString("&", withString: "&amp;", options: .LiteralSearch)
+            
+            // replace the other four special characters
+            let escapeChars = ["<" : "&lt;", ">" : "&gt;", "'" : "&apos;", "\"" : "&quot;"]
+            for (char, echar) in escapeChars {
+                escapedString = escapedString.stringByReplacingOccurrencesOfString(char, withString: echar, options: .LiteralSearch)
+            }
+            
+            return escapedString
         }
         
-        return escapedString
+        // Handle <![CDATA[...]]> blocks
+        let stringValue = self.stringValue as NSString
+        var components = [NSString]()
+        var plainRange = NSMakeRange(0, stringValue.length)
+        
+        while true {
+            // Search for CDATA
+            let cdataStart = stringValue.rangeOfString("<![CDATA[", options: [], range: plainRange)
+            guard cdataStart.location != NSNotFound else {
+                break
+            }
+            
+            // Find CDATA end. Break if could not be found
+            let restRange = NSMakeRange(
+                cdataStart.location + cdataStart.length,
+                (plainRange.location + plainRange.length) - (cdataStart.location + cdataStart.length)
+            )
+            let cdataEnd = stringValue.rangeOfString("]]>", options: [], range: restRange)
+            guard cdataEnd.location != NSNotFound else {
+                break
+            }
+            
+            // Add escaped plaintext before CDATA section
+            let beforePlainRange = NSMakeRange(plainRange.location, cdataStart.location - plainRange.location)
+            components.append(escapedString(stringValue.substringWithRange(beforePlainRange)))
+            
+            // Add CDATA unescaped
+            let cdataRange = NSMakeRange(cdataStart.location, cdataEnd.location + cdataEnd.length - cdataStart.location)
+            components.append(stringValue.substringWithRange(cdataRange))
+            
+            // Continue searching for CDATA in the tail
+            plainRange = NSMakeRange(
+                cdataRange.location + cdataRange.length,
+                (plainRange.location + plainRange.length) - (cdataRange.location + cdataRange.length)
+            )
+        }
+        
+        // Add last plaintext block
+        components.append(escapedString(stringValue.substringWithRange(plainRange)))
+        
+        // Combine result
+        return components.reduce("", combine: { $0 + ($1 as String) })
     }
     
     /// Boolean representation of `value` property (if `value` is "true" or 1 this is `True`, otherwise `False`).

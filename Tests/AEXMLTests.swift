@@ -303,6 +303,16 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(newXMLDocument.xmlString, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<children>\n\t<child attribute=\"attributeValue\">value</child>\n\t<child />\n\t<child>&amp;&lt;&gt;&apos;&quot;</child>\n</children>", "Should be able to print XML formatted string.")
     }
     
+    func testXMLStringWithCData() {
+        let newXMLDocument = AEXMLDocument()
+        let children = newXMLDocument.addChild(name: "children")
+        let _ = children.addChild(name: "child", value: "value", attributes: ["attribute" : "attributeValue"])
+        let _ = children.addChild(name: "child")
+        let _ = children.addChild(name: "child", value: "&<![CDATA[&<>'\"]]><><![CDATA['\"]]><![CDATA[]]>")
+        
+        XCTAssertEqual(newXMLDocument.xmlString, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<children>\n\t<child attribute=\"attributeValue\">value</child>\n\t<child />\n\t<child>&amp;<![CDATA[&<>'\"]]>&lt;&gt;<![CDATA['\"]]><![CDATA[]]></child>\n</children>", "Should be able to print XML formatted string.")
+    }
+    
     // MARK: - XML Parse Performance
     
     func testReadXMLPerformance() {
