@@ -30,7 +30,7 @@ import Foundation
     You can access its structure by using subscript like this: 
     `element["foo"]["bar"]` would return `<bar></bar>` element from `<element><foo><bar></bar></foo></element>` XML as an `AEXMLElement` object.
 */
-public class AEXMLElement: NSObject {
+public class AEXMLElement {
     
     // MARK: Properties
     
@@ -207,7 +207,9 @@ public class AEXMLElement: NSObject {
     }
     
     private func removeChild(child: AEXMLElement) {
-        if let childIndex = children.indexOf(child) {
+        if let childIndex = children.indexOf({ if $0 == child { true }
+            return false
+        }) {
             children.removeAtIndex(childIndex)
         }
     }
@@ -269,6 +271,28 @@ public class AEXMLElement: NSObject {
     }
 
 }
+
+
+// MARK: - protocol Equatable support
+extension AEXMLElement: Equatable {}
+
+/**
+ compairing two AEXMLElement objects
+ 
+ - parameter lhs: first AEXMLElement object
+ - parameter rhs: second AEXMLElement object
+ 
+ - returns: true if both objects are same, otherwise false
+ */
+public func ==(lhs: AEXMLElement, rhs: AEXMLElement) -> Bool {
+    if lhs.name == rhs.name &&
+        lhs.value == rhs.value &&
+        lhs.attributes == rhs.attributes {
+            return true
+    }
+    return false
+}
+
 
 // MARK: -
 
