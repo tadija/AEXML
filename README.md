@@ -1,7 +1,7 @@
 # AEXML
 **Simple and lightweight XML parser written in Swift**
 
-> This is not robust full featured XML parser (at the moment), but rather simple,  
+> This is not robust full featured XML parser (still), but rather simple,  
 and very easy to use utility for casual XML handling (it just works).
 
 **AEXML** is a [minion](http://tadija.net/public/minion.png) which consists of these classes:  
@@ -18,7 +18,7 @@ Class | Description
 - **Write XML** string
 - Covered with **unit tests**
 - Covered with [docs](http://tadija.net/projects/AEXML/docs/)
-- **Swift 2.0** ready
+- **Swift 2.2** ready
 
 
 ## Index
@@ -166,7 +166,7 @@ println(soapRequest.xmlString)
 
 
 ## Requirements
-- Xcode 7.0
+- Xcode 7.0+
 - iOS 8.0+
 - AEXML doesn't require any additional libraries for it to work.
 
