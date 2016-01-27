@@ -90,7 +90,7 @@ class AEXMLTests: XCTestCase {
     func testChildrenElements() {
         var count = 0
         for _ in exampleXML.root["cats"].children {
-            count++
+            count += 1
         }
         XCTAssertEqual(count, 4, "Should be able to iterate children elements")
     }
@@ -106,7 +106,7 @@ class AEXMLTests: XCTestCase {
         // iterate attributes
         var count = 0
         for _ in firstCatAttributes {
-            count++
+            count += 1
         }
         XCTAssertEqual(count, 2, "Should be able to iterate element attributes.")
         
@@ -178,7 +178,7 @@ class AEXMLTests: XCTestCase {
         if let cats = exampleXML.root["cats"]["cat"].all {
             for cat in cats {
                 XCTAssertNotNil(cat.parent, "Each child element should have its parent element.")
-                count++
+                count += 1
             }
         }
         XCTAssertEqual(count, 4, "Should be able to iterate all elements")
@@ -219,7 +219,7 @@ class AEXMLTests: XCTestCase {
         var count = 0
         if let tinnas = cats["cat"].allWithValue("Tinna") {
             for _ in tinnas {
-                count++
+                count += 1
             }
         }
         XCTAssertEqual(count, 2, "Should be able to return elements with given value.")
@@ -229,7 +229,7 @@ class AEXMLTests: XCTestCase {
         var count = 0
         if let bulls = exampleXML.root["dogs"]["dog"].allWithAttributes(["color" : "white"]) {
             for _ in bulls {
-                count++
+                count += 1
             }
         }
         XCTAssertEqual(count, 2, "Should be able to return elements with given attributes.")
