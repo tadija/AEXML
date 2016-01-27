@@ -22,8 +22,14 @@ class ViewController: UIViewController {
             data = NSData(contentsOfFile: xmlPath)
         else { return }
         
+        // example of using NSXMLParserOptions
+        var options = AEXMLDocument.NSXMLParserOptions()
+        options.shouldProcessNamespaces = false
+        options.shouldReportNamespacePrefixes = false
+        options.shouldResolveExternalEntities = false
+        
         do {
-            let xmlDoc = try AEXMLDocument(xmlData: data)
+            let xmlDoc = try AEXMLDocument(xmlData: data, xmlParserOptions: options)
                 
             // prints the same XML structure as original
             print(xmlDoc.xmlString)
