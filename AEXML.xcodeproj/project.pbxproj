@@ -62,6 +62,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8B0D48AA1C594F8D0075C8BF /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		8B4A92791BDD47210011F36F /* AEXML.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AEXML.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B4A92811BDD477E0011F36F /* AEXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AEXML.h; sourceTree = "<group>"; };
 		8B4A92831BDD47850011F36F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -187,6 +188,7 @@
 				8BFE78AA19F0054100914487 /* Products */,
 				8BD7A14319F0093F005F73F4 /* LICENSE */,
 				8BD7A14419F0093F005F73F4 /* README.md */,
+				8B0D48AA1C594F8D0075C8BF /* CHANGELOG.md */,
 				8BDEBA8C1AEC588700A12D92 /* AEXML.podspec */,
 			);
 			sourceTree = "<group>";
