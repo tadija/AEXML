@@ -27,8 +27,8 @@ import Foundation
 /**
     This is base class for holding XML structure.
 
-    You can access its structure by using subscript like this: 
-    `element["foo"]["bar"]` would return `<bar></bar>` element from `<element><foo><bar></bar></foo></element>` XML as an `AEXMLElement` object.
+    You can access its structure by using subscript like this: `element["foo"]["bar"]` which would
+    return `<bar></bar>` element from `<element><foo><bar></bar></foo></element>` XML as an `AEXMLElement` object.
 */
 public class AEXMLElement: NSObject {
     
@@ -108,7 +108,8 @@ public class AEXMLElement: NSObject {
             return self
         } else {
             let filtered = children.filter { $0.name == key }
-            return filtered.count > 0 ? filtered.first! : AEXMLElement(AEXMLElement.errorElementName, value: "element <\(key)> not found")
+            let errorElement = AEXMLElement(AEXMLElement.errorElementName, value: "element <\(key)> not found")
+            return filtered.count > 0 ? filtered.first! : errorElement
         }
     }
     
@@ -164,7 +165,7 @@ public class AEXMLElement: NSObject {
             var countAttributes = 0
             for (key, value) in attributes {
                 if element.attributes[key] == value {
-                    countAttributes++
+                    countAttributes += 1
                 }
             }
             return countAttributes == attributes.count
@@ -216,7 +217,7 @@ public class AEXMLElement: NSObject {
         var count = 0
         var element = self
         while let parent = element.parent {
-            count++
+            count += 1
             element = parent
         }
         return count
@@ -226,7 +227,7 @@ public class AEXMLElement: NSObject {
         var indent = String()
         while count > 0 {
             indent += "\t"
-            count--
+            count -= 1
         }
         return indent
     }
@@ -279,6 +280,20 @@ public class AEXMLElement: NSObject {
 */
 public class AEXMLDocument: AEXMLElement {
     
+    private struct Defaults {
+        static let version = 1.0
+        static let encoding = "utf-8"
+        static let standalone = "no"
+        static let documentName = "AEXMLDocument"
+    }
+    
+    /// Default options used by NSXMLParser
+    public struct NSXMLParserOptions {
+        var shouldProcessNamespaces = false
+        var shouldReportNamespacePrefixes = false
+        var shouldResolveExternalEntities = false
+    }
+    
     // MARK: Properties
     
     /// This is only used for XML Document header (default value is 1.0).
@@ -290,15 +305,12 @@ public class AEXMLDocument: AEXMLElement {
     /// This is only used for XML Document header (default value is "no").
     public let standalone: String
     
-    /// Root (the first child element) element of XML Document **(AEXMLError element if not exists)**.
-    public var root: AEXMLElement { return children.count == 1 ? children.first! : AEXMLElement(AEXMLElement.errorElementName, value: "XML Document must have root element.") }
+    /// Options for NSXMLParser (default values are `false`)
+    public let xmlParserOptions: NSXMLParserOptions
     
-    private struct Defaults {
-        static let version = 1.0
-        static let encoding = "utf-8"
-        static let standalone = "no"
-        static let documentName = "AEXMLDocument"
-    }
+    /// Root (the first child element) element of XML Document **(AEXMLError element if not exists)**.
+    private let errorElement = AEXMLElement(AEXMLElement.errorElementName, value: "XML Document must have root element.")
+    public var root: AEXMLElement { return children.count == 1 ? children.first! : errorElement }
     
     // MARK: Lifecycle
     
@@ -309,14 +321,21 @@ public class AEXMLDocument: AEXMLElement {
         :param: encoding Encoding value for XML Document header (defaults to "utf-8").
         :param: standalone Standalone value for XML Document header (defaults to "no").
         :param: root Root XML element for XML Document (defaults to `nil`).
+        :param: xmlParserOptions Options for NSXMLParser (defaults to `false` for all).
     
         :returns: An initialized XML Document object.
     */
-    public init(version: Double = Defaults.version, encoding: String = Defaults.encoding, standalone: String = Defaults.standalone, root: AEXMLElement? = nil) {
+    public init(version: Double = Defaults.version,
+                encoding: String = Defaults.encoding,
+                standalone: String = Defaults.standalone,
+                root: AEXMLElement? = nil,
+                xmlParserOptions: NSXMLParserOptions = NSXMLParserOptions())
+    {
         // set document properties
         self.version = version
         self.encoding = encoding
         self.standalone = standalone
+        self.xmlParserOptions = xmlParserOptions
         
         // init super with default name
         super.init(Defaults.documentName)
@@ -337,12 +356,17 @@ public class AEXMLDocument: AEXMLElement {
         :param: encoding Encoding value for XML Document header (defaults to "utf-8").
         :param: standalone Standalone value for XML Document header (defaults to "no").
         :param: xmlData XML data to parse.
-        :param: error If there is an error reading in the data, upon return contains an `NSError` object that describes the problem.
+        :param: xmlParserOptions Options for NSXMLParser (defaults to `false` for all).
     
-        :returns: An initialized XML Document object containing the parsed data. Returns `nil` if the data could not be parsed.
+        :returns: An initialized XML Document object containing the parsed data. Throws error if the data could not be parsed.
     */
-    public convenience init(version: Double = Defaults.version, encoding: String = Defaults.encoding, standalone: String = Defaults.standalone, xmlData: NSData) throws {
-        self.init(version: version, encoding: encoding, standalone: standalone)
+    public convenience init(version: Double = Defaults.version,
+                            encoding: String = Defaults.encoding,
+                            standalone: String = Defaults.standalone,
+                            xmlData: NSData,
+                            xmlParserOptions: NSXMLParserOptions = NSXMLParserOptions()) throws
+    {
+        self.init(version: version, encoding: encoding, standalone: standalone, xmlParserOptions: xmlParserOptions)
         try loadXMLData(xmlData)
     }
     
@@ -402,6 +426,11 @@ private class AEXMLParser: NSObject, NSXMLParserDelegate {
     func parse() throws {
         let parser = NSXMLParser(data: xmlData)
         parser.delegate = self
+        
+        parser.shouldProcessNamespaces = xmlDocument.xmlParserOptions.shouldProcessNamespaces
+        parser.shouldReportNamespacePrefixes = xmlDocument.xmlParserOptions.shouldReportNamespacePrefixes
+        parser.shouldResolveExternalEntities = xmlDocument.xmlParserOptions.shouldResolveExternalEntities
+        
         let success = parser.parse()
         if !success {
             throw parseError ?? NSError(domain: "net.tadija.AEXML", code: 1, userInfo: nil)
