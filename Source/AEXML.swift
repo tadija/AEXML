@@ -223,7 +223,8 @@ public class AEXMLElement {
         return count
     }
     
-    private func indentation(var count: Int) -> String {
+    private func indentation(count: Int) -> String {
+        var count = count
         var indent = String()
         while count > 0 {
             indent += "\t"
