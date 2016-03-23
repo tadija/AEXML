@@ -108,7 +108,7 @@ public class AEXMLElement: NSObject {
             return self
         } else {
             let filtered = children.filter { $0.name == key }
-            let errorElement = AEXMLElement(AEXMLElement.errorElementName, value: "element <\(key)> not found")
+            let errorElement = AEXMLElement(AEXMLElement.errorElementName, value: nil)
             return filtered.count > 0 ? filtered.first! : errorElement
         }
     }
