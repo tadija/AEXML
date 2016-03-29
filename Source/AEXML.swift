@@ -231,13 +231,17 @@ public class AEXMLElement: NSObject {
         }
         return indent
     }
-    
+	
+	public var prettyPrint = true
+	
     /// Complete hierarchy of `self` and `children` in **XML** escaped and formatted String
     public var xmlString: String {
         var xml = String()
         
         // open element
-        xml += indentation(parentsCount - 1)
+		if prettyPrint {
+			xml += indentation(parentsCount - 1)
+		}
         xml += "<\(name)"
         
         if attributes.count > 0 {
@@ -253,13 +257,21 @@ public class AEXMLElement: NSObject {
         } else {
             if children.count > 0 {
                 // add children
-                xml += ">\n"
+				xml += ">"
+				if prettyPrint {
+					xml += "\n"
+				}
                 for child in children {
-                    xml += "\(child.xmlString)\n"
+                    xml += "\(child.xmlString)"
+					if prettyPrint {
+						xml += "\n"
+					}
                 }
-                // add indentation
-                xml += indentation(parentsCount - 1)
-                xml += "</\(name)>"
+				if prettyPrint {
+					// add indentation
+					xml += indentation(parentsCount - 1)
+				}
+				xml += "</\(name)>"
             } else {
                 // insert string value and close element
                 xml += ">\(escapedStringValue)</\(name)>"
