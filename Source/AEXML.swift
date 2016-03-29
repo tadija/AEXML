@@ -232,7 +232,11 @@ public class AEXMLElement: NSObject {
         return indent
     }
 	
-	public var prettyPrint = true
+	public static var prettyPrint = true
+	
+	private var prettyPrint: Bool {
+		return AEXMLElement.prettyPrint
+	}
 	
     /// Complete hierarchy of `self` and `children` in **XML** escaped and formatted String
     public var xmlString: String {
