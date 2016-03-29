@@ -108,7 +108,7 @@ public class AEXMLElement: NSObject {
             return self
         } else {
             let filtered = children.filter { $0.name == key }
-            let errorElement = AEXMLElement(AEXMLElement.errorElementName, value: "element <\(key)> not found")
+            let errorElement = AEXMLElement(AEXMLElement.errorElementName, value: nil)
             return filtered.count > 0 ? filtered.first! : errorElement
         }
     }
@@ -231,13 +231,21 @@ public class AEXMLElement: NSObject {
         }
         return indent
     }
-    
+	
+	public static var prettyPrint = true
+	
+	private var prettyPrint: Bool {
+		return AEXMLElement.prettyPrint
+	}
+	
     /// Complete hierarchy of `self` and `children` in **XML** escaped and formatted String
     public var xmlString: String {
         var xml = String()
         
         // open element
-        xml += indentation(parentsCount - 1)
+		if prettyPrint {
+			xml += indentation(parentsCount - 1)
+		}
         xml += "<\(name)"
         
         if attributes.count > 0 {
@@ -253,13 +261,21 @@ public class AEXMLElement: NSObject {
         } else {
             if children.count > 0 {
                 // add children
-                xml += ">\n"
+				xml += ">"
+				if prettyPrint {
+					xml += "\n"
+				}
                 for child in children {
-                    xml += "\(child.xmlString)\n"
+                    xml += "\(child.xmlString)"
+					if prettyPrint {
+						xml += "\n"
+					}
                 }
-                // add indentation
-                xml += indentation(parentsCount - 1)
-                xml += "</\(name)>"
+				if prettyPrint {
+					// add indentation
+					xml += indentation(parentsCount - 1)
+				}
+				xml += "</\(name)>"
             } else {
                 // insert string value and close element
                 xml += ">\(escapedStringValue)</\(name)>"
@@ -388,14 +404,17 @@ public class AEXMLDocument: AEXMLElement {
     // MARK: Override
     
     /// Override of `xmlString` property of `AEXMLElement` - it just inserts XML Document header at the beginning.
-    public override var xmlString: String {
-        var xml =  "<?xml version=\"\(version)\" encoding=\"\(encoding)\" standalone=\"\(standalone)\"?>\n"
-        for child in children {
-            xml += child.xmlString
-        }
-        return xml
-    }
-    
+	public override var xmlString: String {
+		var xml =  "<?xml version=\"\(version)\" encoding=\"\(encoding)\" standalone=\"\(standalone)\"?>"
+		if prettyPrint {
+			xml += "\n"
+		}
+		for child in children {
+			xml += child.xmlString
+		}
+		return xml
+	}
+	
 }
 
 // MARK: -
