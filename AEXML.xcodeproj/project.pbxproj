@@ -24,17 +24,9 @@
 		8B4A92EC1BDD66680011F36F /* example.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8B4A92EA1BDD66680011F36F /* example.xml */; };
 		8B4A92ED1BDD66680011F36F /* example.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8B4A92EA1BDD66680011F36F /* example.xml */; };
 		8B4A92EE1BDD66680011F36F /* example.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8B4A92EA1BDD66680011F36F /* example.xml */; };
-		8B4A92EF1BDD66680011F36F /* example.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8B4A92EA1BDD66680011F36F /* example.xml */; };
 		8B4A92F01BDD66680011F36F /* plant_catalog.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8B4A92EB1BDD66680011F36F /* plant_catalog.xml */; };
 		8B4A92F11BDD66680011F36F /* plant_catalog.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8B4A92EB1BDD66680011F36F /* plant_catalog.xml */; };
 		8B4A92F21BDD66680011F36F /* plant_catalog.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8B4A92EB1BDD66680011F36F /* plant_catalog.xml */; };
-		8B4A92F31BDD66680011F36F /* plant_catalog.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8B4A92EB1BDD66680011F36F /* plant_catalog.xml */; };
-		8BFE78AF19F0054100914487 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFE78AE19F0054100914487 /* AppDelegate.swift */; };
-		8BFE78B119F0054100914487 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFE78B019F0054100914487 /* ViewController.swift */; };
-		8BFE78B419F0054100914487 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8BFE78B219F0054100914487 /* Main.storyboard */; };
-		8BFE78B619F0054100914487 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8BFE78B519F0054100914487 /* Images.xcassets */; };
-		8BFE78B919F0054200914487 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BFE78B719F0054200914487 /* LaunchScreen.xib */; };
-		8BFE78CF19F0056D00914487 /* AEXML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BFE78CE19F0056D00914487 /* AEXML.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,16 +66,10 @@
 		8B4A92DF1BDD5D330011F36F /* AEXML.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AEXML.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B4A92EA1BDD66680011F36F /* example.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = example.xml; sourceTree = "<group>"; };
 		8B4A92EB1BDD66680011F36F /* plant_catalog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = plant_catalog.xml; sourceTree = "<group>"; };
+		8B8C73681CD8114F00A4E197 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		8BD7A14319F0093F005F73F4 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		8BD7A14419F0093F005F73F4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8BDEBA8C1AEC588700A12D92 /* AEXML.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AEXML.podspec; sourceTree = "<group>"; };
-		8BFE78A919F0054100914487 /* AEXMLExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AEXMLExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		8BFE78AD19F0054100914487 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8BFE78AE19F0054100914487 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		8BFE78B019F0054100914487 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		8BFE78B319F0054100914487 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		8BFE78B519F0054100914487 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		8BFE78B819F0054200914487 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		8BFE78C319F0054200914487 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8BFE78C419F0054200914487 /* AEXMLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AEXMLTests.swift; sourceTree = "<group>"; };
 		8BFE78CE19F0056D00914487 /* AEXML.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AEXML.swift; sourceTree = "<group>"; };
@@ -142,13 +128,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8BFE78A619F0054100914487 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -167,36 +146,44 @@
 				8B4A92EA1BDD66680011F36F /* example.xml */,
 				8B4A92EB1BDD66680011F36F /* plant_catalog.xml */,
 			);
-			path = Resources;
+			name = Resources;
+			path = ../Example/Resources;
 			sourceTree = "<group>";
 		};
-		8BD5EE981AEC407800A8BB45 /* Source */ = {
+		8B8C736E1CD816C100A4E197 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8BD7A14319F0093F005F73F4 /* LICENSE */,
+				8BD7A14419F0093F005F73F4 /* README.md */,
+				8B0D48AA1C594F8D0075C8BF /* CHANGELOG.md */,
+				8BDEBA8C1AEC588700A12D92 /* AEXML.podspec */,
+				8B8C73681CD8114F00A4E197 /* Package.swift */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8BD5EE981AEC407800A8BB45 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				8BFE78CE19F0056D00914487 /* AEXML.swift */,
 				8B4A92841BDD47D60011F36F /* Supporting Files */,
 			);
-			path = Source;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		8BFE78A019F0054100914487 = {
 			isa = PBXGroup;
 			children = (
-				8BD5EE981AEC407800A8BB45 /* Source */,
+				8BD5EE981AEC407800A8BB45 /* Sources */,
 				8BFE78C119F0054200914487 /* Tests */,
-				8BFE78AB19F0054100914487 /* Example */,
 				8BFE78AA19F0054100914487 /* Products */,
-				8BD7A14319F0093F005F73F4 /* LICENSE */,
-				8BD7A14419F0093F005F73F4 /* README.md */,
-				8B0D48AA1C594F8D0075C8BF /* CHANGELOG.md */,
-				8BDEBA8C1AEC588700A12D92 /* AEXML.podspec */,
+				8B8C736E1CD816C100A4E197 /* Supporting Files */,
 			);
 			sourceTree = "<group>";
 		};
 		8BFE78AA19F0054100914487 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8BFE78A919F0054100914487 /* AEXMLExample.app */,
 				8B4A92791BDD47210011F36F /* AEXML.framework */,
 				8B4A928A1BDD49390011F36F /* AEXML.framework */,
 				8B4A92991BDD4CEF0011F36F /* AEXML iOS Tests.xctest */,
@@ -206,27 +193,6 @@
 				8B4A92DF1BDD5D330011F36F /* AEXML.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		8BFE78AB19F0054100914487 /* Example */ = {
-			isa = PBXGroup;
-			children = (
-				8BFE78AE19F0054100914487 /* AppDelegate.swift */,
-				8BFE78B019F0054100914487 /* ViewController.swift */,
-				8BFE78B219F0054100914487 /* Main.storyboard */,
-				8BFE78B519F0054100914487 /* Images.xcassets */,
-				8BFE78B719F0054200914487 /* LaunchScreen.xib */,
-				8BFE78AC19F0054100914487 /* Supporting Files */,
-			);
-			path = Example;
-			sourceTree = "<group>";
-		};
-		8BFE78AC19F0054100914487 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				8BFE78AD19F0054100914487 /* Info.plist */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		8BFE78C119F0054200914487 /* Tests */ = {
@@ -411,23 +377,6 @@
 			productReference = 8B4A92DF1BDD5D330011F36F /* AEXML.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		8BFE78A819F0054100914487 /* AEXMLExample */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 8BFE78C819F0054200914487 /* Build configuration list for PBXNativeTarget "AEXMLExample" */;
-			buildPhases = (
-				8BFE78A519F0054100914487 /* Sources */,
-				8BFE78A619F0054100914487 /* Frameworks */,
-				8BFE78A719F0054100914487 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = AEXMLExample;
-			productName = AEXMLExample;
-			productReference = 8BFE78A919F0054100914487 /* AEXMLExample.app */;
-			productType = "com.apple.product-type.application";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -459,9 +408,6 @@
 					8B4A92DE1BDD5D330011F36F = {
 						CreatedOnToolsVersion = 7.1;
 					};
-					8BFE78A819F0054100914487 = {
-						CreatedOnToolsVersion = 6.1;
-					};
 				};
 			};
 			buildConfigurationList = 8BFE78A419F0054100914487 /* Build configuration list for PBXProject "AEXML" */;
@@ -478,13 +424,12 @@
 			projectRoot = "";
 			targets = (
 				8B4A92781BDD47210011F36F /* AEXML iOS */,
+				8B4A92DE1BDD5D330011F36F /* AEXML watchOS */,
 				8B4A92981BDD4CEF0011F36F /* AEXML iOS Tests */,
-				8B4A92891BDD49390011F36F /* AEXML OSX */,
-				8B4A92AA1BDD54F50011F36F /* AEXML OSX Tests */,
 				8B4A92BD1BDD5B300011F36F /* AEXML tvOS */,
 				8B4A92CB1BDD5BB20011F36F /* AEXML tvOS Tests */,
-				8B4A92DE1BDD5D330011F36F /* AEXML watchOS */,
-				8BFE78A819F0054100914487 /* AEXMLExample */,
+				8B4A92891BDD49390011F36F /* AEXML OSX */,
+				8B4A92AA1BDD54F50011F36F /* AEXML OSX Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -542,18 +487,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8BFE78A719F0054100914487 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8BFE78B419F0054100914487 /* Main.storyboard in Resources */,
-				8BFE78B919F0054200914487 /* LaunchScreen.xib in Resources */,
-				8B4A92F31BDD66680011F36F /* plant_catalog.xml in Resources */,
-				8B4A92EF1BDD66680011F36F /* example.xml in Resources */,
-				8BFE78B619F0054100914487 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -616,16 +549,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8BFE78A519F0054100914487 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8BFE78B119F0054100914487 /* ViewController.swift in Sources */,
-				8BFE78CF19F0056D00914487 /* AEXML.swift in Sources */,
-				8BFE78AF19F0054100914487 /* AppDelegate.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -646,25 +569,6 @@
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		8BFE78B219F0054100914487 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8BFE78B319F0054100914487 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		8BFE78B719F0054200914487 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8BFE78B819F0054200914487 /* Base */,
-			);
-			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		8B4A927E1BDD47210011F36F /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -676,7 +580,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = Source/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -697,7 +601,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = Source/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -720,7 +624,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = Source/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
@@ -745,7 +649,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = Source/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
@@ -826,7 +730,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = Source/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.tadija.AEXML;
@@ -849,7 +753,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = Source/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.tadija.AEXML;
@@ -901,7 +805,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = Source/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.tadija.AEXML;
@@ -927,7 +831,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = Source/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.tadija.AEXML;
@@ -1031,28 +935,6 @@
 			};
 			name = Release;
 		};
-		8BFE78C919F0054200914487 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = Example/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "net.tadija.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = AEXMLExample;
-			};
-			name = Debug;
-		};
-		8BFE78CA19F0054200914487 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = Example/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "net.tadija.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = AEXMLExample;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1124,15 +1006,6 @@
 			buildConfigurations = (
 				8BFE78C619F0054200914487 /* Debug */,
 				8BFE78C719F0054200914487 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		8BFE78C819F0054200914487 /* Build configuration list for PBXNativeTarget "AEXMLExample" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				8BFE78C919F0054200914487 /* Debug */,
-				8BFE78CA19F0054200914487 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -81,6 +81,10 @@ class AEXMLTests: XCTestCase {
     
     func testRootElement() {
         XCTAssertEqual(exampleXML.root.name, "animals", "Should be able to find root element.")
+        
+        let documentWithoutRootElement = AEXMLDocument()
+        let rootElement = documentWithoutRootElement.root
+        XCTAssertEqual(rootElement.error, AEXMLElement.Error.RootElementMissing, "Should have RootElementMissing error.")
     }
     
     func testParentElement() {
@@ -162,8 +166,9 @@ class AEXMLTests: XCTestCase {
     
     func testNotExistingElement() {
         // non-optional
-        XCTAssertEqual(exampleXML.root["ducks"]["duck"].name, AEXMLElement.errorElementName, "Should be able to tell you if element does not exist.")
-        XCTAssertEqual(exampleXML.root["ducks"]["duck"].stringValue, "element <ducks> not found", "Should be able to tell you which element does not exist.")
+        XCTAssertNotNil(exampleXML.root["ducks"]["duck"].error, "Should contain error inside element which does not exist.")
+        XCTAssertEqual(exampleXML.root["ducks"]["duck"].error, AEXMLElement.Error.ElementNotFound, "Should have ElementNotFound error.")
+        XCTAssertEqual(exampleXML.root["ducks"]["duck"].stringValue, String(), "Should have empty value.")
         
         // optional
         if let _ = exampleXML.root["ducks"]["duck"].first {
@@ -293,14 +298,21 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(firstCat.stringValue, "Tinna", "Should be able to remove the exact element from parent.")
     }
     
+    func testXMLEscapedString() {
+        let string = "&<>'\""
+        let escapedString = string.xmlEscaped
+        XCTAssertEqual(escapedString, "&amp;&lt;&gt;&apos;&quot;")
+    }
+    
     func testXMLString() {
         let newXMLDocument = AEXMLDocument()
         let children = newXMLDocument.addChild(name: "children")
-        let _ = children.addChild(name: "child", value: "value", attributes: ["attribute" : "attributeValue"])
+        let _ = children.addChild(name: "child", value: "value", attributes: ["attribute" : "attributeValue<&>"])
         let _ = children.addChild(name: "child")
         let _ = children.addChild(name: "child", value: "&<>'\"")
         
-        XCTAssertEqual(newXMLDocument.xmlString, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<children>\n\t<child attribute=\"attributeValue\">value</child>\n\t<child />\n\t<child>&amp;&lt;&gt;&apos;&quot;</child>\n</children>", "Should be able to print XML formatted string.")
+        XCTAssertEqual(newXMLDocument.xmlString, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<children>\n\t<child attribute=\"attributeValue&lt;&amp;&gt;\">value</child>\n\t<child />\n\t<child>&amp;&lt;&gt;&apos;&quot;</child>\n</children>", "Should be able to print XML formatted string.")
+        XCTAssertEqual(newXMLDocument.xmlStringCompact, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><children><child attribute=\"attributeValue&lt;&amp;&gt;\">value</child><child /><child>&amp;&lt;&gt;&apos;&quot;</child></children>", "Should be able to print compact XML string.")
     }
     
     // MARK: - XML Parse Performance

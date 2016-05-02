@@ -1,5 +1,19 @@
 # Changelog
 
+## Version 3.0.0
+
+- Fixed deprecation warnings in Xcode 7.3 (7D175)
+- Improved error handling logic (now returns empty element with `error` property)
+- Replaced `escapedStringValue` property with `xmlEscaped` property (String extension)
+- Added escaping of attribute values
+- Added `xmlStringCompact` property
+- Added support for Swift Package Manager
+- Added ability to create and configure `NSXMLParserOptions` from another package
+- Removed inheritance from NSObject (in AEXMLElement)
+- Created separate example project (AEXMLDemo)
+- Fixed several reported issues
+- Documentation improvements
+
 ## Version 2.1.0
 
 - Fixed deprecation warnings in Xcode 7.3 Beta (Swift 2.2)
