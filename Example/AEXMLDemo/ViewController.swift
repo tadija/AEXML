@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AEXML
 
 class ViewController: UIViewController {
 
@@ -20,7 +21,10 @@ class ViewController: UIViewController {
         guard let
             xmlPath = NSBundle.mainBundle().pathForResource("example", ofType: "xml"),
             data = NSData(contentsOfFile: xmlPath)
-        else { return }
+        else {
+            print("resource not found!")
+            return
+        }
         
         // example of using NSXMLParserOptions
         var options = AEXMLDocument.NSXMLParserOptions()
