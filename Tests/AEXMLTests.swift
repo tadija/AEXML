@@ -293,15 +293,21 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(firstCat.stringValue, "Tinna", "Should be able to remove the exact element from parent.")
     }
     
+    func testXMLEscapedString() {
+        let string = "&<>'\""
+        let escapedString = string.xmlEscaped
+        XCTAssertEqual(escapedString, "&amp;&lt;&gt;&apos;&quot;")
+    }
+    
     func testXMLString() {
         let newXMLDocument = AEXMLDocument()
         let children = newXMLDocument.addChild(name: "children")
-        let _ = children.addChild(name: "child", value: "value", attributes: ["attribute" : "attributeValue"])
+        let _ = children.addChild(name: "child", value: "value", attributes: ["attribute" : "attributeValue<&>"])
         let _ = children.addChild(name: "child")
         let _ = children.addChild(name: "child", value: "&<>'\"")
         
-        XCTAssertEqual(newXMLDocument.xmlString, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<children>\n\t<child attribute=\"attributeValue\">value</child>\n\t<child />\n\t<child>&amp;&lt;&gt;&apos;&quot;</child>\n</children>", "Should be able to print XML formatted string.")
-        XCTAssertEqual(newXMLDocument.xmlStringCompact, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><children><child attribute=\"attributeValue\">value</child><child /><child>&amp;&lt;&gt;&apos;&quot;</child></children>", "Should be able to print compact XML string.")
+        XCTAssertEqual(newXMLDocument.xmlString, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<children>\n\t<child attribute=\"attributeValue&lt;&amp;&gt;\">value</child>\n\t<child />\n\t<child>&amp;&lt;&gt;&apos;&quot;</child>\n</children>", "Should be able to print XML formatted string.")
+        XCTAssertEqual(newXMLDocument.xmlStringCompact, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><children><child attribute=\"attributeValue&lt;&amp;&gt;\">value</child><child /><child>&amp;&lt;&gt;&apos;&quot;</child></children>", "Should be able to print compact XML string.")
     }
     
     // MARK: - XML Parse Performance

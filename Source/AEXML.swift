@@ -52,20 +52,6 @@ public class AEXMLElement {
     /// String representation of `value` property (if `value` is `nil` this is empty String).
     public var stringValue: String { return value ?? String() }
     
-    /// String representation of `value` property with special characters escaped (if `value` is `nil` this is empty String).
-    public var escapedStringValue: String {
-        // we need to make sure "&" is escaped first. Not doing this may break escaping the other characters
-        var escapedString = stringValue.stringByReplacingOccurrencesOfString("&", withString: "&amp;", options: .LiteralSearch)
-        
-        // replace the other four special characters
-        let escapeChars = ["<" : "&lt;", ">" : "&gt;", "'" : "&apos;", "\"" : "&quot;"]
-        for (char, echar) in escapeChars {
-            escapedString = escapedString.stringByReplacingOccurrencesOfString(char, withString: echar, options: .LiteralSearch)
-        }
-        
-        return escapedString
-    }
-    
     /// Boolean representation of `value` property (if `value` is "true" or 1 this is `True`, otherwise `False`).
     public var boolValue: Bool { return stringValue.lowercaseString == "true" || Int(stringValue) == 1 ? true : false }
     
@@ -246,7 +232,7 @@ public class AEXMLElement {
         if attributes.count > 0 {
             // insert attributes
             for (key, value) in attributes {
-                xml += " \(key)=\"\(value)\""
+                xml += " \(key)=\"\(value.xmlEscaped)\""
             }
         }
         
@@ -265,7 +251,7 @@ public class AEXMLElement {
                 xml += "</\(name)>"
             } else {
                 // insert string value and close element
-                xml += ">\(escapedStringValue)</\(name)>"
+                xml += ">\(stringValue.xmlEscaped)</\(name)>"
             }
         }
         
@@ -276,6 +262,24 @@ public class AEXMLElement {
     public var xmlStringCompact: String {
         let chars = NSCharacterSet(charactersInString: "\n\t")
         return xmlString.componentsSeparatedByCharactersInSet(chars).joinWithSeparator("")
+    }
+    
+}
+
+public extension String {
+    
+    /// String representation of self with XML special characters escaped.
+    public var xmlEscaped: String {
+        // we need to make sure "&" is escaped first. Not doing this may break escaping the other characters
+        var escapedString = stringByReplacingOccurrencesOfString("&", withString: "&amp;", options: .LiteralSearch)
+        
+        // replace the other four special characters
+        let escapeChars = ["<" : "&lt;", ">" : "&gt;", "'" : "&apos;", "\"" : "&quot;"]
+        for (char, echar) in escapeChars {
+            escapedString = escapedString.stringByReplacingOccurrencesOfString(char, withString: echar, options: .LiteralSearch)
+        }
+        
+        return escapedString
     }
     
 }
