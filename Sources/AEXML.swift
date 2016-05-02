@@ -24,6 +24,8 @@
 
 import Foundation
 
+// MARK: - AEXMLElement
+
 /**
     This is base class for holding XML structure.
 
@@ -80,11 +82,11 @@ public class AEXMLElement {
     /**
         Designated initializer - all parameters are optional.
     
-        :param: name XML element name.
-        :param: value XML element value
-        :param: attributes XML element attributes
+        - parameter name: XML element name.
+        - parameter value: XML element value
+        - parameter attributes: XML element attributes
     
-        :returns: An initialized `AEXMLElement` object.
+        - returns: An initialized `AEXMLElement` object.
     */
     public init(_ name: String? = nil, value: String? = nil, attributes: [String : String]? = nil) {
         self.name = name ?? Defaults.name
@@ -94,7 +96,7 @@ public class AEXMLElement {
     
     // MARK: XML Read
     
-    // The first element with given name **(Empty element with error if not exists)**.
+    /// The first element with given name **(Empty element with error if not exists)**.
     public subscript(key: String) -> AEXMLElement {
         guard let
             first = children.filter({ $0.name == key }).first
@@ -135,9 +137,9 @@ public class AEXMLElement {
     /**
         Returns all elements with given value.
         
-        :param: value XML element value.
+        - parameter value: XML element value.
         
-        :returns: Optional Array of found XML elements.
+        - returns: Optional Array of found XML elements.
     */
     public func allWithValue(value: String) -> [AEXMLElement]? {
         let found = allWithCondition { (element) -> Bool in
@@ -149,9 +151,9 @@ public class AEXMLElement {
     /**
         Returns all elements with given attributes.
     
-        :param: attributes Dictionary of Keys and Values of attributes.
+        - parameter attributes: Dictionary of Keys and Values of attributes.
     
-        :returns: Optional Array of found XML elements.
+        - returns: Optional Array of found XML elements.
     */
     public func allWithAttributes(attributes: [String : String]) -> [AEXMLElement]? {
         let found = allWithCondition { (element) -> Bool in
@@ -171,9 +173,9 @@ public class AEXMLElement {
     /**
         Adds child XML element to `self`.
     
-        :param: child Child XML element to add.
+        - parameter child: Child XML element to add.
     
-        :returns: Child XML element with `self` as `parent`.
+        - returns: Child XML element with `self` as `parent`.
     */
     public func addChild(child: AEXMLElement) -> AEXMLElement {
         child.parent = self
@@ -184,11 +186,11 @@ public class AEXMLElement {
     /**
         Adds child XML element to `self`.
         
-        :param: name Child XML element name.
-        :param: value Child XML element value.
-        :param: attributes Child XML element attributes.
+        - parameter name: Child XML element name.
+        - parameter value: Child XML element value.
+        - parameter attributes: Child XML element attributes.
         
-        :returns: Child XML element with `self` as `parent`.
+        - returns: Child XML element with `self` as `parent`.
     */
     public func addChild(name name: String, value: String? = nil, attributes: [String : String]? = nil) -> AEXMLElement {
         let child = AEXMLElement(name, value: value, attributes: attributes)
@@ -278,20 +280,20 @@ public extension String {
     /// String representation of self with XML special characters escaped.
     public var xmlEscaped: String {
         // we need to make sure "&" is escaped first. Not doing this may break escaping the other characters
-        var escapedString = stringByReplacingOccurrencesOfString("&", withString: "&amp;", options: .LiteralSearch)
+        var escaped = stringByReplacingOccurrencesOfString("&", withString: "&amp;", options: .LiteralSearch)
         
         // replace the other four special characters
         let escapeChars = ["<" : "&lt;", ">" : "&gt;", "'" : "&apos;", "\"" : "&quot;"]
         for (char, echar) in escapeChars {
-            escapedString = escapedString.stringByReplacingOccurrencesOfString(char, withString: echar, options: .LiteralSearch)
+            escaped = escaped.stringByReplacingOccurrencesOfString(char, withString: echar, options: .LiteralSearch)
         }
         
-        return escapedString
+        return escaped
     }
     
 }
 
-// MARK: -
+// MARK: - AEXMLDocument
 
 /**
     This class is inherited from `AEXMLElement` and has a few addons to represent **XML Document**.
@@ -345,13 +347,13 @@ public class AEXMLDocument: AEXMLElement {
     /**
         Designated initializer - Creates and returns XML Document object.
     
-        :param: version Version value for XML Document header (defaults to 1.0).
-        :param: encoding Encoding value for XML Document header (defaults to "utf-8").
-        :param: standalone Standalone value for XML Document header (defaults to "no").
-        :param: root Root XML element for XML Document (defaults to `nil`).
-        :param: xmlParserOptions Options for NSXMLParser (defaults to `false` for all).
+        - parameter version: Version value for XML Document header (defaults to 1.0).
+        - parameter encoding: Encoding value for XML Document header (defaults to "utf-8").
+        - parameter standalone: Standalone value for XML Document header (defaults to "no").
+        - parameter root: Root XML element for XML Document (defaults to `nil`).
+        - parameter xmlParserOptions: Options for NSXMLParser (defaults to `false` for all).
     
-        :returns: An initialized XML Document object.
+        - returns: An initialized XML Document object.
     */
     public init(version: Double = Defaults.version,
                 encoding: String = Defaults.encoding,
@@ -380,13 +382,13 @@ public class AEXMLDocument: AEXMLElement {
     /**
         Convenience initializer - used for parsing XML data (by calling `loadXMLData:` internally).
     
-        :param: version Version value for XML Document header (defaults to 1.0).
-        :param: encoding Encoding value for XML Document header (defaults to "utf-8").
-        :param: standalone Standalone value for XML Document header (defaults to "no").
-        :param: xmlData XML data to parse.
-        :param: xmlParserOptions Options for NSXMLParser (defaults to `false` for all).
+        - parameter version: Version value for XML Document header (defaults to 1.0).
+        - parameter encoding: Encoding value for XML Document header (defaults to "utf-8").
+        - parameter standalone: Standalone value for XML Document header (defaults to "no").
+        - parameter xmlData: XML data to parse.
+        - parameter xmlParserOptions: Options for NSXMLParser (defaults to `false` for all).
     
-        :returns: An initialized XML Document object containing the parsed data. Throws error if the data could not be parsed.
+        - returns: An initialized XML Document object containing parsed data. Throws error if data could not be parsed.
     */
     public convenience init(version: Double = Defaults.version,
                             encoding: String = Defaults.encoding,
@@ -401,11 +403,10 @@ public class AEXMLDocument: AEXMLElement {
     // MARK: Read XML
     
     /**
-        Creates instance of `AEXMLParser` (private class which is simple wrapper around `NSXMLParser`) and starts parsing the given XML data.
+        Creates instance of `AEXMLParser` (private class which is simple wrapper around `NSXMLParser`) 
+        and starts parsing the given XML data. Throws error if data could not be parsed.
     
-        :param: data XML which should be parsed.
-    
-        :returns: `NSError` if parsing is not successfull, otherwise `nil`.
+        - parameter data: XML which should be parsed.
     */
     public func loadXMLData(data: NSData) throws {
         children.removeAll(keepCapacity: false)
@@ -426,7 +427,7 @@ public class AEXMLDocument: AEXMLElement {
     
 }
 
-// MARK: -
+// MARK: - AEXMLParser
 
 private class AEXMLParser: NSObject, NSXMLParserDelegate {
     
