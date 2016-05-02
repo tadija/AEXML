@@ -123,6 +123,9 @@ do {
     // prints Siberian
     print(xmlDoc.root["cats"]["cat"].attributes["breed"]!)
 
+    // prints <cat breed="Siberian" color="lightgray">Tinna</cat>
+    print(xmlDoc.root["cats"]["cat"].xmlStringCompact)
+
     // prints element <badexample> not found
     print(xmlDoc["badexample"]["notexisting"].stringValue)
     }

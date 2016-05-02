@@ -271,7 +271,13 @@ public class AEXMLElement {
         
         return xml
     }
-
+    
+    /// Same as `xmlString` but without `\n` and `\t` characters
+    public var xmlStringCompact: String {
+        let chars = NSCharacterSet(charactersInString: "\n\t")
+        return xmlString.componentsSeparatedByCharactersInSet(chars).joinWithSeparator("")
+    }
+    
 }
 
 // MARK: -
