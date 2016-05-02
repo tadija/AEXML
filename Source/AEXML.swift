@@ -296,9 +296,7 @@ public class AEXMLDocument: AEXMLElement {
         public var shouldReportNamespacePrefixes = false
         public var shouldResolveExternalEntities = false
         
-        public init() {
-            
-        }
+        public init() {}
     }
     
     // MARK: Properties
