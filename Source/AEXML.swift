@@ -292,9 +292,11 @@ public class AEXMLDocument: AEXMLElement {
     
     /// Default options used by NSXMLParser
     public struct NSXMLParserOptions {
-        var shouldProcessNamespaces = false
-        var shouldReportNamespacePrefixes = false
-        var shouldResolveExternalEntities = false
+        public var shouldProcessNamespaces = false
+        public var shouldReportNamespacePrefixes = false
+        public var shouldResolveExternalEntities = false
+        
+        public init() {}
     }
     
     // MARK: Properties
