@@ -92,8 +92,8 @@ class ViewController: UIViewController {
             // prints <cat breed="Siberian" color="lightgray">Tinna</cat>
             print(xmlDoc.root["cats"]["cat"].xmlStringCompact)
             
-            // prints element <badexample> not found
-            print(xmlDoc["badexample"]["notexisting"].stringValue)
+            // prints Optional(AEXMLExample.AEXMLElement.Error.ElementNotFound)
+            print(xmlDoc["NotExistingElement"].error)
         }
         catch {
             print("\(error)")

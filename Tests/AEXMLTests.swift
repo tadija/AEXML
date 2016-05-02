@@ -81,6 +81,10 @@ class AEXMLTests: XCTestCase {
     
     func testRootElement() {
         XCTAssertEqual(exampleXML.root.name, "animals", "Should be able to find root element.")
+        
+        let documentWithoutRootElement = AEXMLDocument()
+        let rootElement = documentWithoutRootElement.root
+        XCTAssertEqual(rootElement.error, AEXMLElement.Error.RootElementMissing, "Should have RootElementMissing error.")
     }
     
     func testParentElement() {
@@ -162,8 +166,9 @@ class AEXMLTests: XCTestCase {
     
     func testNotExistingElement() {
         // non-optional
-        XCTAssertEqual(exampleXML.root["ducks"]["duck"].name, AEXMLElement.errorElementName, "Should be able to tell you if element does not exist.")
-        XCTAssertEqual(exampleXML.root["ducks"]["duck"].stringValue, "element <ducks> not found", "Should be able to tell you which element does not exist.")
+        XCTAssertNotNil(exampleXML.root["ducks"]["duck"].error, "Should contain error inside element which does not exist.")
+        XCTAssertEqual(exampleXML.root["ducks"]["duck"].error, AEXMLElement.Error.ElementNotFound, "Should have ElementNotFound error.")
+        XCTAssertEqual(exampleXML.root["ducks"]["duck"].stringValue, String(), "Should have empty value.")
         
         // optional
         if let _ = exampleXML.root["ducks"]["duck"].first {

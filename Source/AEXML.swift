@@ -32,6 +32,17 @@ import Foundation
 */
 public class AEXMLElement {
     
+    /// A type representing an error value that can be inside `error` property.
+    public enum Error: ErrorType {
+        case ElementNotFound
+        case RootElementMissing
+    }
+    
+    private struct Defaults {
+        static let name = String()
+        static let attributes = [String : String]()
+    }
+    
     // MARK: Properties
     
     /// Every `AEXMLElement` should have its parent element instead of `AEXMLDocument` which parent is `nil`.
@@ -49,6 +60,9 @@ public class AEXMLElement {
     /// XML Element attributes (defaults to empty dictionary).
     public var attributes: [String : String]
     
+    /// Error value (`nil` if there is no error).
+    public var error: Error?
+    
     /// String representation of `value` property (if `value` is `nil` this is empty String).
     public var stringValue: String { return value ?? String() }
     
@@ -60,11 +74,6 @@ public class AEXMLElement {
     
     /// Double representation of `value` property (this is **0.00** if `value` can't be represented as Double).
     public var doubleValue: Double { return (stringValue as NSString).doubleValue }
-    
-    private struct Defaults {
-        static let name = String()
-        static let attributes = [String : String]()
-    }
     
     // MARK: Lifecycle
     
@@ -85,18 +94,16 @@ public class AEXMLElement {
     
     // MARK: XML Read
     
-    /// This element name is used when unable to find element.
-    public static let errorElementName = "AEXMLError"
-    
-    // The first element with given name **(AEXMLError element if not exists)**.
+    // The first element with given name **(Empty element with error if not exists)**.
     public subscript(key: String) -> AEXMLElement {
-        if name == AEXMLElement.errorElementName {
-            return self
-        } else {
-            let filtered = children.filter { $0.name == key }
-            let errorElement = AEXMLElement(AEXMLElement.errorElementName, value: "element <\(key)> not found")
-            return filtered.count > 0 ? filtered.first! : errorElement
+        guard let
+            first = children.filter({ $0.name == key }).first
+        else {
+            let errorElement = AEXMLElement(key)
+            errorElement.error = Error.ElementNotFound
+            return errorElement
         }
+        return first
     }
     
     /// Returns all of the elements with equal name as `self` **(nil if not exists)**.
@@ -323,9 +330,15 @@ public class AEXMLDocument: AEXMLElement {
     /// Options for NSXMLParser (default values are `false`)
     public let xmlParserOptions: NSXMLParserOptions
     
-    /// Root (the first child element) element of XML Document **(AEXMLError element if not exists)**.
-    private let errorElement = AEXMLElement(AEXMLElement.errorElementName, value: "XML Document must have root element.")
-    public var root: AEXMLElement { return children.count == 1 ? children.first! : errorElement }
+    /// Root (the first child element) element of XML Document **(Empty element with error if not exists)**.
+    public var root: AEXMLElement {
+        guard let rootElement = children.first else {
+            let errorElement = AEXMLElement()
+            errorElement.error = Error.RootElementMissing
+            return errorElement
+        }
+        return rootElement
+    }
     
     // MARK: Lifecycle
     
