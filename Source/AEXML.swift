@@ -30,7 +30,7 @@ import Foundation
     You can access its structure by using subscript like this: `element["foo"]["bar"]` which would
     return `<bar></bar>` element from `<element><foo><bar></bar></foo></element>` XML as an `AEXMLElement` object.
 */
-public class AEXMLElement: NSObject {
+public class AEXMLElement {
     
     // MARK: Properties
     
@@ -208,7 +208,7 @@ public class AEXMLElement: NSObject {
     }
     
     private func removeChild(child: AEXMLElement) {
-        if let childIndex = children.indexOf(child) {
+        if let childIndex = children.indexOf({ $0 === child }) {
             children.removeAtIndex(childIndex)
         }
     }
