@@ -1,6 +1,14 @@
 # AEXML
 **Simple and lightweight XML parser written in Swift**
 
+[![Language Swift 2.2](https://img.shields.io/badge/Language-Swift%202.2-orange.svg?style=flat)](https://swift.org)
+[![Platforms iOS | watchOS | tvOS | OSX](https://img.shields.io/badge/Platforms-iOS%20%7C%20watchOS%20%7C%20tvOS%20%7C%20OS%20X-lightgray.svg?style=flat)](http://www.apple.com)
+[![License MIT](https://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat)](https://github.com/tadija/AEXML/blob/master/LICENSE)
+
+[![CocoaPods Version](https://img.shields.io/cocoapods/v/AELog.svg?style=flat)](https://cocoapods.org/pods/AEXML)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-brightgreen.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![Swift Package Manager compatible](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
+
 > This is not robust full featured XML parser (still), but rather simple,  
 and very easy to use utility for casual XML handling (it just works).
 
@@ -12,23 +20,21 @@ Class | Description
 `AEXMLDocument` | Inherited from `AEXMLElement` with a few addons
 `AEXMLParser` | Simple (private) wrapper around `NSXMLParser`
 
+## Index
+- [Features](#features)
+- [Example](#example)
+    - [Read XML](#read-xml)
+    - [Write XML](#write-xml)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [License](#license)
 
 ## Features
 - **Read XML** data
 - **Write XML** string
 - Covered with **unit tests**
-- Covered with [docs](http://tadija.net/projects/AEXML/docs/)
-- **Swift 2.2** ready
-
-
-## Index
-- [Example](#example)
-  - [Read XML](#read-xml)
-  - [Write XML](#write-xml)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [License](#license)
-
+- Covered with [docs](http://cocoadocs.org/docsets/AEXML)
+- **Swift 3.0** ready
 
 ## Example
 
@@ -167,12 +173,10 @@ getStockPrice.addChild(name: "m:StockName", value: "AAPL")
 println(soapRequest.xmlString)
 ```
 
-
 ## Requirements
-- Xcode 7.0+
+- Xcode 7.3+
 - iOS 8.0+
 - AEXML doesn't require any additional libraries for it to work.
-
 
 ## Installation
 
