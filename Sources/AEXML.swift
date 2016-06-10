@@ -490,3 +490,42 @@ private class AEXMLParser: NSObject, NSXMLParserDelegate {
     }
     
 }
+
+// MARK: - AEXMLBuilder
+
+public class AEXMLBuilder {
+    
+    public let document: AEXMLDocument
+    
+    public class Handle {
+        
+        var base: AEXMLElement
+        
+        init(root: AEXMLElement) {
+            self.base = root
+        }
+        
+        public func element(name: String,
+                            attributes: [String : String] = [String : String](),
+                            content: () -> Void = {}) {
+            let savedBase = base
+            base = savedBase.addChild(name: name, value: nil, attributes: attributes)
+            content()
+            base = savedBase
+        }
+        
+        public func element(name: String,
+                            value: String,
+                            attributes: [String : String] = [String : String]()) {
+            base.addChild(name: name, value: value, attributes: attributes)
+        }
+        
+    }
+    
+    public init(_ body: (Handle) -> Void) {
+        document = AEXMLDocument()
+        let handle = Handle(root: document)
+        body(handle)
+    }
+    
+}

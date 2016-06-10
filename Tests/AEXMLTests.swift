@@ -315,6 +315,19 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(newXMLDocument.xmlStringCompact, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><children><child attribute=\"attributeValue&lt;&amp;&gt;\">value</child><child /><child>&amp;&lt;&gt;&apos;&quot;</child></children>", "Should be able to print compact XML string.")
     }
     
+    func testBuilder() {
+        let builder = AEXMLBuilder { xml in
+            xml.element("children") {
+                xml.element("child", value: "value", attributes: ["attribute" : "attributeValue<&>"])
+                xml.element("child")
+                xml.element("child", value: "&<>'\"")
+            }
+        }
+        let document = builder.document
+        XCTAssertEqual(document.xmlString, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<children>\n\t<child attribute=\"attributeValue&lt;&amp;&gt;\">value</child>\n\t<child />\n\t<child>&amp;&lt;&gt;&apos;&quot;</child>\n</children>", "Should be able to print XML formatted string.")
+        XCTAssertEqual(document.xmlStringCompact, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><children><child attribute=\"attributeValue&lt;&amp;&gt;\">value</child><child /><child>&amp;&lt;&gt;&apos;&quot;</child></children>", "Should be able to print compact XML string.")
+    }
+    
     // MARK: - XML Parse Performance
     
     func testReadXMLPerformance() {
