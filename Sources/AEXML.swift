@@ -490,3 +490,63 @@ private class AEXMLParser: NSObject, NSXMLParserDelegate {
     }
     
 }
+
+// MARK: - AEXMLBuilder
+
+/**
+    A builder building an XML Document.
+
+    Building is done during initialization. Example:
+
+    ```swift
+    let builder = AEXMLBuilder { xml in
+        xml.element("meal", attributes: ["id" : "D3E-2TF"]) {
+            xml.element("veggie", value: "cabbage", attributes: ["origin" : "US"])
+            xml.element("soup")
+            xml.element("meat", value: "beef")
+        }
+    }
+    let document = builder.document
+    ```
+*/
+public class AEXMLBuilder {
+    
+    /// The document built by this builder.
+    public let document: AEXMLDocument
+    
+    /// A handle with which we can add elements to the document.
+    public class Handle {
+        
+        private var base: AEXMLElement
+        
+        private init(root: AEXMLElement) {
+            self.base = root
+        }
+        
+        /// Add an element without a value, possibly with child elements.
+        public func element(name: String,
+                            attributes: [String : String] = [String : String](),
+                            content: () -> Void = {}) {
+            let savedBase = base
+            base = savedBase.addChild(name: name, value: nil, attributes: attributes)
+            content()
+            base = savedBase
+        }
+        
+        /// Add an element with a value.
+        public func element(name: String,
+                            value: String,
+                            attributes: [String : String] = [String : String]()) {
+            base.addChild(name: name, value: value, attributes: attributes)
+        }
+        
+    }
+    
+    /// Create a builder and build the document within the trailing closure.
+    public init(_ body: (Handle) -> Void) {
+        document = AEXMLDocument()
+        let handle = Handle(root: document)
+        body(handle)
+    }
+    
+}
