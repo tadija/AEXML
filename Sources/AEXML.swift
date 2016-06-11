@@ -517,9 +517,9 @@ public class AEXMLBuilder {
     /// A handle with which we can add elements to the document.
     public class Handle {
         
-        var base: AEXMLElement
+        private var base: AEXMLElement
         
-        init(root: AEXMLElement) {
+        private init(root: AEXMLElement) {
             self.base = root
         }
         
