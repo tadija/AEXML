@@ -35,7 +35,7 @@ import Foundation
 public class AEXMLElement {
     
     /// A type representing an error value that can be inside `error` property.
-    public enum Error: ErrorType {
+    public enum Error: ErrorProtocol {
         case ElementNotFound
         case RootElementMissing
     }
@@ -69,7 +69,7 @@ public class AEXMLElement {
     public var stringValue: String { return value ?? String() }
     
     /// Boolean representation of `value` property (if `value` is "true" or 1 this is `True`, otherwise `False`).
-    public var boolValue: Bool { return stringValue.lowercaseString == "true" || Int(stringValue) == 1 ? true : false }
+    public var boolValue: Bool { return stringValue.lowercased() == "true" || Int(stringValue) == 1 ? true : false }
     
     /// Integer representation of `value` property (this is **0** if `value` can't be represented as Integer).
     public var intValue: Int { return Int(stringValue) ?? 0 }
@@ -192,19 +192,19 @@ public class AEXMLElement {
         
         - returns: Child XML element with `self` as `parent`.
     */
-    public func addChild(name name: String, value: String? = nil, attributes: [String : String]? = nil) -> AEXMLElement {
+    public func addChild(name: String, value: String? = nil, attributes: [String : String]? = nil) -> AEXMLElement {
         let child = AEXMLElement(name, value: value, attributes: attributes)
-        return addChild(child)
+        return addChild(child: child)
     }
     
     /// Removes `self` from `parent` XML element.
     public func removeFromParent() {
-        parent?.removeChild(self)
+        parent?.removeChild(child: self)
     }
     
     private func removeChild(child: AEXMLElement) {
-        if let childIndex = children.indexOf({ $0 === child }) {
-            children.removeAtIndex(childIndex)
+        if let childIndex = children.index(where: { $0 === child }) {
+            children.remove(at: childIndex)
         }
     }
     
@@ -235,7 +235,7 @@ public class AEXMLElement {
         var xml = String()
         
         // open element
-        xml += indentation(parentsCount - 1)
+        xml += indentation(depth: parentsCount - 1)
         xml += "<\(name)"
         
         if attributes.count > 0 {
@@ -256,7 +256,7 @@ public class AEXMLElement {
                     xml += "\(child.xmlString)\n"
                 }
                 // add indentation
-                xml += indentation(parentsCount - 1)
+                xml += indentation(depth: parentsCount - 1)
                 xml += "</\(name)>"
             } else {
                 // insert string value and close element
@@ -269,8 +269,8 @@ public class AEXMLElement {
     
     /// Same as `xmlString` but without `\n` and `\t` characters
     public var xmlStringCompact: String {
-        let chars = NSCharacterSet(charactersInString: "\n\t")
-        return xmlString.componentsSeparatedByCharactersInSet(chars).joinWithSeparator("")
+        let chars = CharacterSet(charactersIn: "\n\t")
+        return xmlString.components(separatedBy: chars).joined(separator: "")
     }
     
 }
@@ -280,12 +280,12 @@ public extension String {
     /// String representation of self with XML special characters escaped.
     public var xmlEscaped: String {
         // we need to make sure "&" is escaped first. Not doing this may break escaping the other characters
-        var escaped = stringByReplacingOccurrencesOfString("&", withString: "&amp;", options: .LiteralSearch)
+        var escaped = replacingOccurrences(of: "&", with: "&amp;", options: .literalSearch)
         
         // replace the other four special characters
         let escapeChars = ["<" : "&lt;", ">" : "&gt;", "'" : "&apos;", "\"" : "&quot;"]
         for (char, echar) in escapeChars {
-            escaped = escaped.stringByReplacingOccurrencesOfString(char, withString: echar, options: .LiteralSearch)
+            escaped = escaped.replacingOccurrences(of: char, with: echar, options: .literalSearch)
         }
         
         return escaped
@@ -375,7 +375,7 @@ public class AEXMLDocument: AEXMLElement {
         
         // add root element to document (if any)
         if let rootElement = root {
-            addChild(rootElement)
+            _ = addChild(child: rootElement)
         }
     }
     
@@ -397,7 +397,7 @@ public class AEXMLDocument: AEXMLElement {
                             xmlParserOptions: NSXMLParserOptions = NSXMLParserOptions()) throws
     {
         self.init(version: version, encoding: encoding, standalone: standalone, xmlParserOptions: xmlParserOptions)
-        try loadXMLData(xmlData)
+        try loadXMLData(data: xmlData)
     }
     
     // MARK: Read XML
@@ -409,7 +409,7 @@ public class AEXMLDocument: AEXMLElement {
         - parameter data: XML which should be parsed.
     */
     public func loadXMLData(data: NSData) throws {
-        children.removeAll(keepCapacity: false)
+        children.removeAll(keepingCapacity: false)
         let xmlParser = AEXMLParser(xmlDocument: self, xmlData: data)
         try xmlParser.parse()
     }
@@ -429,7 +429,7 @@ public class AEXMLDocument: AEXMLElement {
 
 // MARK: - AEXMLParser
 
-private class AEXMLParser: NSObject, NSXMLParserDelegate {
+private class AEXMLParser: NSObject, XMLParserDelegate {
     
     // MARK: Properties
     
@@ -453,7 +453,7 @@ private class AEXMLParser: NSObject, NSXMLParserDelegate {
     // MARK: XML Parse
     
     func parse() throws {
-        let parser = NSXMLParser(data: xmlData)
+        let parser = XMLParser(data: xmlData as Data)
         parser.delegate = self
         
         parser.shouldProcessNamespaces = xmlDocument.xmlParserOptions.shouldProcessNamespaces
@@ -468,24 +468,24 @@ private class AEXMLParser: NSObject, NSXMLParserDelegate {
     
     // MARK: NSXMLParserDelegate
     
-    @objc func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
+    @objc func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
         currentValue = String()
         currentElement = currentParent?.addChild(name: elementName, attributes: attributeDict)
         currentParent = currentElement
     }
     
-    @objc func parser(parser: NSXMLParser, foundCharacters string: String) {
+    @objc func parser(_ parser: XMLParser, foundCharacters string: String) {
         currentValue += string
-        let newValue = currentValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        let newValue = currentValue.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines())
         currentElement?.value = newValue == String() ? nil : newValue
     }
     
-    @objc func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+    @objc func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         currentParent = currentParent?.parent
         currentElement = nil
     }
     
-    @objc func parser(parser: NSXMLParser, parseErrorOccurred parseError: NSError) {
+    @objc func parser(_ parser: XMLParser, parseErrorOccurred parseError: NSError) {
         self.parseError = parseError
     }
     

@@ -36,14 +36,14 @@ class AEXMLTests: XCTestCase {
     // MARK: - Helpers
     
     func URLForResource(fileName: String, withExtension: String) -> NSURL {
-        let bundle = NSBundle(forClass: AEXMLTests.self)
-        return bundle.URLForResource(fileName, withExtension: withExtension)!
+        let bundle = Bundle(for: AEXMLTests.self)
+        return bundle.urlForResource(fileName, withExtension: withExtension)!
     }
     
     func xmlDocumentFromURL(url: NSURL) -> AEXMLDocument {
         var xmlDocument = AEXMLDocument()
         
-        if let data = NSData(contentsOfURL: url) {
+        if let data = NSData(contentsOf: url as URL) {
             do {
                 xmlDocument = try AEXMLDocument(xmlData: data)
             } catch {
@@ -55,8 +55,8 @@ class AEXMLTests: XCTestCase {
     }
     
     func readXMLFromFile(filename: String) -> AEXMLDocument {
-        let url = URLForResource(filename, withExtension: "xml")
-        return xmlDocumentFromURL(url)
+        let url = URLForResource(fileName: filename, withExtension: "xml")
+        return xmlDocumentFromURL(url: url)
     }
     
     // MARK: - Setup & Teardown
@@ -65,8 +65,8 @@ class AEXMLTests: XCTestCase {
         super.setUp()
         
         // create some sample xml documents
-        exampleXML = readXMLFromFile("example")
-        plantsXML = readXMLFromFile("plant_catalog")
+        exampleXML = readXMLFromFile(filename: "example")
+        plantsXML = readXMLFromFile(filename: "plant_catalog")
     }
     
     override func tearDown() {
@@ -219,10 +219,10 @@ class AEXMLTests: XCTestCase {
     
     func testAllWithValue() {
         let cats = exampleXML.root["cats"]
-        cats.addChild(name: "cat", value: "Tinna")
+        _ = cats.addChild(name: "cat", value: "Tinna")
         
         var count = 0
-        if let tinnas = cats["cat"].allWithValue("Tinna") {
+        if let tinnas = cats["cat"].allWithValue(value: "Tinna") {
             for _ in tinnas {
                 count += 1
             }
@@ -232,7 +232,7 @@ class AEXMLTests: XCTestCase {
     
     func testAllWithAttributes() {
         var count = 0
-        if let bulls = exampleXML.root["dogs"]["dog"].allWithAttributes(["color" : "white"]) {
+        if let bulls = exampleXML.root["dogs"]["dog"].allWithAttributes(attributes: ["color" : "white"]) {
             for _ in bulls {
                 count += 1
             }
@@ -244,9 +244,9 @@ class AEXMLTests: XCTestCase {
     
     func testAddChild() {
         let ducks = exampleXML.root.addChild(name: "ducks")
-        ducks.addChild(name: "duck", value: "Donald")
-        ducks.addChild(name: "duck", value: "Daisy")
-        ducks.addChild(name: "duck", value: "Scrooge")
+        _ = ducks.addChild(name: "duck", value: "Donald")
+        _ = ducks.addChild(name: "duck", value: "Daisy")
+        _ = ducks.addChild(name: "duck", value: "Scrooge")
         
         let animalsCount = exampleXML.root.children.count
         XCTAssertEqual(animalsCount, 3, "Should be able to add child elements to an element.")
@@ -257,8 +257,8 @@ class AEXMLTests: XCTestCase {
         let cats = exampleXML.root["cats"]
         let dogs = exampleXML.root["dogs"]
         
-        cats.addChild(name: "cat", value: "Garfield", attributes: ["breed" : "tabby", "color" : "orange"])
-        dogs.addChild(name: "dog", value: "Snoopy", attributes: ["breed" : "beagle", "color" : "white"])
+        _ = cats.addChild(name: "cat", value: "Garfield", attributes: ["breed" : "tabby", "color" : "orange"])
+        _ = dogs.addChild(name: "dog", value: "Snoopy", attributes: ["breed" : "beagle", "color" : "white"])
         
         let catsCount = cats["cat"].count
         let dogsCount = dogs["dog"].count
@@ -318,13 +318,13 @@ class AEXMLTests: XCTestCase {
     // MARK: - XML Parse Performance
     
     func testReadXMLPerformance() {
-        self.measureBlock() {
-            _ = self.readXMLFromFile("plant_catalog")
+        self.measure() {
+            _ = self.readXMLFromFile(filename: "plant_catalog")
         }
     }
     
     func testWriteXMLPerformance() {
-        self.measureBlock() {
+        self.measure() {
             _ = self.plantsXML.xmlString
         }
     }
