@@ -179,7 +179,10 @@
 				8BFE78AA19F0054100914487 /* Products */,
 				8B8C736E1CD816C100A4E197 /* Supporting Files */,
 			);
+			indentWidth = 4;
 			sourceTree = "<group>";
+			tabWidth = 4;
+			usesTabs = 0;
 		};
 		8BFE78AA19F0054100914487 /* Products */ = {
 			isa = PBXGroup;
