@@ -1,7 +1,7 @@
 # AEXML
 **Simple and lightweight XML parser written in Swift**
 
-[![Language Swift 2.2](https://img.shields.io/badge/Language-Swift%202.2-orange.svg?style=flat)](https://swift.org)
+[![Language Swift 2.3](https://img.shields.io/badge/Language-Swift%202.3-orange.svg?style=flat)](https://swift.org)
 [![Platforms iOS | watchOS | tvOS | OSX](https://img.shields.io/badge/Platforms-iOS%20%7C%20watchOS%20%7C%20tvOS%20%7C%20OS%20X-lightgray.svg?style=flat)](http://www.apple.com)
 [![License MIT](https://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat)](https://github.com/tadija/AEXML/blob/master/LICENSE)
 
@@ -34,7 +34,7 @@ Class | Description
 - **Write XML** string
 - Covered with **unit tests**
 - Covered with [docs](http://cocoadocs.org/docsets/AEXML)
-- **Swift 2.2** ready
+- **Swift 2.3** ready
 
 ## Example
 
