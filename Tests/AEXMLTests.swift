@@ -35,12 +35,12 @@ class AEXMLTests: XCTestCase {
     
     // MARK: - Helpers
     
-    func URLForResource(fileName: String, withExtension: String) -> NSURL {
+    func URLForResource(fileName: String, withExtension: String) -> URL {
         let bundle = Bundle(for: AEXMLTests.self)
         return bundle.urlForResource(fileName, withExtension: withExtension)!
     }
     
-    func xmlDocumentFromURL(url: NSURL) -> AEXMLDocument {
+    func xmlDocumentFromURL(url: URL) -> AEXMLDocument {
         var xmlDocument = AEXMLDocument()
         
         if let data = NSData(contentsOf: url as URL) {
