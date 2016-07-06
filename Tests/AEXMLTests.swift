@@ -43,7 +43,7 @@ class AEXMLTests: XCTestCase {
     func xmlDocumentFromURL(url: URL) -> AEXMLDocument {
         var xmlDocument = AEXMLDocument()
         
-        if let data = NSData(contentsOf: url as URL) {
+        if let data = NSData(contentsOf: url) {
             do {
                 xmlDocument = try AEXMLDocument(xmlData: data)
             } catch {
