@@ -280,12 +280,12 @@ public extension String {
     /// String representation of self with XML special characters escaped.
     public var xmlEscaped: String {
         // we need to make sure "&" is escaped first. Not doing this may break escaping the other characters
-        var escaped = replacingOccurrences(of: "&", with: "&amp;", options: .literalSearch)
+        var escaped = replacingOccurrences(of: "&", with: "&amp;", options: .literal)
         
         // replace the other four special characters
         let escapeChars = ["<" : "&lt;", ">" : "&gt;", "'" : "&apos;", "\"" : "&quot;"]
         for (char, echar) in escapeChars {
-            escaped = escaped.replacingOccurrences(of: char, with: echar, options: .literalSearch)
+            escaped = escaped.replacingOccurrences(of: char, with: echar, options: .literal)
         }
         
         return escaped
@@ -476,7 +476,7 @@ private class AEXMLParser: NSObject, XMLParserDelegate {
     
     @objc func parser(_ parser: XMLParser, foundCharacters string: String) {
         currentValue += string
-        let newValue = currentValue.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines())
+        let newValue = currentValue.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines)
         currentElement?.value = newValue == String() ? nil : newValue
     }
     
