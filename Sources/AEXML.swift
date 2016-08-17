@@ -120,11 +120,11 @@ public class AEXMLElement {
     /// Returns number of all elements with equal name as `self`.
     public var count: Int { return all?.count ?? 0 }
 
-    private func allWithCondition(_ fulfillCondition: (_ element: AEXMLElement) -> Bool) -> [AEXMLElement]? {
+    private func allWith(condition: (_ element: AEXMLElement) -> Bool) -> [AEXMLElement]? {
         var found = [AEXMLElement]()
         if let elements = all {
             for element in elements {
-                if fulfillCondition(element) {
+                if condition(element) {
                     found.append(element)
                 }
             }
@@ -141,8 +141,8 @@ public class AEXMLElement {
         
         - returns: Optional Array of found XML elements.
     */
-    public func allWithValue(_ value: String) -> [AEXMLElement]? {
-        let found = allWithCondition { (element) -> Bool in
+    public func allWith(value: String) -> [AEXMLElement]? {
+        let found = allWith { (element) -> Bool in
             return element.value == value
         }
         return found
@@ -155,8 +155,8 @@ public class AEXMLElement {
     
         - returns: Optional Array of found XML elements.
     */
-    public func allWithAttributes(_ attributes: [String : String]) -> [AEXMLElement]? {
-        let found = allWithCondition { (element) -> Bool in
+    public func allWith(attributes: [String : String]) -> [AEXMLElement]? {
+        let found = allWith { (element) -> Bool in
             var countAttributes = 0
             for (key, value) in attributes {
                 if element.attributes[key] == value {

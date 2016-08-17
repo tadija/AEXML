@@ -221,7 +221,7 @@ class AEXMLTests: XCTestCase {
         _ = cats.addChild(name: "cat", value: "Tinna")
         
         var count = 0
-        if let tinnas = cats["cat"].allWithValue("Tinna") {
+        if let tinnas = cats["cat"].allWith(value: "Tinna") {
             for _ in tinnas {
                 count += 1
             }
@@ -231,7 +231,7 @@ class AEXMLTests: XCTestCase {
     
     func testAllWithAttributes() {
         var count = 0
-        if let bulls = exampleXML.root["dogs"]["dog"].allWithAttributes(["color" : "white"]) {
+        if let bulls = exampleXML.root["dogs"]["dog"].allWith(attributes: ["color" : "white"]) {
             for _ in bulls {
                 count += 1
             }
