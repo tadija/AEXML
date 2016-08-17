@@ -35,7 +35,7 @@ import Foundation
 public class AEXMLElement {
     
     /// A type representing an error value that can be inside `error` property.
-    public enum Error: ErrorProtocol {
+    public enum AEXMLError: Error {
         case elementNotFound
         case rootElementMissing
     }
@@ -48,10 +48,10 @@ public class AEXMLElement {
     // MARK: Properties
     
     /// Every `AEXMLElement` should have its parent element instead of `AEXMLDocument` which parent is `nil`.
-    public private(set) weak var parent: AEXMLElement?
+    public internal(set) weak var parent: AEXMLElement?
     
     /// Child XML elements.
-    public private(set) var children: [AEXMLElement] = [AEXMLElement]()
+    public internal(set) var children: [AEXMLElement] = [AEXMLElement]()
     
     /// XML Element name (defaults to empty string).
     public var name: String
@@ -63,7 +63,7 @@ public class AEXMLElement {
     public var attributes: [String : String]
     
     /// Error value (`nil` if there is no error).
-    public var error: Error?
+    public var error: AEXMLError?
     
     /// String representation of `value` property (if `value` is `nil` this is empty String).
     public var stringValue: String { return value ?? String() }
@@ -102,7 +102,7 @@ public class AEXMLElement {
             first = children.filter({ $0.name == key }).first
         else {
             let errorElement = AEXMLElement(key)
-            errorElement.error = Error.elementNotFound
+            errorElement.error = AEXMLError.elementNotFound
             return errorElement
         }
         return first
@@ -120,11 +120,11 @@ public class AEXMLElement {
     /// Returns number of all elements with equal name as `self`.
     public var count: Int { return all?.count ?? 0 }
 
-    private func allWithCondition(_ fulfillCondition: (element: AEXMLElement) -> Bool) -> [AEXMLElement]? {
+    private func allWithCondition(_ fulfillCondition: (_ element: AEXMLElement) -> Bool) -> [AEXMLElement]? {
         var found = [AEXMLElement]()
         if let elements = all {
             for element in elements {
-                if fulfillCondition(element: element) {
+                if fulfillCondition(element) {
                     found.append(element)
                 }
             }
@@ -192,7 +192,7 @@ public class AEXMLElement {
         
         - returns: Child XML element with `self` as `parent`.
     */
-    public func addChild(_ name: String, value: String? = nil, attributes: [String : String]? = nil) -> AEXMLElement {
+    public func addChild(name: String, value: String? = nil, attributes: [String : String]? = nil) -> AEXMLElement {
         let child = AEXMLElement(name, value: value, attributes: attributes)
         return addChild(child)
     }
@@ -336,7 +336,7 @@ public class AEXMLDocument: AEXMLElement {
     public var root: AEXMLElement {
         guard let rootElement = children.first else {
             let errorElement = AEXMLElement()
-            errorElement.error = Error.rootElementMissing
+            errorElement.error = AEXMLError.rootElementMissing
             return errorElement
         }
         return rootElement
@@ -470,7 +470,7 @@ private class AEXMLParser: NSObject, XMLParserDelegate {
     
     @objc func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
         currentValue = String()
-        currentElement = currentParent?.addChild(elementName, attributes: attributeDict)
+        currentElement = currentParent?.addChild(name: elementName, attributes: attributeDict)
         currentParent = currentElement
     }
     

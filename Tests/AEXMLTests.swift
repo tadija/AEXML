@@ -37,18 +37,17 @@ class AEXMLTests: XCTestCase {
     
     func URLForResource(fileName: String, withExtension: String) -> URL {
         let bundle = Bundle(for: AEXMLTests.self)
-        return bundle.urlForResource(fileName, withExtension: withExtension)!
+        return bundle.url(forResource: fileName, withExtension: withExtension)!
     }
     
     func xmlDocumentFromURL(url: URL) -> AEXMLDocument {
         var xmlDocument = AEXMLDocument()
         
-        if let data = NSData(contentsOf: url) {
-            do {
-                xmlDocument = try AEXMLDocument(xmlData: data)
-            } catch {
-                print(error)
-            }
+        do {
+            let data = try Data.init(contentsOf: url)
+            xmlDocument = try AEXMLDocument(xmlData: data)
+        } catch {
+            print(error)
         }
         
         return xmlDocument
@@ -84,7 +83,7 @@ class AEXMLTests: XCTestCase {
         
         let documentWithoutRootElement = AEXMLDocument()
         let rootElement = documentWithoutRootElement.root
-        XCTAssertEqual(rootElement.error, AEXMLElement.Error.RootElementMissing, "Should have RootElementMissing error.")
+        XCTAssertEqual(rootElement.error, AEXMLElement.AEXMLError.rootElementMissing, "Should have RootElementMissing error.")
     }
     
     func testParentElement() {
@@ -167,7 +166,7 @@ class AEXMLTests: XCTestCase {
     func testNotExistingElement() {
         // non-optional
         XCTAssertNotNil(exampleXML.root["ducks"]["duck"].error, "Should contain error inside element which does not exist.")
-        XCTAssertEqual(exampleXML.root["ducks"]["duck"].error, AEXMLElement.Error.ElementNotFound, "Should have ElementNotFound error.")
+        XCTAssertEqual(exampleXML.root["ducks"]["duck"].error, AEXMLElement.AEXMLError.elementNotFound, "Should have ElementNotFound error.")
         XCTAssertEqual(exampleXML.root["ducks"]["duck"].stringValue, String(), "Should have empty value.")
         
         // optional
@@ -222,7 +221,7 @@ class AEXMLTests: XCTestCase {
         _ = cats.addChild(name: "cat", value: "Tinna")
         
         var count = 0
-        if let tinnas = cats["cat"].allWithValue(value: "Tinna") {
+        if let tinnas = cats["cat"].allWithValue("Tinna") {
             for _ in tinnas {
                 count += 1
             }
@@ -232,7 +231,7 @@ class AEXMLTests: XCTestCase {
     
     func testAllWithAttributes() {
         var count = 0
-        if let bulls = exampleXML.root["dogs"]["dog"].allWithAttributes(attributes: ["color" : "white"]) {
+        if let bulls = exampleXML.root["dogs"]["dog"].allWithAttributes(["color" : "white"]) {
             for _ in bulls {
                 count += 1
             }
