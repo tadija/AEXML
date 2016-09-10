@@ -52,9 +52,9 @@ internal class AEXMLParser: NSObject, XMLParserDelegate {
         let parser = XMLParser(data: data)
         parser.delegate = self
         
-        parser.shouldProcessNamespaces = document.options.shouldProcessNamespaces
-        parser.shouldReportNamespacePrefixes = document.options.shouldReportNamespacePrefixes
-        parser.shouldResolveExternalEntities = document.options.shouldResolveExternalEntities
+        parser.shouldProcessNamespaces = document.options.parserSettings.shouldProcessNamespaces
+        parser.shouldReportNamespacePrefixes = document.options.parserSettings.shouldReportNamespacePrefixes
+        parser.shouldResolveExternalEntities = document.options.parserSettings.shouldResolveExternalEntities
         
         let success = parser.parse()
         

@@ -29,73 +29,35 @@
 */
 open class AEXMLDocument: AEXMLElement {
     
-    fileprivate struct Defaults {
-        static let version = 1.0
-        static let encoding = "utf-8"
-        static let standalone = "no"
-        static let documentName = "AEXMLDocument"
-    }
-    
-    /// Default options used by XMLParser
-    public struct Options {
-        public var shouldProcessNamespaces = false
-        public var shouldReportNamespacePrefixes = false
-        public var shouldResolveExternalEntities = false
-        
-        public init() {}
-    }
-    
     // MARK: - Properties
-    
-    /// This is only used for XML Document header (default value is 1.0).
-    open let version: Double
-    
-    /// This is only used for XML Document header (default value is "utf-8").
-    open let encoding: String
-    
-    /// This is only used for XML Document header (default value is "no").
-    open let standalone: String
-    
-    /// Options for XMLParser (default values are all `false`)
-    open let options: Options
     
     /// Root (the first child element) element of XML Document **(Empty element with error if not exists)**.
     open var root: AEXMLElement {
         guard let rootElement = children.first else {
-            let errorElement = AEXMLElement(name: Defaults.documentName)
+            let errorElement = AEXMLElement(name: "Error")
             errorElement.error = AEXMLError.rootElementMissing
             return errorElement
         }
         return rootElement
     }
     
+    open let options: AEXMLOptions
+    
     // MARK: - Lifecycle
     
     /**
-        Designated initializer - Creates and returns XML Document object.
-    
-        - parameter version: Version value for XML Document header (defaults to 1.0).
-        - parameter encoding: Encoding value for XML Document header (defaults to "utf-8").
-        - parameter standalone: Standalone value for XML Document header (defaults to "no").
+        Designated initializer - Creates and returns new XML Document object.
+     
         - parameter root: Root XML element for XML Document (defaults to `nil`).
-        - parameter options: Options for XMLParser (defaults to `false` for all).
+        - parameter options: Options for XML Document header and parser settings (defaults to `AEXMLOptions()`).
     
-        - returns: An initialized XML Document object.
+        - returns: Initialized XML Document object.
     */
-    public init(version: Double = Defaults.version,
-                encoding: String = Defaults.encoding,
-                standalone: String = Defaults.standalone,
-                root: AEXMLElement? = nil,
-                options: Options = Options())
-    {
-        // set document properties
-        self.version = version
-        self.encoding = encoding
-        self.standalone = standalone
+    public init(root: AEXMLElement? = nil, options: AEXMLOptions = AEXMLOptions()) {
         self.options = options
         
-        // init super with default name
-        super.init(name: Defaults.documentName)
+        let documentName = String(describing: AEXMLDocument.self)
+        super.init(name: documentName)
         
         // document has no parent element
         parent = nil
@@ -108,23 +70,32 @@ open class AEXMLDocument: AEXMLElement {
     
     /**
         Convenience initializer - used for parsing XML data (by calling `loadXMLData:` internally).
-    
-        - parameter version: Version value for XML Document header (defaults to 1.0).
-        - parameter encoding: Encoding value for XML Document header (defaults to "utf-8").
-        - parameter standalone: Standalone value for XML Document header (defaults to "no").
+     
         - parameter xmlData: XML data to parse.
-        - parameter xmlParserOptions: Options for XMLParser (defaults to `false` for all).
+        - parameter options: Options for XML Document header and parser settings (defaults to `AEXMLOptions()`).
     
-        - returns: An initialized XML Document object containing parsed data. Throws error if data could not be parsed.
+        - returns: Initialized XML Document object containing parsed data. Throws error if data could not be parsed.
     */
-    public convenience init(version: Double = Defaults.version,
-                            encoding: String = Defaults.encoding,
-                            standalone: String = Defaults.standalone,
-                            xmlData: Data,
-                            options: Options = Options()) throws
-    {
-        self.init(version: version, encoding: encoding, standalone: standalone, options: options)
+    public convenience init(xmlData: Data, options: AEXMLOptions = AEXMLOptions()) throws {
+        self.init(options: options)
         try loadXMLData(xmlData)
+    }
+    
+    /**
+        Convenience initializer - used for parsing XML string (by calling `init(xmlData:options:)` internally).
+
+        - parameter xmlString: XML string to parse.
+        - parameter encoding: String encoding for creating `Data` from `xmlString` (defaults to `String.Encoding.utf8`)
+        - parameter options: Options for XML Document header and parser settings (defaults to `AEXMLOptions()`).
+
+        - returns: Initialized XML Document object containing parsed data. Throws error if data could not be parsed.
+    */
+    public convenience init(xmlString: String,
+                            encoding: String.Encoding = String.Encoding.utf8,
+                            options: AEXMLOptions = AEXMLOptions()) throws
+    {
+        guard let data = xmlString.data(using: encoding) else { throw AEXMLError.parsingFailed }
+        try self.init(xmlData: data, options: options)
     }
     
     // MARK: - Parse XML
@@ -145,7 +116,7 @@ open class AEXMLDocument: AEXMLElement {
     
     /// Override of `xmlString` property of `AEXMLElement` - it just inserts XML Document header at the beginning.
     open override var xmlString: String {
-        var xml =  "<?xml version=\"\(version)\" encoding=\"\(encoding)\" standalone=\"\(standalone)\"?>\n"
+        var xml =  "\(options.documentHeader.xmlString)\n"
         for child in children {
             xml += child.xmlString
         }

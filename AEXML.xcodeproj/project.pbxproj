@@ -39,6 +39,10 @@
 		8B52A4971D8486D00060C08D /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B52A4891D8486D00060C08D /* Parser.swift */; };
 		8B52A4981D8486D00060C08D /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B52A4891D8486D00060C08D /* Parser.swift */; };
 		8B52A4991D8486D00060C08D /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B52A4891D8486D00060C08D /* Parser.swift */; };
+		8B52A49B1D84AF640060C08D /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B52A49A1D84AF640060C08D /* Options.swift */; };
+		8B52A49C1D84AF640060C08D /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B52A49A1D84AF640060C08D /* Options.swift */; };
+		8B52A49D1D84AF640060C08D /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B52A49A1D84AF640060C08D /* Options.swift */; };
+		8B52A49E1D84AF640060C08D /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B52A49A1D84AF640060C08D /* Options.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +86,7 @@
 		8B52A4871D8486D00060C08D /* Element.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
 		8B52A4881D8486D00060C08D /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		8B52A4891D8486D00060C08D /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		8B52A49A1D84AF640060C08D /* Options.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Options.swift; sourceTree = "<group>"; };
 		8B8C73681CD8114F00A4E197 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		8BD7A14319F0093F005F73F4 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		8BD7A14419F0093F005F73F4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -183,6 +188,7 @@
 				8B52A4871D8486D00060C08D /* Element.swift */,
 				8B52A4861D8486D00060C08D /* Document.swift */,
 				8B52A4891D8486D00060C08D /* Parser.swift */,
+				8B52A49A1D84AF640060C08D /* Options.swift */,
 				8B52A4881D8486D00060C08D /* Error.swift */,
 				8B4A92841BDD47D60011F36F /* Supporting Files */,
 			);
@@ -528,6 +534,7 @@
 				8B52A4921D8486D00060C08D /* Error.swift in Sources */,
 				8B52A48A1D8486D00060C08D /* Document.swift in Sources */,
 				8B52A4961D8486D00060C08D /* Parser.swift in Sources */,
+				8B52A49B1D84AF640060C08D /* Options.swift in Sources */,
 				8B52A48E1D8486D00060C08D /* Element.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -539,6 +546,7 @@
 				8B52A4951D8486D00060C08D /* Error.swift in Sources */,
 				8B52A48D1D8486D00060C08D /* Document.swift in Sources */,
 				8B52A4991D8486D00060C08D /* Parser.swift in Sources */,
+				8B52A49E1D84AF640060C08D /* Options.swift in Sources */,
 				8B52A4911D8486D00060C08D /* Element.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -566,6 +574,7 @@
 				8B52A4941D8486D00060C08D /* Error.swift in Sources */,
 				8B52A48C1D8486D00060C08D /* Document.swift in Sources */,
 				8B52A4981D8486D00060C08D /* Parser.swift in Sources */,
+				8B52A49D1D84AF640060C08D /* Options.swift in Sources */,
 				8B52A4901D8486D00060C08D /* Element.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -585,6 +594,7 @@
 				8B52A4931D8486D00060C08D /* Error.swift in Sources */,
 				8B52A48B1D8486D00060C08D /* Document.swift in Sources */,
 				8B52A4971D8486D00060C08D /* Parser.swift in Sources */,
+				8B52A49C1D84AF640060C08D /* Options.swift in Sources */,
 				8B52A48F1D8486D00060C08D /* Element.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
