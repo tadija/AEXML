@@ -180,10 +180,10 @@
 		8BD5EE981AEC407800A8BB45 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				8B52A4861D8486D00060C08D /* Document.swift */,
 				8B52A4871D8486D00060C08D /* Element.swift */,
-				8B52A4881D8486D00060C08D /* Error.swift */,
+				8B52A4861D8486D00060C08D /* Document.swift */,
 				8B52A4891D8486D00060C08D /* Parser.swift */,
+				8B52A4881D8486D00060C08D /* Error.swift */,
 				8B4A92841BDD47D60011F36F /* Supporting Files */,
 			);
 			path = Sources;

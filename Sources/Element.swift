@@ -1,7 +1,7 @@
 //
-// AEXML.swift
+// Element.swift
 //
-// Copyright (c) 2014 Marko Tadić <tadija@me.com> http://tadija.net
+// Copyright (c) 2014-2016 Marko Tadić <tadija@me.com> http://tadija.net
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,7 @@ import Foundation
 */
 open class AEXMLElement {
     
-    // MARK: Properties
+    // MARK: - Properties
     
     /// Every `AEXMLElement` should have its parent element instead of `AEXMLDocument` which parent is `nil`.
     open internal(set) weak var parent: AEXMLElement?
@@ -64,7 +64,7 @@ open class AEXMLElement {
     /// Double representation of `value` property (this is **0.00** if `value` can't be represented as Double).
     open var doubleValue: Double { return Double(stringValue) ?? 0.00 }
     
-    // MARK: Lifecycle
+    // MARK: - Lifecycle
     
     /**
         Designated initializer - all parameters are optional.
@@ -81,7 +81,7 @@ open class AEXMLElement {
         self.attributes = attributes
     }
     
-    // MARK: XML Read
+    // MARK: - XML Read
     
     /// The first element with given name **(Empty element with error if not exists)**.
     open subscript(key: String) -> AEXMLElement {
@@ -154,7 +154,7 @@ open class AEXMLElement {
         return found
     }
     
-    // MARK: XML Write
+    // MARK: - XML Write
     
     /**
         Adds child XML element to `self`.

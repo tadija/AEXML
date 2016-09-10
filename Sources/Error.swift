@@ -1,7 +1,7 @@
 //
-// AEXML.swift
+// Error.swift
 //
-// Copyright (c) 2014 Marko Tadić <tadija@me.com> http://tadija.net
+// Copyright (c) 2014-2016 Marko Tadić <tadija@me.com> http://tadija.net
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,5 +26,5 @@
 public enum AEXMLError: Error {
     case elementNotFound
     case rootElementMissing
-    case xmlParserError
+    case parsingFailed
 }

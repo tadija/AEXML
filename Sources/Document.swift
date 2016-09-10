@@ -1,7 +1,7 @@
 //
-// AEXML.swift
+// Document.swift
 //
-// Copyright (c) 2014 Marko Tadić <tadija@me.com> http://tadija.net
+// Copyright (c) 2014-2016 Marko Tadić <tadija@me.com> http://tadija.net
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -45,7 +45,7 @@ open class AEXMLDocument: AEXMLElement {
         public init() {}
     }
     
-    // MARK: Properties
+    // MARK: - Properties
     
     /// This is only used for XML Document header (default value is 1.0).
     open let version: Double
@@ -69,7 +69,7 @@ open class AEXMLDocument: AEXMLElement {
         return rootElement
     }
     
-    // MARK: Lifecycle
+    // MARK: - Lifecycle
     
     /**
         Designated initializer - Creates and returns XML Document object.
@@ -127,7 +127,7 @@ open class AEXMLDocument: AEXMLElement {
         try loadXMLData(xmlData)
     }
     
-    // MARK: Read XML
+    // MARK: - Parse XML
     
     /**
         Creates instance of `AEXMLParser` (private class which is simple wrapper around `XMLParser`)
@@ -137,11 +137,11 @@ open class AEXMLDocument: AEXMLElement {
     */
     open func loadXMLData(_ data: Data) throws {
         children.removeAll(keepingCapacity: false)
-        let xmlParser = AEXMLParser(xmlDocument: self, xmlData: data)
+        let xmlParser = AEXMLParser(document: self, data: data)
         try xmlParser.parse()
     }
     
-    // MARK: Override
+    // MARK: - Override
     
     /// Override of `xmlString` property of `AEXMLElement` - it just inserts XML Document header at the beginning.
     open override var xmlString: String {

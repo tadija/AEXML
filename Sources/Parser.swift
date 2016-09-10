@@ -1,7 +1,7 @@
 //
-// AEXML.swift
+// Parser.swift
 //
-// Copyright (c) 2014 Marko Tadić <tadija@me.com> http://tadija.net
+// Copyright (c) 2014-2016 Marko Tadić <tadija@me.com> http://tadija.net
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,9 +22,10 @@
 // SOFTWARE.
 //
 
+/// Simple wrapper around `Foundation.XMLParser`.
 internal class AEXMLParser: NSObject, XMLParserDelegate {
     
-    // MARK: Properties
+    // MARK: - Properties
     
     let document: AEXMLDocument
     let data: Data
@@ -35,17 +36,17 @@ internal class AEXMLParser: NSObject, XMLParserDelegate {
     
     var parseError: Error?
     
-    // MARK: Lifecycle
+    // MARK: - Lifecycle
     
-    init(xmlDocument: AEXMLDocument, xmlData: Data) {
-        self.document = xmlDocument
-        self.data = xmlData
-        currentParent = xmlDocument
+    init(document: AEXMLDocument, data: Data) {
+        self.document = document
+        self.data = data
+        currentParent = document
         
         super.init()
     }
     
-    // MARK: XML Parse
+    // MARK: - API
     
     func parse() throws {
         let parser = XMLParser(data: data)
@@ -58,12 +59,12 @@ internal class AEXMLParser: NSObject, XMLParserDelegate {
         let success = parser.parse()
         
         if !success {
-            guard let error = parseError else { throw AEXMLError.xmlParserError }
+            guard let error = parseError else { throw AEXMLError.parsingFailed }
             throw error
         }
     }
     
-    // MARK: XMLParserDelegate
+    // MARK: - XMLParserDelegate
     
     @objc func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
         currentValue = String()
