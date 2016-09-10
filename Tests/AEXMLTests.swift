@@ -22,9 +22,9 @@
 // SOFTWARE.
 //
 
-import AEXML
 import Foundation
 import XCTest
+import AEXML
 
 class AEXMLTests: XCTestCase {
     
