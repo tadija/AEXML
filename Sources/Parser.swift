@@ -66,7 +66,12 @@ internal class AEXMLParser: NSObject, XMLParserDelegate {
     
     // MARK: - XMLParserDelegate
     
-    @objc func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String]) {
+    @objc func parser(_ parser: XMLParser,
+                      didStartElement elementName: String,
+                      namespaceURI: String?,
+                      qualifiedName qName: String?,
+                      attributes attributeDict: [String : String])
+    {
         currentValue = String()
         currentElement = currentParent?.addChild(name: elementName, attributes: attributeDict)
         currentParent = currentElement
@@ -78,7 +83,11 @@ internal class AEXMLParser: NSObject, XMLParserDelegate {
         currentElement?.value = newValue == String() ? nil : newValue
     }
     
-    @objc func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+    @objc func parser(_ parser: XMLParser,
+                      didEndElement elementName: String,
+                      namespaceURI: String?,
+                      qualifiedName qName: String?)
+    {
         currentParent = currentParent?.parent
         currentElement = nil
     }
