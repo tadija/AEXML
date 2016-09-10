@@ -32,7 +32,7 @@ import Foundation
     You can access its structure by using subscript like this: `element["foo"]["bar"]` which would
     return `<bar></bar>` element from `<element><foo><bar></bar></foo></element>` XML as an `AEXMLElement` object.
 */
-public class AEXMLElement {
+open class AEXMLElement {
     
     /// A type representing an error value that can be inside `error` property.
     public enum AEXMLError: Error {
@@ -40,7 +40,7 @@ public class AEXMLElement {
         case rootElementMissing
     }
     
-    private struct Defaults {
+    fileprivate struct Defaults {
         static let name = String()
         static let attributes = [String : String]()
     }
@@ -48,34 +48,34 @@ public class AEXMLElement {
     // MARK: Properties
     
     /// Every `AEXMLElement` should have its parent element instead of `AEXMLDocument` which parent is `nil`.
-    public internal(set) weak var parent: AEXMLElement?
+    open internal(set) weak var parent: AEXMLElement?
     
     /// Child XML elements.
-    public internal(set) var children: [AEXMLElement] = [AEXMLElement]()
+    open internal(set) var children: [AEXMLElement] = [AEXMLElement]()
     
     /// XML Element name (defaults to empty string).
-    public var name: String
+    open var name: String
     
     /// XML Element value.
-    public var value: String?
+    open var value: String?
     
     /// XML Element attributes (defaults to empty dictionary).
-    public var attributes: [String : String]
+    open var attributes: [String : String]
     
     /// Error value (`nil` if there is no error).
-    public var error: AEXMLError?
+    open var error: AEXMLError?
     
     /// String representation of `value` property (if `value` is `nil` this is empty String).
-    public var stringValue: String { return value ?? String() }
+    open var stringValue: String { return value ?? String() }
     
     /// Boolean representation of `value` property (if `value` is "true" or 1 this is `True`, otherwise `False`).
-    public var boolValue: Bool { return stringValue.lowercased() == "true" || Int(stringValue) == 1 ? true : false }
+    open var boolValue: Bool { return stringValue.lowercased() == "true" || Int(stringValue) == 1 ? true : false }
     
     /// Integer representation of `value` property (this is **0** if `value` can't be represented as Integer).
-    public var intValue: Int { return Int(stringValue) ?? 0 }
+    open var intValue: Int { return Int(stringValue) ?? 0 }
     
     /// Double representation of `value` property (this is **0.00** if `value` can't be represented as Double).
-    public var doubleValue: Double { return (stringValue as NSString).doubleValue }
+    open var doubleValue: Double { return (stringValue as NSString).doubleValue }
     
     // MARK: Lifecycle
     
@@ -97,7 +97,7 @@ public class AEXMLElement {
     // MARK: XML Read
     
     /// The first element with given name **(Empty element with error if not exists)**.
-    public subscript(key: String) -> AEXMLElement {
+    open subscript(key: String) -> AEXMLElement {
         guard let
             first = children.filter({ $0.name == key }).first
         else {
@@ -109,18 +109,18 @@ public class AEXMLElement {
     }
     
     /// Returns all of the elements with equal name as `self` **(nil if not exists)**.
-    public var all: [AEXMLElement]? { return parent?.children.filter { $0.name == self.name } }
+    open var all: [AEXMLElement]? { return parent?.children.filter { $0.name == self.name } }
     
     /// Returns the first element with equal name as `self` **(nil if not exists)**.
-    public var first: AEXMLElement? { return all?.first }
+    open var first: AEXMLElement? { return all?.first }
     
     /// Returns the last element with equal name as `self` **(nil if not exists)**.
-    public var last: AEXMLElement? { return all?.last }
+    open var last: AEXMLElement? { return all?.last }
     
     /// Returns number of all elements with equal name as `self`.
-    public var count: Int { return all?.count ?? 0 }
+    open var count: Int { return all?.count ?? 0 }
 
-    private func allWith(condition: (_ element: AEXMLElement) -> Bool) -> [AEXMLElement]? {
+    fileprivate func allWith(_ condition: (_ element: AEXMLElement) -> Bool) -> [AEXMLElement]? {
         var found = [AEXMLElement]()
         if let elements = all {
             for element in elements {
@@ -141,7 +141,7 @@ public class AEXMLElement {
         
         - returns: Optional Array of found XML elements.
     */
-    public func allWith(value: String) -> [AEXMLElement]? {
+    open func allWith(value: String) -> [AEXMLElement]? {
         let found = allWith { (element) -> Bool in
             return element.value == value
         }
@@ -155,7 +155,7 @@ public class AEXMLElement {
     
         - returns: Optional Array of found XML elements.
     */
-    public func allWith(attributes: [String : String]) -> [AEXMLElement]? {
+    open func allWith(attributes: [String : String]) -> [AEXMLElement]? {
         let found = allWith { (element) -> Bool in
             var countAttributes = 0
             for (key, value) in attributes {
@@ -177,7 +177,7 @@ public class AEXMLElement {
     
         - returns: Child XML element with `self` as `parent`.
     */
-    public func addChild(_ child: AEXMLElement) -> AEXMLElement {
+    open func addChild(_ child: AEXMLElement) -> AEXMLElement {
         child.parent = self
         children.append(child)
         return child
@@ -192,23 +192,23 @@ public class AEXMLElement {
         
         - returns: Child XML element with `self` as `parent`.
     */
-    public func addChild(name: String, value: String? = nil, attributes: [String : String]? = nil) -> AEXMLElement {
+    open func addChild(name: String, value: String? = nil, attributes: [String : String]? = nil) -> AEXMLElement {
         let child = AEXMLElement(name, value: value, attributes: attributes)
         return addChild(child)
     }
     
     /// Removes `self` from `parent` XML element.
-    public func removeFromParent() {
+    open func removeFromParent() {
         parent?.removeChild(self)
     }
     
-    private func removeChild(_ child: AEXMLElement) {
+    fileprivate func removeChild(_ child: AEXMLElement) {
         if let childIndex = children.index(where: { $0 === child }) {
             children.remove(at: childIndex)
         }
     }
     
-    private var parentsCount: Int {
+    fileprivate var parentsCount: Int {
         var count = 0
         var element = self
         while let parent = element.parent {
@@ -218,7 +218,7 @@ public class AEXMLElement {
         return count
     }
     
-    private func indentation(_ depth: Int) -> String {
+    fileprivate func indentation(_ depth: Int) -> String {
         var count = depth
         var indent = String()
         
@@ -231,7 +231,7 @@ public class AEXMLElement {
     }
     
     /// Complete hierarchy of `self` and `children` in **XML** escaped and formatted String
-    public var xmlString: String {
+    open var xmlString: String {
         var xml = String()
         
         // open element
@@ -268,7 +268,7 @@ public class AEXMLElement {
     }
     
     /// Same as `xmlString` but without `\n` and `\t` characters
-    public var xmlStringCompact: String {
+    open var xmlStringCompact: String {
         let chars = CharacterSet(charactersIn: "\n\t")
         return xmlString.components(separatedBy: chars).joined(separator: "")
     }
@@ -300,9 +300,9 @@ public extension String {
 
     XML Parsing is also done with this object.
 */
-public class AEXMLDocument: AEXMLElement {
+open class AEXMLDocument: AEXMLElement {
     
-    private struct Defaults {
+    fileprivate struct Defaults {
         static let version = 1.0
         static let encoding = "utf-8"
         static let standalone = "no"
@@ -321,19 +321,19 @@ public class AEXMLDocument: AEXMLElement {
     // MARK: Properties
     
     /// This is only used for XML Document header (default value is 1.0).
-    public let version: Double
+    open let version: Double
     
     /// This is only used for XML Document header (default value is "utf-8").
-    public let encoding: String
+    open let encoding: String
     
     /// This is only used for XML Document header (default value is "no").
-    public let standalone: String
+    open let standalone: String
     
     /// Options for NSXMLParser (default values are `false`)
-    public let xmlParserOptions: NSXMLParserOptions
+    open let xmlParserOptions: NSXMLParserOptions
     
     /// Root (the first child element) element of XML Document **(Empty element with error if not exists)**.
-    public var root: AEXMLElement {
+    open var root: AEXMLElement {
         guard let rootElement = children.first else {
             let errorElement = AEXMLElement()
             errorElement.error = AEXMLError.rootElementMissing
@@ -408,7 +408,7 @@ public class AEXMLDocument: AEXMLElement {
     
         - parameter data: XML which should be parsed.
     */
-    public func loadXMLData(_ data: Data) throws {
+    open func loadXMLData(_ data: Data) throws {
         children.removeAll(keepingCapacity: false)
         let xmlParser = AEXMLParser(xmlDocument: self, xmlData: data)
         try xmlParser.parse()
@@ -417,7 +417,7 @@ public class AEXMLDocument: AEXMLElement {
     // MARK: Override
     
     /// Override of `xmlString` property of `AEXMLElement` - it just inserts XML Document header at the beginning.
-    public override var xmlString: String {
+    open override var xmlString: String {
         var xml =  "<?xml version=\"\(version)\" encoding=\"\(encoding)\" standalone=\"\(standalone)\"?>\n"
         for child in children {
             xml += child.xmlString
@@ -485,8 +485,8 @@ private class AEXMLParser: NSObject, XMLParserDelegate {
         currentElement = nil
     }
     
-    @objc func parser(_ parser: XMLParser, parseErrorOccurred parseError: NSError) {
-        self.parseError = parseError
+    @objc func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
+        self.parseError = parseError as NSError?
     }
     
 }
