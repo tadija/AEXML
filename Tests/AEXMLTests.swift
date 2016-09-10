@@ -83,7 +83,7 @@ class AEXMLTests: XCTestCase {
         
         let documentWithoutRootElement = AEXMLDocument()
         let rootElement = documentWithoutRootElement.root
-        XCTAssertEqual(rootElement.error, AEXMLElement.AEXMLError.rootElementMissing, "Should have RootElementMissing error.")
+        XCTAssertEqual(rootElement.error, AEXMLError.rootElementMissing, "Should have RootElementMissing error.")
     }
     
     func testParentElement() {
@@ -166,7 +166,7 @@ class AEXMLTests: XCTestCase {
     func testNotExistingElement() {
         // non-optional
         XCTAssertNotNil(exampleXML.root["ducks"]["duck"].error, "Should contain error inside element which does not exist.")
-        XCTAssertEqual(exampleXML.root["ducks"]["duck"].error, AEXMLElement.AEXMLError.elementNotFound, "Should have ElementNotFound error.")
+        XCTAssertEqual(exampleXML.root["ducks"]["duck"].error, AEXMLError.elementNotFound, "Should have ElementNotFound error.")
         XCTAssertEqual(exampleXML.root["ducks"]["duck"].stringValue, String(), "Should have empty value.")
         
         // optional
@@ -221,7 +221,7 @@ class AEXMLTests: XCTestCase {
         _ = cats.addChild(name: "cat", value: "Tinna")
         
         var count = 0
-        if let tinnas = cats["cat"].allWith(value: "Tinna") {
+        if let tinnas = cats["cat"].all(withValue: "Tinna") {
             for _ in tinnas {
                 count += 1
             }
@@ -231,7 +231,7 @@ class AEXMLTests: XCTestCase {
     
     func testAllWithAttributes() {
         var count = 0
-        if let bulls = exampleXML.root["dogs"]["dog"].allWith(attributes: ["color" : "white"]) {
+        if let bulls = exampleXML.root["dogs"]["dog"].all(withAttributes: ["color" : "white"]) {
             for _ in bulls {
                 count += 1
             }
@@ -311,7 +311,6 @@ class AEXMLTests: XCTestCase {
         let _ = children.addChild(name: "child", value: "&<>'\"")
         
         XCTAssertEqual(newXMLDocument.xmlString, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<children>\n\t<child attribute=\"attributeValue&lt;&amp;&gt;\">value</child>\n\t<child />\n\t<child>&amp;&lt;&gt;&apos;&quot;</child>\n</children>", "Should be able to print XML formatted string.")
-        XCTAssertEqual(newXMLDocument.xmlStringCompact, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><children><child attribute=\"attributeValue&lt;&amp;&gt;\">value</child><child /><child>&amp;&lt;&gt;&apos;&quot;</child></children>", "Should be able to print compact XML string.")
     }
     
     // MARK: - XML Parse Performance
