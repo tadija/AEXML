@@ -76,9 +76,9 @@ open class AEXMLDocument: AEXMLElement {
     
         - returns: Initialized XML Document object containing parsed data. Throws error if data could not be parsed.
     */
-    public convenience init(xmlData: Data, options: AEXMLOptions = AEXMLOptions()) throws {
+    public convenience init(xml: Data, options: AEXMLOptions = AEXMLOptions()) throws {
         self.init(options: options)
-        try loadXMLData(xmlData)
+        try loadXML(xml)
     }
     
     /**
@@ -90,12 +90,12 @@ open class AEXMLDocument: AEXMLElement {
 
         - returns: Initialized XML Document object containing parsed data. Throws error if data could not be parsed.
     */
-    public convenience init(xmlString: String,
+    public convenience init(xml: String,
                             encoding: String.Encoding = String.Encoding.utf8,
                             options: AEXMLOptions = AEXMLOptions()) throws
     {
-        guard let data = xmlString.data(using: encoding) else { throw AEXMLError.parsingFailed }
-        try self.init(xmlData: data, options: options)
+        guard let data = xml.data(using: encoding) else { throw AEXMLError.parsingFailed }
+        try self.init(xml: data, options: options)
     }
     
     // MARK: - Parse XML
@@ -106,7 +106,7 @@ open class AEXMLDocument: AEXMLElement {
     
         - parameter data: XML which should be parsed.
     */
-    open func loadXMLData(_ data: Data) throws {
+    open func loadXML(_ data: Data) throws {
         children.removeAll(keepingCapacity: false)
         let xmlParser = AEXMLParser(document: self, data: data)
         try xmlParser.parse()
@@ -114,11 +114,11 @@ open class AEXMLDocument: AEXMLElement {
     
     // MARK: - Override
     
-    /// Override of `xmlString` property of `AEXMLElement` - it just inserts XML Document header at the beginning.
-    open override var xmlString: String {
+    /// Override of `xml` property of `AEXMLElement` - it just inserts XML Document header at the beginning.
+    open override var xml: String {
         var xml =  "\(options.documentHeader.xmlString)\n"
         for child in children {
-            xml += child.xmlString
+            xml += child.xml
         }
         return xml
     }

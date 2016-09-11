@@ -53,16 +53,16 @@ open class AEXMLElement {
     open var error: AEXMLError?
     
     /// String representation of `value` property (if `value` is `nil` this is empty String).
-    open var stringValue: String { return value ?? String() }
+    open var string: String { return value ?? String() }
     
     /// Boolean representation of `value` property (if `value` is "true" or 1 this is `True`, otherwise `False`).
-    open var boolValue: Bool { return stringValue.lowercased() == "true" || Int(stringValue) == 1 ? true : false }
+    open var bool: Bool { return string.lowercased() == "true" || Int(string) == 1 ? true : false }
     
     /// Integer representation of `value` property (this is **0** if `value` can't be represented as Integer).
-    open var intValue: Int { return Int(stringValue) ?? 0 }
+    open var int: Int { return Int(string) ?? 0 }
     
     /// Double representation of `value` property (this is **0.00** if `value` can't be represented as Double).
-    open var doubleValue: Double { return Double(stringValue) ?? 0.00 }
+    open var double: Double { return Double(string) ?? 0.00 }
     
     // MARK: - Lifecycle
     
@@ -163,7 +163,7 @@ open class AEXMLElement {
     
         - returns: Child XML element with `self` as `parent`.
     */
-    open func addChild(_ child: AEXMLElement) -> AEXMLElement {
+    @discardableResult open func addChild(_ child: AEXMLElement) -> AEXMLElement {
         child.parent = self
         children.append(child)
         return child
@@ -178,7 +178,7 @@ open class AEXMLElement {
         
         - returns: Child XML element with `self` as `parent`.
     */
-    open func addChild(name: String,
+    @discardableResult open func addChild(name: String,
                        value: String? = nil,
                        attributes: [String : String] = [String : String]()) -> AEXMLElement
     {
@@ -222,7 +222,7 @@ open class AEXMLElement {
     }
     
     /// Complete hierarchy of `self` and `children` in **XML** escaped and formatted String
-    open var xmlString: String {
+    open var xml: String {
         var xml = String()
         
         // open element
@@ -244,18 +244,24 @@ open class AEXMLElement {
                 // add children
                 xml += ">\n"
                 for child in children {
-                    xml += "\(child.xmlString)\n"
+                    xml += "\(child.xml)\n"
                 }
                 // add indentation
                 xml += indent(withDepth: parentsCount - 1)
                 xml += "</\(name)>"
             } else {
                 // insert string value and close element
-                xml += ">\(stringValue.xmlEscaped)</\(name)>"
+                xml += ">\(string.xmlEscaped)</\(name)>"
             }
         }
         
         return xml
+    }
+    
+    /// Same as `xmlString` but without `\n` and `\t` characters
+    open var xmlCompact: String {
+        let chars = CharacterSet(charactersIn: "\n\t")
+        return xml.components(separatedBy: chars).joined(separator: "")
     }
     
 }
