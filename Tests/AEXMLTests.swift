@@ -24,7 +24,7 @@
 
 import Foundation
 import XCTest
-import AEXML
+@testable import AEXML
 
 class AEXMLTests: XCTestCase {
     
@@ -74,6 +74,71 @@ class AEXMLTests: XCTestCase {
         plantsXML = AEXMLDocument()
         
         super.tearDown()
+    }
+    
+    // MARK: - XML Document
+    
+    func testXMLDocumentManualDataLoading() {
+        do {
+            let url = URLForResource(fileName: "example", withExtension: "xml")
+            let data = try Data.init(contentsOf: url)
+            
+            let testDocument = AEXMLDocument()
+            try testDocument.loadXMLData(data)
+            XCTAssertEqual(testDocument.root.name, "animals", "Should be able to find root element.")
+        } catch {
+            XCTFail("Should be able to load XML Document with given Data.")
+        }
+    }
+    
+    func testXMLDocumentInitFromString() {
+        do {
+            let testDocument = try AEXMLDocument(xmlString: exampleXML.xmlString)
+            XCTAssertEqual(testDocument.xmlString, exampleXML.xmlString)
+        } catch {
+            XCTFail("Should be able to initialize XML Document from XML String.")
+        }
+    }
+    
+    func testXMLOptions() {
+        do {
+            var options = AEXMLOptions()
+            options.documentHeader.version = 2.0
+            options.documentHeader.encoding = "utf-16"
+            options.documentHeader.standalone = "yes"
+            
+            let testDocument = try AEXMLDocument(xmlString: "<foo><bar>hello</bar></foo>", options: options)
+            XCTAssertEqual(testDocument.xmlString, "<?xml version=\"2.0\" encoding=\"utf-16\" standalone=\"yes\"?>\n<foo>\n\t<bar>hello</bar>\n</foo>")
+            XCTAssertEqual(testDocument.root["bar"].first?.stringValue, "hello")
+        } catch {
+            XCTFail("Should be able to initialize XML Document with custom AEXMLOptions.")
+        }
+    }
+    
+    func testXMLParser() {
+        do {
+            let testDocument = AEXMLDocument()
+            let url = URLForResource(fileName: "example", withExtension: "xml")
+            let data = try Data.init(contentsOf: url)
+            
+            let parser = AEXMLParser(document: testDocument, data: data)
+            try parser.parse()
+            
+            XCTAssertEqual(testDocument.root.name, "animals", "Should be able to find root element.")
+        } catch {
+            XCTFail("Should be able to parse XML Data into XML Document without throwing error.")
+        }
+    }
+    
+    func testXMLParserError() {
+        do {
+            let testDocument = AEXMLDocument()
+            let testData = Data()
+            let parser = AEXMLParser(document: testDocument, data: testData)
+            try parser.parse()
+        } catch {
+            XCTAssertEqual(error.localizedDescription, AEXMLError.parsingFailed.localizedDescription)
+        }
     }
     
     // MARK: - XML Read
