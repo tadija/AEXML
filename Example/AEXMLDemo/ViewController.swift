@@ -18,25 +18,25 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         // example from README.md
-        guard let
-            xmlPath = NSBundle.mainBundle().pathForResource("example", ofType: "xml"),
-            data = NSData(contentsOfFile: xmlPath)
+        guard
+            let xmlPath = Bundle.main.path(forResource: "example", ofType: "xml"),
+            let data = try? Data(contentsOf: URL(fileURLWithPath: xmlPath))
         else {
             print("resource not found!")
             return
         }
         
         // example of using NSXMLParserOptions
-        var options = AEXMLDocument.NSXMLParserOptions()
-        options.shouldProcessNamespaces = false
-        options.shouldReportNamespacePrefixes = false
-        options.shouldResolveExternalEntities = false
+        var options = AEXMLOptions()
+        options.parserSettings.shouldProcessNamespaces = false
+        options.parserSettings.shouldReportNamespacePrefixes = false
+        options.parserSettings.shouldResolveExternalEntities = false
         
         do {
-            let xmlDoc = try AEXMLDocument(xmlData: data, xmlParserOptions: options)
+            let xmlDoc = try AEXMLDocument(xml: data, options: options)
                 
             // prints the same XML structure as original
-            print(xmlDoc.xmlString)
+            print(xmlDoc.xml)
             
             // prints cats, dogs
             for child in xmlDoc.root.children {
@@ -47,13 +47,13 @@ class ViewController: UIViewController {
             print(xmlDoc.root["cats"]["cat"].value)
             
             // prints Tinna (first element)
-            print(xmlDoc.root["cats"]["cat"].stringValue)
+            print(xmlDoc.root["cats"]["cat"].string)
             
             // prints Optional("Kika") (last element)
             print(xmlDoc.root["dogs"]["dog"].last?.value)
             
             // prints Betty (3rd element)
-            print(xmlDoc.root["dogs"].children[2].stringValue)
+            print(xmlDoc.root["dogs"].children[2].string)
             
             // prints Tinna, Rose, Caesar
             if let cats = xmlDoc.root["cats"]["cat"].all {
@@ -68,22 +68,22 @@ class ViewController: UIViewController {
             for dog in xmlDoc.root["dogs"]["dog"].all! {
                 if let color = dog.attributes["color"] {
                     if color == "white" {
-                        print(dog.stringValue)
+                        print(dog.string)
                     }
                 }
             }
             
             // prints Tinna
-            if let cats = xmlDoc.root["cats"]["cat"].allWithValue("Tinna") {
+            if let cats = xmlDoc.root["cats"]["cat"].all(withValue: "Tinna") {
                 for cat in cats {
-                    print(cat.stringValue)
+                    print(cat.string)
                 }
             }
             
             // prints Caesar
-            if let cats = xmlDoc.root["cats"]["cat"].allWithAttributes(["breed" : "Domestic", "color" : "yellow"]) {
+            if let cats = xmlDoc.root["cats"]["cat"].all(withAttributes: ["breed" : "Domestic", "color" : "yellow"]) {
                 for cat in cats {
-                    print(cat.stringValue)
+                    print(cat.string)
                 }
             }
             
@@ -94,9 +94,9 @@ class ViewController: UIViewController {
             print(xmlDoc.root["cats"]["cat"].attributes["breed"]!)
             
             // prints <cat breed="Siberian" color="lightgray">Tinna</cat>
-            print(xmlDoc.root["cats"]["cat"].xmlStringCompact)
+            print(xmlDoc.root["cats"]["cat"].xmlCompact)
             
-            // prints Optional(AEXMLExample.AEXMLElement.Error.ElementNotFound)
+            // prints Optional(AEXML.AEXMLError.elementNotFound)
             print(xmlDoc["NotExistingElement"].error)
         }
         catch {
@@ -104,25 +104,25 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func readXML(sender: UIBarButtonItem) {
+    @IBAction func readXML(_ sender: UIBarButtonItem) {
         defer {
             resetTextField()
         }
         
         guard let
-            xmlPath = NSBundle.mainBundle().pathForResource("plant_catalog", ofType: "xml"),
-            data = NSData(contentsOfFile: xmlPath)
+            xmlPath = Bundle.main.path(forResource: "plant_catalog", ofType: "xml"),
+            let data = try? Data(contentsOf: URL(fileURLWithPath: xmlPath))
         else {
             textView.text = "Sample XML Data error."
             return
         }
         
         do {
-            let document = try AEXMLDocument(xmlData: data)
+            let document = try AEXMLDocument(xml: data)
             var parsedText = String()
             // parse known structure
             for plant in document["CATALOG"]["PLANT"].all! {
-                parsedText += plant["COMMON"].stringValue + "\n"
+                parsedText += plant["COMMON"].string + "\n"
             }
             textView.text = parsedText
         } catch {
@@ -130,7 +130,7 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func writeXML(sender: UIBarButtonItem) {
+    @IBAction func writeXML(_ sender: UIBarButtonItem) {
         resetTextField()
         // sample SOAP request
         let soapRequest = AEXMLDocument()
@@ -141,7 +141,7 @@ class ViewController: UIViewController {
         header.addChild(name: "m:Trans", value: "234", attributes: ["xmlns:m" : "http://www.w3schools.com/transaction/", "soap:mustUnderstand" : "1"])
         let getStockPrice = body.addChild(name: "m:GetStockPrice")
         getStockPrice.addChild(name: "m:StockName", value: "AAPL")
-        textView.text = soapRequest.xmlString
+        textView.text = soapRequest.xml
     }
     
     func resetTextField() {
@@ -149,26 +149,26 @@ class ViewController: UIViewController {
         textField.text = "http://www.w3schools.com/xml/cd_catalog.xml"
     }
     
-    @IBAction func tryRemoteXML(sender: UIButton) {
+    @IBAction func tryRemoteXML(_ sender: UIButton) {
         defer {
             textField.resignFirstResponder()
         }
 
-        guard let
-            text = textField.text,
-            url = NSURL(string: text),
-            data = NSData(contentsOfURL: url)
+        guard
+            let text = textField.text,
+            let url = URL(string: text),
+            let data = try? Data(contentsOf: url)
         else {
             textView.text = "Bad URL or XML Data."
             return
         }
 
         do {
-            let document = try AEXMLDocument(xmlData: data)
+            let document = try AEXMLDocument(xml: data)
             var parsedText = String()
             // parse unknown structure
             for child in document.root.children {
-                parsedText += child.xmlString + "\n"
+                parsedText += child.xml + "\n"
             }
             textView.text = parsedText
         } catch {
@@ -177,4 +177,3 @@ class ViewController: UIViewController {
     }
 
 }
-
