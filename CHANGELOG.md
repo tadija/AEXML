@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 4.0.0
+
+- Code updated for Swift 3.0
+- Sources reorganized from single to multiple files
+- Changed method and property names to fit better ("swiftyfying")
+- Fixed all build warnings and errors in Xcode 8.0 GM (8A218a)
+- Merged some PRs & fixed some reported issues
+
 ## Version 3.0.0
 
 - Fixed deprecation warnings in Xcode 7.3 (7D175)
