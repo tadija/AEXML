@@ -22,6 +22,8 @@
 // SOFTWARE.
 //
 
+import Foundation
+
 /// Simple wrapper around `Foundation.XMLParser`.
 internal class AEXMLParser: NSObject, XMLParserDelegate {
     

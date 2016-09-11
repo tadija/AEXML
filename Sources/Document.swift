@@ -22,6 +22,8 @@
 // SOFTWARE.
 //
 
+import Foundation
+
 /**
     This class is inherited from `AEXMLElement` and has a few addons to represent **XML Document**.
 

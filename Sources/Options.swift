@@ -6,6 +6,8 @@
 //  Copyright © 2016 AE. All rights reserved.
 //
 
+import Foundation
+
 /// Options used in `AEXMLDocument`
 public struct AEXMLOptions {
     
