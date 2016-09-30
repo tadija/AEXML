@@ -1,4 +1,5 @@
 Pod::Spec.new do |s|
+
 s.name = 'AEXML'
 s.version = '4.0.1'
 s.license = { :type => 'MIT', :file => 'LICENSE' }
@@ -11,12 +12,11 @@ s.social_media_url = 'http://twitter.com/tadija'
 s.source = { :git => 'https://github.com/tadija/AEXML.git', :tag => s.version }
 s.source_files = 'Sources/*.swift'
 
+s.pod_target_xcconfig = { 'SWIFT_VERSION' => '3.0' }
+
 s.ios.deployment_target = '8.0'
 s.osx.deployment_target = '10.9'
 s.tvos.deployment_target = '9.0'
 s.watchos.deployment_target = '2.0'
 
-s.pod_target_xcconfig = {
-  'SWIFT_VERSION' => '3.0',
-}
 end
