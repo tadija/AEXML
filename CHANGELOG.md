@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 4.0.1
+
+- Fixed minor issue with Xcode
+
 ## Version 4.0.0
 
 - Code updated for Swift 3.0
