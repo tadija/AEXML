@@ -92,7 +92,7 @@
 		8BD7A14419F0093F005F73F4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8BDEBA8C1AEC588700A12D92 /* AEXML.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AEXML.podspec; sourceTree = "<group>"; };
 		8BFE78C319F0054200914487 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8BFE78C419F0054200914487 /* AEXMLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AEXMLTests.swift; sourceTree = "<group>"; };
+		8BFE78C419F0054200914487 /* AEXMLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AEXMLTests.swift; path = AEXMLTests/AEXMLTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
