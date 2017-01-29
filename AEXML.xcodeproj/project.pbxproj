@@ -177,7 +177,6 @@
 				8BD7A14419F0093F005F73F4 /* README.md */,
 				8B0D48AA1C594F8D0075C8BF /* CHANGELOG.md */,
 				8BDEBA8C1AEC588700A12D92 /* AEXML.podspec */,
-				8B8C73681CD8114F00A4E197 /* Package.swift */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -198,6 +197,7 @@
 		8BFE78A019F0054100914487 = {
 			isa = PBXGroup;
 			children = (
+				8B8C73681CD8114F00A4E197 /* Package.swift */,
 				8BD5EE981AEC407800A8BB45 /* Sources */,
 				8BFE78C119F0054200914487 /* Tests */,
 				8BFE78AA19F0054100914487 /* Products */,

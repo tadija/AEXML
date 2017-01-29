@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 4.0.2
+
+- Merged few PRs & other minor fixes
+
 ## Version 4.0.1
 
 - Fixed minor issue with Xcode
