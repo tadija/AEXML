@@ -64,9 +64,9 @@ open class AEXMLElement {
     /// Optional boolean representation of `value` property.
     open var optionalBool: Bool? {
         if let value = self.value {
-            if value.lowercased() == "true" || Int(string) == 1 {
+            if value.lowercased() == "true" || Int(value) == 1 {
                 return true
-            } else if value.lowercased() == "false" || Int(string) == 0 {
+            } else if value.lowercased() == "false" || Int(value) == 0 {
                 return false
             }
         }
