@@ -55,14 +55,45 @@ open class AEXMLElement {
     /// String representation of `value` property (if `value` is `nil` this is empty String).
     open var string: String { return value ?? String() }
     
+    /// Optional string representation of `value` property
+    open var optionalString: String? { return value }
+    
     /// Boolean representation of `value` property (if `value` is "true" or 1 this is `True`, otherwise `False`).
     open var bool: Bool { return string.lowercased() == "true" || Int(string) == 1 ? true : false }
+    
+    /// Optional boolean representation of `value` property.
+    open var optionalBool: Bool? {
+        if let value = value {
+            if value.lowercased() == "true" || Int(string) == 1 {
+                return true
+            } else if value.lowercased() == "false" || Int(string) == 0 {
+                return false
+            }
+        }
+        return nil
+    }
     
     /// Integer representation of `value` property (this is **0** if `value` can't be represented as Integer).
     open var int: Int { return Int(string) ?? 0 }
     
+    /// Optional integer representation of `value` property.
+    open var optionalInt: Int? {
+        if let value = value {
+            return Int(value)
+        }
+        return nil
+    }
+    
     /// Double representation of `value` property (this is **0.00** if `value` can't be represented as Double).
     open var double: Double { return Double(string) ?? 0.00 }
+    
+    /// Optional double representation of `value` property.
+    open var optionalDouble: Double? {
+        if let value = value {
+            return Double(value)
+        }
+        return nil
+    }
     
     // MARK: - Lifecycle
     
