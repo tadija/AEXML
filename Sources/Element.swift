@@ -56,14 +56,14 @@ open class AEXMLElement {
     open var string: String { return value ?? String() }
     
     /// Optional string representation of `value` property
-    open var optionalString: String? { return value }
+    open var optionalString: String? { return self.value }
     
     /// Boolean representation of `value` property (if `value` is "true" or 1 this is `True`, otherwise `False`).
     open var bool: Bool { return string.lowercased() == "true" || Int(string) == 1 ? true : false }
     
     /// Optional boolean representation of `value` property.
     open var optionalBool: Bool? {
-        if let value = value {
+        if let value = self.value {
             if value.lowercased() == "true" || Int(string) == 1 {
                 return true
             } else if value.lowercased() == "false" || Int(string) == 0 {
@@ -78,7 +78,7 @@ open class AEXMLElement {
     
     /// Optional integer representation of `value` property.
     open var optionalInt: Int? {
-        if let value = value {
+        if let value = self.value {
             return Int(value)
         }
         return nil
@@ -89,7 +89,7 @@ open class AEXMLElement {
     
     /// Optional double representation of `value` property.
     open var optionalDouble: Double? {
-        if let value = value {
+        if let value = self.value {
             return Double(value)
         }
         return nil
