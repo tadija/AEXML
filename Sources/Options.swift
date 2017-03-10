@@ -9,10 +9,11 @@
 import Foundation
 
 /// Options used in `AEXMLDocument`
-public struct AEXMLOptions {
+@objc public class AEXMLOptions: NSObject {
     
     /// Values used in XML Document header
-    public struct DocumentHeader {
+    @objc(AEXMLOptionsDocumentHeader)
+    public class DocumentHeader: NSObject {
         /// Version value for XML Document header (defaults to 1.0).
         public var version = 1.0
         
@@ -29,7 +30,8 @@ public struct AEXMLOptions {
     }
     
     /// Settings used by `Foundation.XMLParser`
-    public struct ParserSettings {
+    @objc(AEXMLOptionsParserSettings)
+    public class ParserSettings: NSObject {
         /// Parser reports the namespaces and qualified names of elements. (defaults to `false`)
         public var shouldProcessNamespaces = false
         
@@ -47,6 +49,6 @@ public struct AEXMLOptions {
     public var parserSettings = ParserSettings()
     
     /// Designated initializer - Creates and returns default `AEXMLOptions`.
-    public init() {}
+    public override init() {}
     
 }
