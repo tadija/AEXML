@@ -155,21 +155,17 @@ open class AEXMLElement {
     }
     
     /**
-     Returns all elements with given attributes.
-     
-     - parameter attributes: Array of Keys of attributes.
-     
-     - returns: Optional Array of found XML elements.
-     */
-    open func all(withAttributes attributes: [String]) -> [AEXMLElement]? {
-        let found = filter { (element) -> Bool in
-            var countAttributes = 0
-            for key in attributes {
-                if element.attributes[key] != nil {
-                    countAttributes += 1
-                }
-            }
-            return countAttributes == attributes.count
+        Returns all elements containing given attributes.
+
+        - parameter attributes: Array of attribute names.
+
+        - returns: Optional Array of found XML elements.
+    */
+    open func all(containingAttributes keys: [String]) -> [AEXMLElement]? {
+        let found = all?.flatMap { element in
+            keys.reduce(true) { (result, item) in
+                result && Array(element.attributes.keys).contains(item)
+            } ? element : nil
         }
         return found
     }
