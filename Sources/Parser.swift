@@ -68,7 +68,7 @@ internal class AEXMLParser: NSObject, XMLParserDelegate {
     
     // MARK: - XMLParserDelegate
     
-    @objc func parser(_ parser: XMLParser,
+    func parser(_ parser: XMLParser,
                       didStartElement elementName: String,
                       namespaceURI: String?,
                       qualifiedName qName: String?,
@@ -79,13 +79,13 @@ internal class AEXMLParser: NSObject, XMLParserDelegate {
         currentParent = currentElement
     }
     
-    @objc func parser(_ parser: XMLParser, foundCharacters string: String) {
+    func parser(_ parser: XMLParser, foundCharacters string: String) {
         currentValue += string
         let newValue = currentValue.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         currentElement?.value = newValue == String() ? nil : newValue
     }
     
-    @objc func parser(_ parser: XMLParser,
+    func parser(_ parser: XMLParser,
                       didEndElement elementName: String,
                       namespaceURI: String?,
                       qualifiedName qName: String?)
@@ -94,7 +94,7 @@ internal class AEXMLParser: NSObject, XMLParserDelegate {
         currentElement = nil
     }
     
-    @objc func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
+    func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
         self.parseError = parseError
     }
     
