@@ -213,19 +213,30 @@ class AEXMLTests: XCTestCase {
     }
     
     func testBoolValue() {
-        XCTAssertEqual(plantsDocument.root["PLANT"]["TRUESTRING"].bool, true, "Should be able to cast element value as Bool.")
-        XCTAssertEqual(plantsDocument.root["PLANT"]["TRUENUMBER"].bool, true, "Should be able to cast element value as Bool.")
-        XCTAssertEqual(plantsDocument.root["PLANT"]["FALSEANYTHINGELSE"].bool, false, "Should be able to cast element value as Bool.")
+        let firstTrueString = plantsDocument.root["PLANT"]["TRUESTRING"].bool
+        XCTAssertEqual(firstTrueString, true, "Should be able to cast element value as Bool.")
+        
+        let firstFalseString = plantsDocument.root["PLANT"]["FALSESTRING"].bool
+        XCTAssertEqual(firstFalseString, false, "Should be able to cast element value as Bool.")
+        
+        let firstElementWithoutValue = plantsDocument.root["ELEMENTWITHOUTVALUE"].bool
+        XCTAssertNil(firstElementWithoutValue, "Should be able to return nil if value can't be represented as Bool.")
     }
     
     func testIntValue() {
         let firstPlantZone = plantsDocument.root["PLANT"]["ZONE"].int
         XCTAssertEqual(firstPlantZone, 4, "Should be able to cast element value as Integer.")
+        
+        let firstPlantPrice = plantsDocument.root["PLANT"]["PRICE"].int
+        XCTAssertNil(firstPlantPrice, "Should be able to return nil if value can't be represented as Integer.")
     }
     
     func testDoubleValue() {
         let firstPlantPrice = plantsDocument.root["PLANT"]["PRICE"].double
         XCTAssertEqual(firstPlantPrice, 2.44, "Should be able to cast element value as Double.")
+        
+        let firstPlantBotanical = plantsDocument.root["PLANT"]["BOTANICAL"].double
+        XCTAssertNil(firstPlantBotanical, "Should be able to return nil if value can't be represented as Double.")
     }
     
     func testNotExistingElement() {
