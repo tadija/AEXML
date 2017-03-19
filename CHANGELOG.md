@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 4.1.0
+
+- Convenience typed accessors are now optional instead of having default values
+- Minor bug fixes, improvements and refactoring: 
+	- Merged: PR#104, PR#108
+	- Fixed: #105, #106
+
 ## Version 4.0.2
 
 - Merged few PRs & other minor fixes
