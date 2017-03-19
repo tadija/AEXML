@@ -106,19 +106,6 @@ open class AEXMLElement {
     
     /// Returns number of all elements with equal name as `self`.
     open var count: Int { return all?.count ?? 0 }
-
-    fileprivate func filter(withCondition condition: (AEXMLElement) -> Bool) -> [AEXMLElement]? {
-        guard let elements = all else { return nil }
-        
-        var found = [AEXMLElement]()
-        for element in elements {
-            if condition(element) {
-                found.append(element)
-            }
-        }
-        
-        return found.count > 0 ? found : nil
-    }
     
     /**
         Returns all elements with given value.
@@ -128,8 +115,24 @@ open class AEXMLElement {
         - returns: Optional Array of found XML elements.
     */
     open func all(withValue value: String) -> [AEXMLElement]? {
-        let found = filter { (element) -> Bool in
-            return element.value == value
+        let found = all?.flatMap {
+            $0.value == value ? $0 : nil
+        }
+        return found
+    }
+    
+    /**
+        Returns all elements containing given attributes.
+
+        - parameter attributes: Array of attribute names.
+
+        - returns: Optional Array of found XML elements.
+    */
+    open func all(containingAttributeKeys keys: [String]) -> [AEXMLElement]? {
+        let found = all?.flatMap { element in
+            keys.reduce(true) { (result, key) in
+                result && Array(element.attributes.keys).contains(key)
+            } ? element : nil
         }
         return found
     }
@@ -142,29 +145,10 @@ open class AEXMLElement {
         - returns: Optional Array of found XML elements.
     */
     open func all(withAttributes attributes: [String : String]) -> [AEXMLElement]? {
-        let found = filter { (element) -> Bool in
-            var countAttributes = 0
-            for (key, value) in attributes {
-                if element.attributes[key] == value {
-                    countAttributes += 1
-                }
-            }
-            return countAttributes == attributes.count
-        }
-        return found
-    }
-    
-    /**
-        Returns all elements containing given attributes.
-
-        - parameter attributes: Array of attribute names.
-
-        - returns: Optional Array of found XML elements.
-    */
-    open func all(containingAttributes keys: [String]) -> [AEXMLElement]? {
-        let found = all?.flatMap { element in
-            keys.reduce(true) { (result, item) in
-                result && Array(element.attributes.keys).contains(item)
+        let keys = Array(attributes.keys)
+        let found = all(containingAttributeKeys: keys)?.flatMap { element in
+            attributes.reduce(true) { (result, attribute) in
+                result && element.attributes[attribute.key] == attribute.value
             } ? element : nil
         }
         return found

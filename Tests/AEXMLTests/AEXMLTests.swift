@@ -306,7 +306,7 @@ class AEXMLTests: XCTestCase {
     
     func testAllContainingAttributes() {
         var count = 0
-        if let bulls = exampleDocument.root["dogs"]["dog"].all(containingAttributes: ["gender"]) {
+        if let bulls = exampleDocument.root["dogs"]["dog"].all(containingAttributeKeys: ["gender"]) {
             for _ in bulls {
                 count += 1
             }
