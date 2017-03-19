@@ -6,7 +6,7 @@ import Foundation
     You can access its structure by using subscript like this: `element["foo"]["bar"]` which would
     return `<bar></bar>` element from `<element><foo><bar></bar></foo></element>` XML as an `AEXMLElement` object.
 */
-open class AEXMLElement {
+@objc open class AEXMLElement: NSObject {
     
     // MARK: - Properties
     
@@ -26,8 +26,15 @@ open class AEXMLElement {
     open var attributes: [String : String]
     
     /// Error value (`nil` if there is no error).
-    open var error: AEXMLError?
-    
+    open var error: AEXMLError? {
+        didSet {
+            objCError = error?.rawValue ?? 0
+        }
+    }
+
+    /// Error value (0 if there is no error).
+    open var objCError: Int = 0
+
     /// String representation of `value` property (if `value` is `nil` this is empty String).
     open var string: String { return value ?? String() }
     
@@ -62,7 +69,7 @@ open class AEXMLElement {
     /// The first element with given name **(Empty element with error if not exists)**.
     open subscript(key: String) -> AEXMLElement {
         guard let
-            first = children.first(where: { $0.name == key })
+            first = children.filter({ $0.name == key }).first
         else {
             let errorElement = AEXMLElement(name: key)
             errorElement.error = AEXMLError.elementNotFound
