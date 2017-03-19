@@ -304,6 +304,16 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(count, 2, "Should be able to return elements with given attributes.")
     }
     
+    func testAllWithAttributeKeys() {
+        var count = 0
+        if let bulls = exampleDocument.root["dogs"]["dog"].all(withAttributes: ["gender"]) {
+            for _ in bulls {
+                count += 1
+            }
+        }
+        XCTAssertEqual(count, 2, "Should be able to return elements with given attribute keys.")
+    }
+    
     // MARK: - XML Write
     
     func testAddChild() {

@@ -8,8 +8,8 @@
     </cats>
     <dogs>
         <dog breed="Bull Terrier" color="white">Villy</dog>
-        <dog breed="Bull Terrier" color="white">Spot</dog>
+        <dog breed="Bull Terrier" color="white" gender="male">Spot</dog>
         <dog breed="Golden Retriever" color="yellow">Betty</dog>
-        <dog breed="Miniature Schnauzer" color="black">Kika</dog>
+        <dog breed="Miniature Schnauzer" color="black" gender="female">Kika</dog>
     </dogs>
 </animals>

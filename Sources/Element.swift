@@ -154,6 +154,26 @@ open class AEXMLElement {
         return found
     }
     
+    /**
+     Returns all elements with given attributes.
+     
+     - parameter attributes: Array of Keys of attributes.
+     
+     - returns: Optional Array of found XML elements.
+     */
+    open func all(withAttributes attributes: [String]) -> [AEXMLElement]? {
+        let found = filter { (element) -> Bool in
+            var countAttributes = 0
+            for key in attributes {
+                if element.attributes[key] != nil {
+                    countAttributes += 1
+                }
+            }
+            return countAttributes == attributes.count
+        }
+        return found
+    }
+    
     // MARK: - XML Write
     
     /**
