@@ -22,6 +22,9 @@ open class AEXMLElement {
     /// XML Element value.
     open var value: String?
     
+    /// XML Element tail.
+    open var tail: String?
+    
     /// XML Element attributes.
     open var attributes: [String : String]
     
@@ -219,6 +222,8 @@ open class AEXMLElement {
             if children.count > 0 {
                 // add children
                 xml += ">\n"
+                xml += string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).xmlEscaped
+                
                 for child in children {
                     xml += "\(child.xml)\n"
                 }
@@ -227,9 +232,52 @@ open class AEXMLElement {
                 xml += "</\(name)>"
             } else {
                 // insert string value and close element
+                xml += ">\(string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).xmlEscaped)</\(name)>"
+            }
+        }
+        
+        // append the tail string if there is one
+        xml += tail?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).xmlEscaped ?? ""
+        
+        return xml
+    }
+    
+    /// Complete hierarchy of `self` and `children` in **XML** escaped String
+    open var xmlRaw: String {
+        var xml = String()
+        
+        // open element
+        xml += "<\(name)"
+        
+        if attributes.count > 0 {
+            // insert attributes
+            for (key, value) in attributes {
+                xml += " \(key)=\"\(value.xmlEscaped)\""
+            }
+        }
+        
+        if value == nil && children.count == 0 {
+            // close element
+            xml += " />"
+        } else {
+            if children.count > 0 {
+                // add children
+                xml += ">"
+                xml += string.xmlEscaped
+                
+                for child in children {
+                    xml += "\(child.xmlRaw)"
+                }
+                
+                xml += "</\(name)>"
+            } else {
+                // insert string value and close element
                 xml += ">\(string.xmlEscaped)</\(name)>"
             }
         }
+        
+        // append the tail string if there is one
+        xml += tail?.xmlEscaped ?? ""
         
         return xml
     }
