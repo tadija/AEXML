@@ -326,7 +326,7 @@ class AEXMLTests: XCTestCase {
     
     func testXMLFormat() {
         // note: the test shouldn't include attributes as their order can differ and would make the strings differ
-        let rawOutputString = formatDocument.root.xmlRaw
+        let rawOutputString = formatDocument.root.xmlString(trimWhiteSpace: false, format: false)
         
         XCTAssertEqual(rawOutputString, formatXMLString, "Should output the same document format it loaded")
     }

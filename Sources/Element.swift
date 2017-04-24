@@ -34,6 +34,9 @@ open class AEXMLElement {
     /// String representation of `value` property (if `value` is `nil` this is empty String).
     open var string: String { return value ?? String() }
     
+    /// String representation of `tail` property (if `tail` is `nil` this is empty String).
+    open var tailString: String { return tail ?? String() }
+    
     /// Boolean representation of `value` property (`nil` if `value` can't be represented as Bool).
     open var bool: Bool? { return Bool(string) }
     
@@ -242,11 +245,24 @@ open class AEXMLElement {
         return xml
     }
     
-    /// Complete hierarchy of `self` and `children` in **XML** escaped String
-    open var xmlRaw: String {
+    
+    /**
+        Complete hierarchy of `self` and `children` in **XML** escaped String.
+        
+        - parameters:
+            - trimWhiteSpace: Trim whitespace and newlines (defaults to `true`).
+            - format: Insert newlines and indentation between elements (defaults to `true`).
+ 
+        - returns: XML hierarchy as a string.
+    */
+    open func xmlString(trimWhiteSpace: Bool = true, format: Bool = true) -> String {
         var xml = String()
         
+        let elementValue = trimWhiteSpace ? string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines): string
+        let tailValue = trimWhiteSpace ? tailString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines): tailString
+        
         // open element
+        xml += format ? indent(withDepth: parentsCount - 1) : ""
         xml += "<\(name)"
         
         if attributes.count > 0 {
@@ -256,28 +272,34 @@ open class AEXMLElement {
             }
         }
         
-        if value == nil && children.count == 0 {
+        if elementValue == String() && children.count == 0 {
             // close element
             xml += " />"
         } else {
             if children.count > 0 {
-                // add children
                 xml += ">"
-                xml += string.xmlEscaped
+                xml += format ? "\n" : ""
                 
+                // add value
+                xml += elementValue.xmlEscaped
+                // add children
                 for child in children {
-                    xml += "\(child.xmlRaw)"
+                    xml += child.xmlString(trimWhiteSpace: trimWhiteSpace, format: format)
+                    xml += format ? "\n" : ""
                 }
                 
+                xml += format ? indent(withDepth: parentsCount - 1) : ""
+                
+                // close element
                 xml += "</\(name)>"
             } else {
                 // insert string value and close element
-                xml += ">\(string.xmlEscaped)</\(name)>"
+                xml += ">\(elementValue.xmlEscaped)</\(name)>"
             }
         }
-        
+                
         // append the tail string if there is one
-        xml += tail?.xmlEscaped ?? ""
+        xml += tailValue.xmlEscaped
         
         return xml
     }
