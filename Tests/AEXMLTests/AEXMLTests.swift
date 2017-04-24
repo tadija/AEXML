@@ -8,6 +8,8 @@ class AEXMLTests: XCTestCase {
     
     var exampleDocument = AEXMLDocument()
     var plantsDocument = AEXMLDocument()
+    var formatDocument = AEXMLDocument()
+    var formatXMLString = String()
     
     // MARK: - Helpers
     
@@ -34,20 +36,41 @@ class AEXMLTests: XCTestCase {
         return xmlDocumentFromURL(url: url)
     }
     
+    func readStringFromFile(filename: String) -> String {
+        let url = URLForResource(fileName: filename, withExtension: "xml")
+        var docString = String()
+        
+        do {
+            let docData = try Data.init(contentsOf: url)
+            docString = String(data: docData, encoding: String.Encoding.utf8)!
+        } catch {
+            print(error)
+        }
+        
+        return docString
+    }
+    
     // MARK: - Setup & Teardown
     
     override func setUp() {
         super.setUp()
-        
+
         // create some sample xml documents
         exampleDocument = readXMLFromFile(filename: "example")
         plantsDocument = readXMLFromFile(filename: "plant_catalog")
+        formatDocument = readXMLFromFile(filename: "format")
+        
+        // load a raw document string to test formatting
+        // the parser ignores whitespace after the last tag - it must be trimmed
+        formatXMLString = readStringFromFile(filename: "format").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
     
     override func tearDown() {
         // reset sample xml document
         exampleDocument = AEXMLDocument()
         plantsDocument = AEXMLDocument()
+        formatDocument = AEXMLDocument()
+        formatXMLString = String()
         
         super.tearDown()
     }
@@ -299,6 +322,22 @@ class AEXMLTests: XCTestCase {
             }
         }
         XCTAssertEqual(count, 2, "Should be able to return elements with given attribute keys.")
+    }
+    
+    func testXMLFormat() {
+        // note: the test shouldn't include attributes as their order can differ and would make the strings differ
+        let rawOutputString = formatDocument.root.xmlRaw
+        
+        XCTAssertEqual(rawOutputString, formatXMLString, "Should output the same document format it loaded")
+    }
+    
+    func testTail() {
+        if let dogTail = formatDocument["animals"]["dogs"].tail {
+            let tailTrimmed = dogTail.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            XCTAssertEqual(tailTrimmed, "woof", "Should be the same non-whitespace string that comes after the element.")
+        } else {
+            XCTFail("Should be able to access the tail.")
+        }
     }
     
     // MARK: - XML Write

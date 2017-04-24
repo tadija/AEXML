@@ -10,7 +10,6 @@ internal class AEXMLParser: NSObject, XMLParserDelegate {
     
     var currentParent: AEXMLElement?
     var currentElement: AEXMLElement?
-    var previousElement: AEXMLElement?
     var currentValue = String()
     
     var parseError: Error?
@@ -62,11 +61,8 @@ internal class AEXMLParser: NSObject, XMLParserDelegate {
         if let element = currentElement {
             // inside an element
             element.value = currentValue
-        } else if let previous = previousElement {
-            // outside an element and a previous is available
-            previous.tail = currentValue
         } else if let parent = currentParent {
-            // outside an element and there's no previous - get the parent's last
+            // outside an element - get the parent's last
             parent.children.last?.tail = currentValue
         }
     }

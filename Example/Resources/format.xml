@@ -1,0 +1,10 @@
+<animals>
+    <cats>
+        meow
+        <cat>Tinna</cat>
+    </cats>
+    <dogs>
+        <dog>Villy</dog>
+    </dogs>
+    woof
+</animals>
