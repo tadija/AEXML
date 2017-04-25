@@ -340,6 +340,13 @@ class AEXMLTests: XCTestCase {
         }
     }
     
+    func testWhiteSpaceTrim() {
+        let expectedString = "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<animals><cats>meow<cat>Tinna</cat></cats><dogs><dog>Villy</dog></dogs>woof</animals>"
+        let xmlString = formatDocument.xmlString(trimWhiteSpace: true, format: false)
+        
+        XCTAssertEqual(xmlString, expectedString, "Should trim whitespace and newlines in XML string.")
+    }
+    
     // MARK: - XML Write
     
     func testAddChild() {
