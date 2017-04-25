@@ -53,13 +53,15 @@ open class AEXMLElement {
     
         - parameter name: XML element name.
         - parameter value: XML element value (defaults to `nil`).
+        - parameter tail: XML element tail value (defaults to `nil`).
         - parameter attributes: XML element attributes (defaults to empty dictionary).
     
         - returns: An initialized `AEXMLElement` object.
     */
-    public init(name: String, value: String? = nil, attributes: [String : String] = [String : String]()) {
+    public init(name: String, value: String? = nil, tail: String? = nil, attributes: [String : String] = [String : String]()) {
         self.name = name
         self.value = value
+        self.tail = tail
         self.attributes = attributes
     }
     
@@ -156,15 +158,17 @@ open class AEXMLElement {
         
         - parameter name: Child XML element name.
         - parameter value: Child XML element value (defaults to `nil`).
+        - parameter tail: XML element tail value (defaults to `nil`).
         - parameter attributes: Child XML element attributes (defaults to empty dictionary).
         
         - returns: Child XML element with `self` as `parent`.
     */
     @discardableResult open func addChild(name: String,
                        value: String? = nil,
+                       tail: String? = nil,
                        attributes: [String : String] = [String : String]()) -> AEXMLElement
     {
-        let child = AEXMLElement(name: name, value: value, attributes: attributes)
+        let child = AEXMLElement(name: name, value: value, tail: tail, attributes: attributes)
         return addChild(child)
     }
     
@@ -248,6 +252,7 @@ open class AEXMLElement {
     
     /**
         Complete hierarchy of `self` and `children` in **XML** escaped String.
+        Trimming whitespace doesn't affect characters added by formatting.
         
         - parameters:
             - trimWhiteSpace: Trim whitespace and newlines (defaults to `true`).
@@ -258,8 +263,8 @@ open class AEXMLElement {
     open func xmlString(trimWhiteSpace: Bool = true, format: Bool = true) -> String {
         var xml = String()
         
-        let elementValue = trimWhiteSpace ? string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines): string
-        let tailValue = trimWhiteSpace ? tailString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines): tailString
+        let elementValue = trimWhiteSpace ? string.trimmed: string
+        let tailValue = trimWhiteSpace ? tailString.trimmed: tailString
         
         // open element
         xml += format ? indent(withDepth: parentsCount - 1) : ""
@@ -326,6 +331,11 @@ public extension String {
         }
         
         return escaped
+    }
+    
+    /// String value with whitespace and new lines trimmed
+    public var trimmed: String {
+        return trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
     
 }

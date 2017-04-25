@@ -100,17 +100,23 @@ open class AEXMLDocument: AEXMLElement {
     }
     
     /**
-     Complete hierarchy of document in an **XML** escaped String with the header at
-     the beginning.
-     
-     - parameters:
-        - trimWhiteSpace: Trim whitespace and newlines (defaults to `true`).
-        - format: Insert newlines and indentation between elements (defaults to `true`).
-     
-     - returns: XML document as a string.
+        Complete hierarchy of document in an **XML** escaped String with the header at
+        the beginning.
+        Trimming whitespace doesn't affect characters added by formatting.
+
+        - parameters:
+            - trimWhiteSpace: Trim whitespace and newlines (defaults to `true`).
+            - format: Insert newlines and indentation between elements (defaults to `true`).
+
+        - returns: XML document as a string.
      */
     open override func xmlString(trimWhiteSpace: Bool = true, format: Bool = true) -> String {
-        var xml = "\(options.documentHeader.xmlString)\n"
+        var xml = "\(options.documentHeader.xmlString)"
+        
+        if format || !trimWhiteSpace {
+            xml += "\n"
+        }
+        
         xml += root.xmlString(trimWhiteSpace: trimWhiteSpace, format: format)
         
         return xml

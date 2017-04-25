@@ -198,6 +198,17 @@ class AEXMLTests: XCTestCase {
         XCTAssertNil(firstPlantEmptyElement, "Should be able to have nil value.")
     }
     
+    func testTail() {
+        let ducks = exampleDocument.root.addChild(name: "ducks")
+        ducks.addChild(name: "duck", value: "Donald", tail: "quack")
+        ducks.addChild(name: "duck", value: "Daisy")
+        ducks.addChild(name: "duck", value: "Scrooge")
+        XCTAssertEqual(ducks.children.first?.tailString, "quack", "Should return tail of the element.")
+        
+        let tailTrimmed = formatDocument["animals"]["dogs"].tail?.trimmed
+        XCTAssertEqual(tailTrimmed, "woof", "Should be the same tail with whitespace trimmed.")
+    }
+    
     func testStringValue() {
         let firstPlant = plantsDocument.root["PLANT"]
         
@@ -324,24 +335,17 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(count, 2, "Should be able to return elements with given attribute keys.")
     }
     
-    func testXMLFormat() {
-        // note: the test shouldn't include attributes as their order can differ and would make the strings differ
-        let rawOutputString = formatDocument.root.xmlString(trimWhiteSpace: false, format: false)
-        
-        XCTAssertEqual(rawOutputString, formatXMLString, "Should output the same document format it loaded")
-    }
-    
-    func testTail() {
-        if let dogTail = formatDocument["animals"]["dogs"].tail {
-            let tailTrimmed = dogTail.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-            XCTAssertEqual(tailTrimmed, "woof", "Should be the same non-whitespace string that comes after the element.")
-        } else {
-            XCTFail("Should be able to access the tail.")
-        }
+    /**
+        This test shouldn't include attributes as their order can differ and would make the strings differ.
+        Since this library doesn't currently support loading headers, the sample doc matches exactly what this library outputs.
+     */
+    func testOriginalFormatting() {
+        let formatDocString = formatDocument.xmlString(trimWhiteSpace: false, format: false)
+        XCTAssertEqual(formatDocString, formatXMLString, "Should output the same document formatting as loaded")
     }
     
     func testWhiteSpaceTrim() {
-        let expectedString = "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<animals><cats>meow<cat>Tinna</cat></cats><dogs><dog>Villy</dog></dogs>woof</animals>"
+        let expectedString = "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><animals><cats>meow<cat>Tinna</cat></cats><dogs><dog>Villy</dog></dogs>woof</animals>"
         let xmlString = formatDocument.xmlString(trimWhiteSpace: true, format: false)
         
         XCTAssertEqual(xmlString, expectedString, "Should trim whitespace and newlines in XML string.")
@@ -421,6 +425,31 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(testDocument.xml, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<children>\n\t<child attribute=\"attributeValue&lt;&amp;&gt;\">value</child>\n\t<child />\n\t<child>&amp;&lt;&gt;&apos;&quot;</child>\n</children>", "Should be able to print XML formatted string.")
         
         XCTAssertEqual(testDocument.xmlCompact, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><children><child attribute=\"attributeValue&lt;&amp;&gt;\">value</child><child /><child>&amp;&lt;&gt;&apos;&quot;</child></children>", "Should be able to print compact XML string.")
+    }
+    
+    func testXMLStringFunc() {
+        let testDocument = AEXMLDocument()
+        let children = testDocument.addChild(name: "children")
+        children.addChild(name: "child", value: "value", attributes: ["attribute" : "attributeValue<&>"])
+        children.addChild(name: "child")
+        children.addChild(name: "child", value: "&<>'\"")
+        
+        XCTAssertEqual(testDocument.xmlString(), "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<children>\n\t<child attribute=\"attributeValue&lt;&amp;&gt;\">value</child>\n\t<child />\n\t<child>&amp;&lt;&gt;&apos;&quot;</child>\n</children>", "Should be able to print XML formatted string.")
+        
+        XCTAssertEqual(testDocument.xmlString(trimWhiteSpace: true, format: false), "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><children><child attribute=\"attributeValue&lt;&amp;&gt;\">value</child><child /><child>&amp;&lt;&gt;&apos;&quot;</child></children>", "Should be able to print compact XML string.")
+    }
+    
+    /// Tests parity between xml and xmlCompact computed props and xmlString function
+    func testXMLStringParity() {
+        let testDocument = AEXMLDocument()
+        let children = testDocument.addChild(name: "children")
+        children.addChild(name: "child", value: "value", tail: "tail", attributes: ["attribute" : "attributeValue<&>"])
+        children.addChild(name: "child")
+        children.addChild(name: "child", value: "&<>'\"")
+        children.addChild(name: "child", value: "&<>'\"\n\n\n\n\t\t\t\t   ", tail: "\n\n\n\n\t\t\t\t    ")
+        
+        XCTAssertEqual(testDocument.xml, testDocument.xmlString())
+        XCTAssertEqual(testDocument.xmlCompact, testDocument.xmlString(trimWhiteSpace: true, format: false))
     }
     
     // MARK: - XML Parse Performance
