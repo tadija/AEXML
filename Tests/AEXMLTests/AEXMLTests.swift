@@ -8,6 +8,8 @@ class AEXMLTests: XCTestCase {
     
     var exampleDocument = AEXMLDocument()
     var plantsDocument = AEXMLDocument()
+    var formatDocument = AEXMLDocument()
+    var formatXMLString = String()
     
     // MARK: - Helpers
     
@@ -34,20 +36,41 @@ class AEXMLTests: XCTestCase {
         return xmlDocumentFromURL(url: url)
     }
     
+    func readStringFromFile(filename: String) -> String {
+        let url = URLForResource(fileName: filename, withExtension: "xml")
+        var docString = String()
+        
+        do {
+            let docData = try Data.init(contentsOf: url)
+            docString = String(data: docData, encoding: String.Encoding.utf8)!
+        } catch {
+            print(error)
+        }
+        
+        return docString
+    }
+    
     // MARK: - Setup & Teardown
     
     override func setUp() {
         super.setUp()
-        
+
         // create some sample xml documents
         exampleDocument = readXMLFromFile(filename: "example")
         plantsDocument = readXMLFromFile(filename: "plant_catalog")
+        formatDocument = readXMLFromFile(filename: "format")
+        
+        // load a raw document string to test formatting
+        // the parser ignores whitespace after the last tag - it must be trimmed
+        formatXMLString = readStringFromFile(filename: "format").trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
     
     override func tearDown() {
         // reset sample xml document
         exampleDocument = AEXMLDocument()
         plantsDocument = AEXMLDocument()
+        formatDocument = AEXMLDocument()
+        formatXMLString = String()
         
         super.tearDown()
     }
@@ -173,6 +196,17 @@ class AEXMLTests: XCTestCase {
         
         let firstPlantEmptyElement = firstPlant["EMPTYELEMENT"].value
         XCTAssertNil(firstPlantEmptyElement, "Should be able to have nil value.")
+    }
+    
+    func testTail() {
+        let ducks = exampleDocument.root.addChild(name: "ducks")
+        ducks.addChild(name: "duck", value: "Donald", tail: "quack")
+        ducks.addChild(name: "duck", value: "Daisy")
+        ducks.addChild(name: "duck", value: "Scrooge")
+        XCTAssertEqual(ducks.children.first?.tailString, "quack", "Should return tail of the element.")
+        
+        let tailTrimmed = formatDocument["animals"]["dogs"].tail?.trimmed
+        XCTAssertEqual(tailTrimmed, "woof", "Should be the same tail with whitespace trimmed.")
     }
     
     func testStringValue() {
@@ -301,6 +335,22 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(count, 2, "Should be able to return elements with given attribute keys.")
     }
     
+    /**
+        This test shouldn't include attributes as their order can differ and would make the strings differ.
+        Since this library doesn't currently support loading headers, the sample doc matches exactly what this library outputs.
+     */
+    func testOriginalFormatting() {
+        let formatDocString = formatDocument.xmlString(trimWhiteSpace: false, format: false)
+        XCTAssertEqual(formatDocString, formatXMLString, "Should output the same document formatting as loaded")
+    }
+    
+    func testWhiteSpaceTrim() {
+        let expectedString = "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><animals><cats>meow<cat>Tinna</cat></cats><dogs><dog>Villy</dog></dogs>woof</animals>"
+        let xmlString = formatDocument.xmlString(trimWhiteSpace: true, format: false)
+        
+        XCTAssertEqual(xmlString, expectedString, "Should trim whitespace and newlines in XML string.")
+    }
+    
     // MARK: - XML Write
     
     func testAddChild() {
@@ -375,6 +425,31 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(testDocument.xml, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<children>\n\t<child attribute=\"attributeValue&lt;&amp;&gt;\">value</child>\n\t<child />\n\t<child>&amp;&lt;&gt;&apos;&quot;</child>\n</children>", "Should be able to print XML formatted string.")
         
         XCTAssertEqual(testDocument.xmlCompact, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><children><child attribute=\"attributeValue&lt;&amp;&gt;\">value</child><child /><child>&amp;&lt;&gt;&apos;&quot;</child></children>", "Should be able to print compact XML string.")
+    }
+    
+    func testXMLStringFunc() {
+        let testDocument = AEXMLDocument()
+        let children = testDocument.addChild(name: "children")
+        children.addChild(name: "child", value: "value", attributes: ["attribute" : "attributeValue<&>"])
+        children.addChild(name: "child")
+        children.addChild(name: "child", value: "&<>'\"")
+        
+        XCTAssertEqual(testDocument.xmlString(), "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<children>\n\t<child attribute=\"attributeValue&lt;&amp;&gt;\">value</child>\n\t<child />\n\t<child>&amp;&lt;&gt;&apos;&quot;</child>\n</children>", "Should be able to print XML formatted string.")
+        
+        XCTAssertEqual(testDocument.xmlString(trimWhiteSpace: true, format: false), "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><children><child attribute=\"attributeValue&lt;&amp;&gt;\">value</child><child /><child>&amp;&lt;&gt;&apos;&quot;</child></children>", "Should be able to print compact XML string.")
+    }
+    
+    /// Tests parity between xml and xmlCompact computed props and xmlString function
+    func testXMLStringParity() {
+        let testDocument = AEXMLDocument()
+        let children = testDocument.addChild(name: "children")
+        children.addChild(name: "child", value: "value", tail: "tail", attributes: ["attribute" : "attributeValue<&>"])
+        children.addChild(name: "child")
+        children.addChild(name: "child", value: "&<>'\"")
+        children.addChild(name: "child", value: "&<>'\"\n\n\n\n\t\t\t\t   ", tail: "\n\n\n\n\t\t\t\t    ")
+        
+        XCTAssertEqual(testDocument.xml, testDocument.xmlString())
+        XCTAssertEqual(testDocument.xmlCompact, testDocument.xmlString(trimWhiteSpace: true, format: false))
     }
     
     // MARK: - XML Parse Performance

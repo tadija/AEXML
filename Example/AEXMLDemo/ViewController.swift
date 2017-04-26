@@ -44,13 +44,13 @@ class ViewController: UIViewController {
             }
             
             // prints Optional("Tinna") (first element)
-            print(xmlDoc.root["cats"]["cat"].value)
+            print(xmlDoc.root["cats"]["cat"].value ?? "Value was nil!")
             
             // prints Tinna (first element)
             print(xmlDoc.root["cats"]["cat"].string)
             
             // prints Optional("Kika") (last element)
-            print(xmlDoc.root["dogs"]["dog"].last?.value)
+            print(xmlDoc.root["dogs"]["dog"].last?.value ?? "Value was nil!")
             
             // prints Betty (3rd element)
             print(xmlDoc.root["dogs"].children[2].string)
@@ -97,7 +97,7 @@ class ViewController: UIViewController {
             print(xmlDoc.root["cats"]["cat"].xmlCompact)
             
             // prints Optional(AEXML.AEXMLError.elementNotFound)
-            print(xmlDoc["NotExistingElement"].error)
+            print(xmlDoc["NotExistingElement"].error ?? "Error was nil!")
         }
         catch {
             print("\(error)")

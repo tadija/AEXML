@@ -57,8 +57,14 @@ internal class AEXMLParser: NSObject, XMLParserDelegate {
     
     func parser(_ parser: XMLParser, foundCharacters string: String) {
         currentValue += string
-        let newValue = currentValue.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        currentElement?.value = newValue == String() ? nil : newValue
+
+        if let element = currentElement {
+            // inside an element
+            element.value = currentValue
+        } else if let parent = currentParent {
+            // outside an element - get the parent's last
+            parent.children.last?.tail = currentValue
+        }
     }
     
     func parser(_ parser: XMLParser,
@@ -66,6 +72,7 @@ internal class AEXMLParser: NSObject, XMLParserDelegate {
                       namespaceURI: String?,
                       qualifiedName qName: String?)
     {
+        currentValue = String()
         currentParent = currentParent?.parent
         currentElement = nil
     }

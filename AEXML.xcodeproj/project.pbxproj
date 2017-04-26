@@ -43,6 +43,9 @@
 		8B52A49C1D84AF640060C08D /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B52A49A1D84AF640060C08D /* Options.swift */; };
 		8B52A49D1D84AF640060C08D /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B52A49A1D84AF640060C08D /* Options.swift */; };
 		8B52A49E1D84AF640060C08D /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B52A49A1D84AF640060C08D /* Options.swift */; };
+		C33523E71EAE563700AF876A /* format.xml in Resources */ = {isa = PBXBuildFile; fileRef = C33523E51EAE563000AF876A /* format.xml */; };
+		C33523E81EAE571000AF876A /* format.xml in Resources */ = {isa = PBXBuildFile; fileRef = C33523E51EAE563000AF876A /* format.xml */; };
+		C33523E91EAE571500AF876A /* format.xml in Resources */ = {isa = PBXBuildFile; fileRef = C33523E51EAE563000AF876A /* format.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +96,7 @@
 		8BDEBA8C1AEC588700A12D92 /* AEXML.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AEXML.podspec; sourceTree = "<group>"; };
 		8BFE78C319F0054200914487 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8BFE78C419F0054200914487 /* AEXMLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AEXMLTests.swift; path = AEXMLTests/AEXMLTests.swift; sourceTree = "<group>"; };
+		C33523E51EAE563000AF876A /* format.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = format.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +167,7 @@
 		8B4A92E91BDD66680011F36F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C33523E51EAE563000AF876A /* format.xml */,
 				8B4A92EA1BDD66680011F36F /* example.xml */,
 				8B4A92EB1BDD66680011F36F /* plant_catalog.xml */,
 			);
@@ -487,6 +492,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C33523E71EAE563700AF876A /* format.xml in Resources */,
 				8B4A92EC1BDD66680011F36F /* example.xml in Resources */,
 				8B4A92F01BDD66680011F36F /* plant_catalog.xml in Resources */,
 			);
@@ -496,6 +502,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C33523E91EAE571500AF876A /* format.xml in Resources */,
 				8B4A92ED1BDD66680011F36F /* example.xml in Resources */,
 				8B4A92F11BDD66680011F36F /* plant_catalog.xml in Resources */,
 			);
@@ -512,6 +519,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C33523E81EAE571000AF876A /* format.xml in Resources */,
 				8B4A92EE1BDD66680011F36F /* example.xml in Resources */,
 				8B4A92F21BDD66680011F36F /* plant_catalog.xml in Resources */,
 			);

@@ -22,6 +22,9 @@ open class AEXMLElement {
     /// XML Element value.
     open var value: String?
     
+    /// XML Element tail.
+    open var tail: String?
+    
     /// XML Element attributes.
     open var attributes: [String : String]
     
@@ -30,6 +33,9 @@ open class AEXMLElement {
     
     /// String representation of `value` property (if `value` is `nil` this is empty String).
     open var string: String { return value ?? String() }
+    
+    /// String representation of `tail` property (if `tail` is `nil` this is empty String).
+    open var tailString: String { return tail ?? String() }
     
     /// Boolean representation of `value` property (`nil` if `value` can't be represented as Bool).
     open var bool: Bool? { return Bool(string) }
@@ -47,13 +53,15 @@ open class AEXMLElement {
     
         - parameter name: XML element name.
         - parameter value: XML element value (defaults to `nil`).
+        - parameter tail: XML element tail value (defaults to `nil`).
         - parameter attributes: XML element attributes (defaults to empty dictionary).
     
         - returns: An initialized `AEXMLElement` object.
     */
-    public init(name: String, value: String? = nil, attributes: [String : String] = [String : String]()) {
+    public init(name: String, value: String? = nil, tail: String? = nil, attributes: [String : String] = [String : String]()) {
         self.name = name
         self.value = value
+        self.tail = tail
         self.attributes = attributes
     }
     
@@ -150,15 +158,17 @@ open class AEXMLElement {
         
         - parameter name: Child XML element name.
         - parameter value: Child XML element value (defaults to `nil`).
+        - parameter tail: XML element tail value (defaults to `nil`).
         - parameter attributes: Child XML element attributes (defaults to empty dictionary).
         
         - returns: Child XML element with `self` as `parent`.
     */
     @discardableResult open func addChild(name: String,
                        value: String? = nil,
+                       tail: String? = nil,
                        attributes: [String : String] = [String : String]()) -> AEXMLElement
     {
-        let child = AEXMLElement(name: name, value: value, attributes: attributes)
+        let child = AEXMLElement(name: name, value: value, tail: tail, attributes: attributes)
         return addChild(child)
     }
     
@@ -219,6 +229,8 @@ open class AEXMLElement {
             if children.count > 0 {
                 // add children
                 xml += ">\n"
+                xml += string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).xmlEscaped
+                
                 for child in children {
                     xml += "\(child.xml)\n"
                 }
@@ -227,9 +239,72 @@ open class AEXMLElement {
                 xml += "</\(name)>"
             } else {
                 // insert string value and close element
-                xml += ">\(string.xmlEscaped)</\(name)>"
+                xml += ">\(string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).xmlEscaped)</\(name)>"
             }
         }
+        
+        // append the tail string if there is one
+        xml += tail?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).xmlEscaped ?? ""
+        
+        return xml
+    }
+    
+    
+    /**
+        Complete hierarchy of `self` and `children` in **XML** escaped String.
+        Trimming whitespace doesn't affect characters added by formatting.
+        
+        - parameters:
+            - trimWhiteSpace: Trim whitespace and newlines (defaults to `true`).
+            - format: Insert newlines and indentation between elements (defaults to `true`).
+ 
+        - returns: XML hierarchy as a string.
+    */
+    open func xmlString(trimWhiteSpace: Bool = true, format: Bool = true) -> String {
+        var xml = String()
+        
+        let elementValue = trimWhiteSpace ? string.trimmed: string
+        let tailValue = trimWhiteSpace ? tailString.trimmed: tailString
+        
+        // open element
+        xml += format ? indent(withDepth: parentsCount - 1) : ""
+        xml += "<\(name)"
+        
+        if attributes.count > 0 {
+            // insert attributes
+            for (key, value) in attributes {
+                xml += " \(key)=\"\(value.xmlEscaped)\""
+            }
+        }
+        
+        if elementValue == String() && children.count == 0 {
+            // close element
+            xml += " />"
+        } else {
+            if children.count > 0 {
+                xml += ">"
+                xml += format ? "\n" : ""
+                
+                // add value
+                xml += elementValue.xmlEscaped
+                // add children
+                for child in children {
+                    xml += child.xmlString(trimWhiteSpace: trimWhiteSpace, format: format)
+                    xml += format ? "\n" : ""
+                }
+                
+                xml += format ? indent(withDepth: parentsCount - 1) : ""
+                
+                // close element
+                xml += "</\(name)>"
+            } else {
+                // insert string value and close element
+                xml += ">\(elementValue.xmlEscaped)</\(name)>"
+            }
+        }
+                
+        // append the tail string if there is one
+        xml += tailValue.xmlEscaped
         
         return xml
     }
@@ -256,6 +331,11 @@ public extension String {
         }
         
         return escaped
+    }
+    
+    /// String value with whitespace and new lines trimmed
+    public var trimmed: String {
+        return trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
     
 }
