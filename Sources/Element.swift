@@ -130,6 +130,62 @@ open class AEXMLElement {
         return found
     }
     
+    /**
+        Returns all descendant elements which satisfy the given predicate.
+     
+        Searching is done vertically; children are tested before siblings. Elements appear in the list
+        in the order in which they are found.
+     
+        - parameter predicate: Function which returns `true` for a desired element and `false` otherwise.
+     
+        - returns: Array of found XML elements.
+     */
+    open func allDescendants(where predicate: (AEXMLElement) -> Bool) -> [AEXMLElement] {
+        var result: [AEXMLElement] = []
+        
+        for child in children {
+            if predicate(child) {
+                result.append(child)
+            }
+            
+            result.append(contentsOf: child.allDescendants(where: predicate))
+        }
+        
+        return result
+    }
+    
+    /**
+        Returns the first descendant element which satisfies the given predicate, or nil if no such element is found.
+     
+        Searching is done vertically; children are tested before siblings.
+     
+        - parameter predicate: Function which returns `true` for the desired element and `false` otherwise.
+     
+        - returns: Optional AEXMLElement.
+     */
+    open func firstDescendant(where predicate: (AEXMLElement) -> Bool) -> AEXMLElement? {
+        for child in children {
+            if predicate(child) {
+                return child
+            } else if let descendant = child.firstDescendant(where: predicate) {
+                return descendant
+            }
+        }
+        
+        return nil
+    }
+    
+    /**
+        Indicates whether the element has a descendant satisfying the given predicate.
+     
+        - parameter predicate: Function which returns `true` for the desired element and `false` otherwise.
+     
+        - returns: Bool.
+     */
+    open func hasDescendant(where predicate: (AEXMLElement) -> Bool) -> Bool {
+        return firstDescendant(where: predicate) != nil
+    }
+    
     // MARK: - XML Write
     
     /**
