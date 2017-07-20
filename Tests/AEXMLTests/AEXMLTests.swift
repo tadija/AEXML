@@ -165,13 +165,13 @@ class AEXMLTests: XCTestCase {
     func testValue() {
         let firstPlant = plantsDocument.root["PLANT"]
         
-        let firstPlantCommon = firstPlant["COMMON"].value!
+        let firstPlantCommon = firstPlant["COMMON"].value!.string
         XCTAssertEqual(firstPlantCommon, "Bloodroot", "Should be able to return element value as optional string.")
         
-        let firstPlantElementWithoutValue = firstPlant["ELEMENTWITHOUTVALUE"].value
+        let firstPlantElementWithoutValue = firstPlant["ELEMENTWITHOUTVALUE"].value?.string
         XCTAssertNil(firstPlantElementWithoutValue, "Should be able to have nil value.")
         
-        let firstPlantEmptyElement = firstPlant["EMPTYELEMENT"].value
+        let firstPlantEmptyElement = firstPlant["EMPTYELEMENT"].value?.string
         XCTAssertNil(firstPlantEmptyElement, "Should be able to have nil value.")
     }
     
@@ -314,6 +314,17 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(exampleDocument.root["ducks"]["duck"].last!.string, "Scrooge", "Should be able to iterate ducks now.")
     }
     
+    func testAddChildCDATA() {
+        let ducks = exampleDocument.root.addChild(name: "ducks")
+        ducks.addChild(name: "duck", cdataValue: "Donald")
+        ducks.addChild(name: "duck", cdataValue: "Daisy")
+        ducks.addChild(name: "duck", cdataValue: "Scrooge")
+        
+        let animalsCount = exampleDocument.root.children.count
+        XCTAssertEqual(animalsCount, 3, "Should be able to add child elements to an element.")
+        XCTAssertEqual(exampleDocument.root["ducks"]["duck"].last!.string, "Scrooge", "Should be able to iterate ducks now.")
+    }
+    
     func testAddChildWithAttributes() {
         let cats = exampleDocument.root["cats"]
         let dogs = exampleDocument.root["dogs"]
@@ -363,6 +374,12 @@ class AEXMLTests: XCTestCase {
         let string = "&<>'\""
         let escapedString = string.xmlEscaped
         XCTAssertEqual(escapedString, "&amp;&lt;&gt;&apos;&quot;")
+    }
+    
+    func testXMLEscapedCDATAString() {
+        let string = "&<>'\""
+        let escapedCDATAString = string.xmlEscapedCDATA
+        XCTAssertEqual(escapedCDATAString, "<![CDATA[&amp;&lt;&gt;&apos;&quot;]]>")
     }
     
     func testXMLString() {

@@ -19,8 +19,9 @@ open class AEXMLElement {
     /// XML Element name.
     open var name: String
     
+    
     /// XML Element value.
-    open var value: String?
+    open var value: AEXMLElementValue?
     
     /// XML Element attributes.
     open var attributes: [String : String]
@@ -29,7 +30,9 @@ open class AEXMLElement {
     open var error: AEXMLError?
     
     /// String representation of `value` property (if `value` is `nil` this is empty String).
-    open var string: String { return value ?? String() }
+    open var string: String { return value?.string ?? String() }
+    
+    open var escapedString: String { return value?.escapedString ?? String() }
     
     /// Boolean representation of `value` property (`nil` if `value` can't be represented as Bool).
     open var bool: Bool? { return Bool(string) }
@@ -46,14 +49,15 @@ open class AEXMLElement {
         Designated initializer - all parameters are optional.
     
         - parameter name: XML element name.
+        - parameter cdataValue: XML element value (defaults to `nil`). It will be treated as CDATA and take precedence over value.
         - parameter value: XML element value (defaults to `nil`).
         - parameter attributes: XML element attributes (defaults to empty dictionary).
     
         - returns: An initialized `AEXMLElement` object.
     */
-    public init(name: String, value: String? = nil, attributes: [String : String] = [String : String]()) {
+    public init(name: String, cdataValue: String? = nil, value: String? = nil, attributes: [String : String] = [String : String]()) {
         self.name = name
-        self.value = value
+        self.value = cdataValue.flatMap { AEXMLElementValue(cdataValue: $0) } ?? value.flatMap { AEXMLElementValue(plainValue: $0) }
         self.attributes = attributes
     }
     
@@ -92,7 +96,7 @@ open class AEXMLElement {
     */
     open func all(withValue value: String) -> [AEXMLElement]? {
         let found = all?.flatMap {
-            $0.value == value ? $0 : nil
+            $0.value == AEXMLElementValue(plainValue: value) ? $0 : nil
         }
         return found
     }
@@ -149,16 +153,18 @@ open class AEXMLElement {
         Adds child XML element to `self`.
         
         - parameter name: Child XML element name.
+        - parameter cdatavalue: Child XML element value (defaults to `nil`). It will be treated as CDATA and take precedence over value.
         - parameter value: Child XML element value (defaults to `nil`).
         - parameter attributes: Child XML element attributes (defaults to empty dictionary).
         
         - returns: Child XML element with `self` as `parent`.
     */
     @discardableResult open func addChild(name: String,
-                       value: String? = nil,
-                       attributes: [String : String] = [String : String]()) -> AEXMLElement
+                                          cdataValue: String? = nil,
+                                          value: String? = nil,
+                                          attributes: [String : String] = [String : String]()) -> AEXMLElement
     {
-        let child = AEXMLElement(name: name, value: value, attributes: attributes)
+        let child = AEXMLElement(name: name, cdataValue: cdataValue, value: value, attributes: attributes)
         return addChild(child)
     }
     
@@ -227,7 +233,7 @@ open class AEXMLElement {
                 xml += "</\(name)>"
             } else {
                 // insert string value and close element
-                xml += ">\(string.xmlEscaped)</\(name)>"
+                xml += ">\(escapedString)</\(name)>"
             }
         }
         
@@ -240,6 +246,34 @@ open class AEXMLElement {
         return xml.components(separatedBy: chars).joined(separator: "")
     }
     
+}
+
+public struct AEXMLElementValue: Equatable {
+    
+    fileprivate let plainValue: String?
+    fileprivate let cdataValue: String?
+    
+    public init(plainValue: String) {
+        self.plainValue = plainValue
+        self.cdataValue = nil
+    }
+    
+    public init(cdataValue: String) {
+        self.plainValue = nil
+        self.cdataValue = cdataValue
+    }
+    
+    var string: String {
+        return cdataValue ?? plainValue ?? String()
+    }
+    
+    var escapedString: String {
+        return cdataValue?.xmlEscapedCDATA ?? plainValue?.xmlEscaped ?? String()
+    }
+    
+    public static func ==(lhs: AEXMLElementValue, rhs: AEXMLElementValue) -> Bool {
+        return lhs.string == rhs.string
+    }
 }
 
 public extension String {
@@ -258,4 +292,7 @@ public extension String {
         return escaped
     }
     
+    internal var xmlEscapedCDATA: String {
+        return "<![CDATA[\(xmlEscaped)]]>"
+    }
 }
