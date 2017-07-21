@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 4.1.1
+
+- Add Support for CDATA
+
 ## Version 4.1.0
 
 - Convenience typed accessors are now optional instead of having default values

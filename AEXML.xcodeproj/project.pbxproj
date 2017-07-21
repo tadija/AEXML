@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		867DCD491F21F9C800E7B01C /* plantCDATA_catalog.xml in Resources */ = {isa = PBXBuildFile; fileRef = 867DCD481F21F9C800E7B01C /* plantCDATA_catalog.xml */; };
+		867DCD4A1F21F9C800E7B01C /* plantCDATA_catalog.xml in Resources */ = {isa = PBXBuildFile; fileRef = 867DCD481F21F9C800E7B01C /* plantCDATA_catalog.xml */; };
+		867DCD4B1F21F9C800E7B01C /* plantCDATA_catalog.xml in Resources */ = {isa = PBXBuildFile; fileRef = 867DCD481F21F9C800E7B01C /* plantCDATA_catalog.xml */; };
 		8B4A92821BDD477E0011F36F /* AEXML.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B4A92811BDD477E0011F36F /* AEXML.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8B4A92921BDD4AD30011F36F /* AEXML.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B4A92811BDD477E0011F36F /* AEXML.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8B4A929E1BDD4CEF0011F36F /* AEXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B4A92791BDD47210011F36F /* AEXML.framework */; };
@@ -70,6 +73,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		867DCD481F21F9C800E7B01C /* plantCDATA_catalog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = plantCDATA_catalog.xml; sourceTree = "<group>"; };
 		8B0D48AA1C594F8D0075C8BF /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		8B4A92791BDD47210011F36F /* AEXML.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AEXML.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B4A92811BDD477E0011F36F /* AEXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AEXML.h; sourceTree = "<group>"; };
@@ -165,6 +169,7 @@
 			children = (
 				8B4A92EA1BDD66680011F36F /* example.xml */,
 				8B4A92EB1BDD66680011F36F /* plant_catalog.xml */,
+				867DCD481F21F9C800E7B01C /* plantCDATA_catalog.xml */,
 			);
 			name = Resources;
 			path = ../Example/Resources;
@@ -487,6 +492,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				867DCD491F21F9C800E7B01C /* plantCDATA_catalog.xml in Resources */,
 				8B4A92EC1BDD66680011F36F /* example.xml in Resources */,
 				8B4A92F01BDD66680011F36F /* plant_catalog.xml in Resources */,
 			);
@@ -496,6 +502,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				867DCD4B1F21F9C800E7B01C /* plantCDATA_catalog.xml in Resources */,
 				8B4A92ED1BDD66680011F36F /* example.xml in Resources */,
 				8B4A92F11BDD66680011F36F /* plant_catalog.xml in Resources */,
 			);
@@ -512,6 +519,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				867DCD4A1F21F9C800E7B01C /* plantCDATA_catalog.xml in Resources */,
 				8B4A92EE1BDD66680011F36F /* example.xml in Resources */,
 				8B4A92F21BDD66680011F36F /* plant_catalog.xml in Resources */,
 			);

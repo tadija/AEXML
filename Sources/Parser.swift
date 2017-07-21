@@ -55,10 +55,25 @@ internal class AEXMLParser: NSObject, XMLParserDelegate {
         currentParent = currentElement
     }
     
+    func parser(_ parser: XMLParser, foundCDATA CDATABlock: Data) {
+        if let newValue = String(data: CDATABlock, encoding: .utf8) {
+            currentValue += newValue
+            if newValue == String() {
+                currentElement?.value = nil
+                currentElement?.isCDATA = nil
+            }
+            else {
+                currentElement?.value = newValue
+                currentElement?.isCDATA = true
+            }
+        }
+    }
+    
     func parser(_ parser: XMLParser, foundCharacters string: String) {
         currentValue += string
         let newValue = currentValue.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         currentElement?.value = newValue == String() ? nil : newValue
+        currentElement?.isCDATA = newValue == String() ? nil : false
     }
     
     func parser(_ parser: XMLParser,
