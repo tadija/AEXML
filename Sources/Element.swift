@@ -22,6 +22,9 @@ open class AEXMLElement {
     /// XML Element value.
     open var value: String?
     
+    /// XML How value should be treated.
+    open var isCDATA: Bool?
+    
     /// XML Element attributes.
     open var attributes: [String : String]
     
@@ -51,9 +54,10 @@ open class AEXMLElement {
     
         - returns: An initialized `AEXMLElement` object.
     */
-    public init(name: String, value: String? = nil, attributes: [String : String] = [String : String]()) {
+    public init(name: String, value: String? = nil, isCDATA: Bool? = nil, attributes: [String : String] = [String : String]()) {
         self.name = name
         self.value = value
+        self.isCDATA = value != nil ? (isCDATA ?? false) : nil
         self.attributes = attributes
     }
     
@@ -155,10 +159,11 @@ open class AEXMLElement {
         - returns: Child XML element with `self` as `parent`.
     */
     @discardableResult open func addChild(name: String,
-                       value: String? = nil,
-                       attributes: [String : String] = [String : String]()) -> AEXMLElement
+                                          value: String? = nil,
+                                          isCDATA: Bool? = nil,
+                                          attributes: [String : String] = [String : String]()) -> AEXMLElement
     {
-        let child = AEXMLElement(name: name, value: value, attributes: attributes)
+        let child = AEXMLElement(name: name, value: value, isCDATA: isCDATA, attributes: attributes)
         return addChild(child)
     }
     
@@ -226,8 +231,13 @@ open class AEXMLElement {
                 xml += indent(withDepth: parentsCount - 1)
                 xml += "</\(name)>"
             } else {
-                // insert string value and close element
-                xml += ">\(string.xmlEscaped)</\(name)>"
+                if isCDATA == true {
+                    xml += "><![CDATA[\(string)]]></\(name)>"
+                }
+                else {
+                    // insert string value and close element
+                    xml += ">\(string.xmlEscaped)</\(name)>"
+                }
             }
         }
         
