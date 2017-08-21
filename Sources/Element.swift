@@ -162,6 +162,20 @@ open class AEXMLElement {
         return addChild(child)
     }
     
+    /**
+        Adds an array of XML elements to `self`.
+    
+        - parameter children: Child XML element array to add.
+    
+        - returns: Child XML elements with `self` as `parent`.
+    */
+    @discardableResult open func addChildren(_ children: [AEXMLElement]) -> [AEXMLElement] {
+        for child in children {
+            addChild(child)
+        }
+        return children
+    }
+    
     /// Removes `self` from `parent` XML element.
     open func removeFromParent() {
         parent?.removeChild(self)
