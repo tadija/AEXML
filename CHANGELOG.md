@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 4.2.1
+
+- Merged #132
+
 ## Version 4.2.0
 
 - Migrated to Swift 4 with Xcode 9.1
