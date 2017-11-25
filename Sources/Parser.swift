@@ -57,8 +57,9 @@ internal class AEXMLParser: NSObject, XMLParserDelegate {
     
     func parser(_ parser: XMLParser, foundCharacters string: String) {
         currentValue += string
-        let newValue =  document.options.parserSettings.shouldTrimWhitespace ? currentValue.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) : currentValue
-        currentElement?.value = newValue == String() ? nil : newValue
+        let shouldTrim = document.options.parserSettings.shouldTrimWhitespace
+        let newValue =  shouldTrim ? currentValue.trimmingCharacters(in: .whitespacesAndNewlines) : currentValue
+        currentElement?.value = newValue.isEmpty ? nil : newValue
     }
     
     func parser(_ parser: XMLParser,

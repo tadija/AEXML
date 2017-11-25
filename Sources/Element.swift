@@ -139,7 +139,7 @@ open class AEXMLElement {
         - parameter predicate: Function which returns `true` for a desired element and `false` otherwise.
      
         - returns: Array of found XML elements.
-     */
+    */
     open func allDescendants(where predicate: (AEXMLElement) -> Bool) -> [AEXMLElement] {
         var result: [AEXMLElement] = []
         
@@ -147,7 +147,6 @@ open class AEXMLElement {
             if predicate(child) {
                 result.append(child)
             }
-            
             result.append(contentsOf: child.allDescendants(where: predicate))
         }
         
@@ -162,7 +161,7 @@ open class AEXMLElement {
         - parameter predicate: Function which returns `true` for the desired element and `false` otherwise.
      
         - returns: Optional AEXMLElement.
-     */
+    */
     open func firstDescendant(where predicate: (AEXMLElement) -> Bool) -> AEXMLElement? {
         for child in children {
             if predicate(child) {
@@ -171,7 +170,6 @@ open class AEXMLElement {
                 return descendant
             }
         }
-        
         return nil
     }
     
@@ -181,7 +179,7 @@ open class AEXMLElement {
         - parameter predicate: Function which returns `true` for the desired element and `false` otherwise.
      
         - returns: Bool.
-     */
+    */
     open func hasDescendant(where predicate: (AEXMLElement) -> Bool) -> Bool {
         return firstDescendant(where: predicate) != nil
     }
@@ -226,9 +224,7 @@ open class AEXMLElement {
         - returns: Child XML elements with `self` as `parent`.
     */
     @discardableResult open func addChildren(_ children: [AEXMLElement]) -> [AEXMLElement] {
-        for child in children {
-            addChild(child)
-        }
+        children.forEach{ addChild($0) }
         return children
     }
     

@@ -106,14 +106,24 @@ class AEXMLTests: XCTestCase {
         }
     }
     
-    func whitespaceResult(shouldTrimWhitespace: Bool) -> String?{
+    func testXMLParserTrimsWhitespace() {
+        let result = whitespaceResult(shouldTrimWhitespace: true)
+        XCTAssertEqual(result, "Hello,")
+    }
+    
+    func testXMLParserWithoutTrimmingWhitespace(){
+        let result = whitespaceResult(shouldTrimWhitespace: false)
+        XCTAssertEqual(result, "Hello, ")
+    }
+    
+    private func whitespaceResult(shouldTrimWhitespace: Bool) -> String?{
         do {
             var options = AEXMLOptions()
             options.parserSettings.shouldTrimWhitespace = shouldTrimWhitespace
+            
             let testDocument = AEXMLDocument(options: options)
             let url = URLForResource(fileName: "whitespace_examples", withExtension: "xml")
             let data = try Data.init(contentsOf: url)
-            
             
             let parser = AEXMLParser(document: testDocument, data: data)
             try parser.parse()
@@ -124,17 +134,6 @@ class AEXMLTests: XCTestCase {
         }
         return nil
     }
-    
-    func testXMLParserTrimsWhitespace() {
-        let result = whitespaceResult(shouldTrimWhitespace: true)
-        XCTAssertEqual(result, "Hello,")
-    }
-    func testXMLParserWithoutTrimmingWhitespace(){
-        let result = whitespaceResult(shouldTrimWhitespace: false)
-        XCTAssertEqual(result, "Hello, ")
-    }
-    
-    
     
     func testXMLParserError() {
         do {
