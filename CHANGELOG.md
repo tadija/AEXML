@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 4.2.0
+
+- Migrated to Swift 4 with Xcode 9.1
+- Minor bug fixes, improvements and refactoring
+- Merged: #114, #116, #125, #127, #131
+- Fixed: #113, #117, #129
+
 ## Version 4.1.0
 
 - Convenience typed accessors are now optional instead of having default values
