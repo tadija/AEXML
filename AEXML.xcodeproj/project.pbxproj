@@ -43,6 +43,9 @@
 		8B52A49C1D84AF640060C08D /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B52A49A1D84AF640060C08D /* Options.swift */; };
 		8B52A49D1D84AF640060C08D /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B52A49A1D84AF640060C08D /* Options.swift */; };
 		8B52A49E1D84AF640060C08D /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B52A49A1D84AF640060C08D /* Options.swift */; };
+		AC12FA2B1E967D47006E961F /* whitespace_examples.xml in Resources */ = {isa = PBXBuildFile; fileRef = AC12FA281E967CB6006E961F /* whitespace_examples.xml */; };
+		AC12FA2C1E967D48006E961F /* whitespace_examples.xml in Resources */ = {isa = PBXBuildFile; fileRef = AC12FA281E967CB6006E961F /* whitespace_examples.xml */; };
+		AC12FA2D1E967D49006E961F /* whitespace_examples.xml in Resources */ = {isa = PBXBuildFile; fileRef = AC12FA281E967CB6006E961F /* whitespace_examples.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +96,7 @@
 		8BDEBA8C1AEC588700A12D92 /* AEXML.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AEXML.podspec; sourceTree = "<group>"; };
 		8BFE78C319F0054200914487 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8BFE78C419F0054200914487 /* AEXMLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AEXMLTests.swift; path = AEXMLTests/AEXMLTests.swift; sourceTree = "<group>"; };
+		AC12FA281E967CB6006E961F /* whitespace_examples.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = whitespace_examples.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				8B4A92EA1BDD66680011F36F /* example.xml */,
+				AC12FA281E967CB6006E961F /* whitespace_examples.xml */,
 				8B4A92EB1BDD66680011F36F /* plant_catalog.xml */,
 			);
 			name = Resources;
@@ -411,12 +416,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = AE;
 				TargetAttributes = {
 					8B4A92781BDD47210011F36F = {
 						CreatedOnToolsVersion = 7.1;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0910;
 					};
 					8B4A92891BDD49390011F36F = {
 						CreatedOnToolsVersion = 7.1;
@@ -424,7 +429,7 @@
 					};
 					8B4A92981BDD4CEF0011F36F = {
 						CreatedOnToolsVersion = 7.1;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0910;
 					};
 					8B4A92AA1BDD54F50011F36F = {
 						CreatedOnToolsVersion = 7.1;
@@ -488,6 +493,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B4A92EC1BDD66680011F36F /* example.xml in Resources */,
+				AC12FA2B1E967D47006E961F /* whitespace_examples.xml in Resources */,
 				8B4A92F01BDD66680011F36F /* plant_catalog.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -497,6 +503,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B4A92ED1BDD66680011F36F /* example.xml in Resources */,
+				AC12FA2D1E967D49006E961F /* whitespace_examples.xml in Resources */,
 				8B4A92F11BDD66680011F36F /* plant_catalog.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -513,6 +520,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B4A92EE1BDD66680011F36F /* example.xml in Resources */,
+				AC12FA2C1E967D48006E961F /* whitespace_examples.xml in Resources */,
 				8B4A92F21BDD66680011F36F /* plant_catalog.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -637,7 +645,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = net.tadija.AEXML;
 				PRODUCT_NAME = AEXML;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -660,7 +668,7 @@
 				PRODUCT_NAME = AEXML;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -724,7 +732,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.tadija.AEXML-iOS-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -740,7 +748,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "net.tadija.AEXML-iOS-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -926,14 +934,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -979,14 +993,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
