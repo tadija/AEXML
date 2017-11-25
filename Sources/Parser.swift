@@ -14,6 +14,11 @@ internal class AEXMLParser: NSObject, XMLParserDelegate {
     
     var parseError: Error?
     
+    private lazy var trimWhitespace: Bool = {
+        let trim = document.options.parserSettings.shouldTrimWhitespace
+        return trim
+    }()
+    
     // MARK: - Lifecycle
     
     init(document: AEXMLDocument, data: Data) {
@@ -56,10 +61,8 @@ internal class AEXMLParser: NSObject, XMLParserDelegate {
     }
     
     func parser(_ parser: XMLParser, foundCharacters string: String) {
-        currentValue += string
-        let shouldTrim = document.options.parserSettings.shouldTrimWhitespace
-        let newValue =  shouldTrim ? currentValue.trimmingCharacters(in: .whitespacesAndNewlines) : currentValue
-        currentElement?.value = newValue.isEmpty ? nil : newValue
+        currentValue.append(trimWhitespace ? string.trimmingCharacters(in: .whitespacesAndNewlines) : string)
+        currentElement?.value = currentValue.isEmpty ? nil : currentValue
     }
     
     func parser(_ parser: XMLParser,
