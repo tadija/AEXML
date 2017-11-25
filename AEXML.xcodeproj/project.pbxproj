@@ -43,6 +43,9 @@
 		8B52A49C1D84AF640060C08D /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B52A49A1D84AF640060C08D /* Options.swift */; };
 		8B52A49D1D84AF640060C08D /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B52A49A1D84AF640060C08D /* Options.swift */; };
 		8B52A49E1D84AF640060C08D /* Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B52A49A1D84AF640060C08D /* Options.swift */; };
+		AC12FA2B1E967D47006E961F /* whitespace_examples.xml in Resources */ = {isa = PBXBuildFile; fileRef = AC12FA281E967CB6006E961F /* whitespace_examples.xml */; };
+		AC12FA2C1E967D48006E961F /* whitespace_examples.xml in Resources */ = {isa = PBXBuildFile; fileRef = AC12FA281E967CB6006E961F /* whitespace_examples.xml */; };
+		AC12FA2D1E967D49006E961F /* whitespace_examples.xml in Resources */ = {isa = PBXBuildFile; fileRef = AC12FA281E967CB6006E961F /* whitespace_examples.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +96,7 @@
 		8BDEBA8C1AEC588700A12D92 /* AEXML.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AEXML.podspec; sourceTree = "<group>"; };
 		8BFE78C319F0054200914487 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8BFE78C419F0054200914487 /* AEXMLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AEXMLTests.swift; path = AEXMLTests/AEXMLTests.swift; sourceTree = "<group>"; };
+		AC12FA281E967CB6006E961F /* whitespace_examples.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = whitespace_examples.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				8B4A92EA1BDD66680011F36F /* example.xml */,
+				AC12FA281E967CB6006E961F /* whitespace_examples.xml */,
 				8B4A92EB1BDD66680011F36F /* plant_catalog.xml */,
 			);
 			name = Resources;
@@ -488,6 +493,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B4A92EC1BDD66680011F36F /* example.xml in Resources */,
+				AC12FA2B1E967D47006E961F /* whitespace_examples.xml in Resources */,
 				8B4A92F01BDD66680011F36F /* plant_catalog.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -497,6 +503,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B4A92ED1BDD66680011F36F /* example.xml in Resources */,
+				AC12FA2D1E967D49006E961F /* whitespace_examples.xml in Resources */,
 				8B4A92F11BDD66680011F36F /* plant_catalog.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -513,6 +520,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B4A92EE1BDD66680011F36F /* example.xml in Resources */,
+				AC12FA2C1E967D48006E961F /* whitespace_examples.xml in Resources */,
 				8B4A92F21BDD66680011F36F /* plant_catalog.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
