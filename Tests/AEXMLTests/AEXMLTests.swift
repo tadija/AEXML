@@ -331,6 +331,25 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(count, 2, "Should be able to return elements with given attribute keys.")
     }
     
+    func testAllDescendantsWherePredicate() {
+        let children = exampleDocument.allDescendants { $0.attributes["color"] == "yellow" }
+        
+        XCTAssertEqual(children.count, 2, "Should be able to return elements matching predicate.")
+    }
+    
+    func testFirstDescendantWherePredicate() {
+        let descendant = plantsDocument.root.firstDescendant { $0.hasDescendant { $0.name == "LIGHT" && $0.value == "Sunny" } }
+        let plantName = descendant?["COMMON"].value
+        
+        XCTAssertEqual(plantName, "Black-Eyed Susan", "Should be able to find first child satisfying predicate.")
+    }
+    
+    func testHasDescendantWherePredicate() {
+        let hasDescendant = plantsDocument.hasDescendant { $0.name == "AVAILABILITY" && $0.int == 030699 }
+        
+        XCTAssert(hasDescendant, "Should be able to determine that document has a child satisfying predicate.")
+    }
+    
     // MARK: - XML Write
     
     func testAddChild() {
