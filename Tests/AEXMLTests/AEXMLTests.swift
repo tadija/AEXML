@@ -382,6 +382,18 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(penultDog.string, "Kika", "Should be able to add child with attributes without overwrites existing elements. (Github Issue #28)")
     }
     
+    func testAddChildren() {
+        let animals: [AEXMLElement] = [
+            AEXMLElement(name: "dinosaurs"),
+            AEXMLElement(name: "birds"),
+            AEXMLElement(name: "bugs"),
+        ]
+        exampleDocument.root.addChildren(animals)
+        
+        let animalsCount = exampleDocument.root.children.count
+        XCTAssertEqual(animalsCount, 5, "Should be able to add children elements to an element.")
+    }
+    
     func testAddAttributes() {
         let firstCat = exampleDocument.root["cats"]["cat"]
 
