@@ -15,7 +15,7 @@ internal class AEXMLParser: NSObject, XMLParserDelegate {
     var parseError: Error?
     
     private lazy var trimWhitespace: Bool = {
-        let trim = document.options.parserSettings.shouldTrimWhitespace
+        let trim = self.document.options.parserSettings.shouldTrimWhitespace
         return trim
     }()
     
