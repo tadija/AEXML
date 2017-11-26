@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 4.2.2
+
+- Fixed #133
+
 ## Version 4.2.1
 
 - Merged #132
