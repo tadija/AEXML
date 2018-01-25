@@ -349,6 +349,14 @@ class AEXMLTests: XCTestCase {
         XCTAssert(hasDescendant, "Should be able to determine that document has a child satisfying predicate.")
     }
     
+    func testSpecialCharacterTrimRead() {
+        let expected = "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<elements>\n\t<string name=\"this_and_that\">This &amp; that</string>\n</elements>"
+        
+        let readerDocument = try! AEXMLDocument(xml: expected)
+        let readerXml = readerDocument.xml
+        XCTAssertEqual(readerXml, expected, "Should be able to print XML formatted string.")
+    }
+    
     // MARK: - XML Write
     
     func testAddChild() {
