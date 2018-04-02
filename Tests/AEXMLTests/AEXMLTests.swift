@@ -1,3 +1,9 @@
+/**
+ *  https://github.com/tadija/AEXML
+ *  Copyright (c) Marko Tadić 2014-2018
+ *  Licensed under the MIT license. See LICENSE file.
+ */
+
 import Foundation
 import XCTest
 @testable import AEXML
@@ -349,6 +355,14 @@ class AEXMLTests: XCTestCase {
         XCTAssert(hasDescendant, "Should be able to determine that document has a child satisfying predicate.")
     }
     
+    func testSpecialCharacterTrimRead() {
+        let expected = "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<elements>\n\t<string name=\"this_and_that\">This &amp; that</string>\n</elements>"
+        
+        let readerDocument = try! AEXMLDocument(xml: expected)
+        let readerXml = readerDocument.xml
+        XCTAssertEqual(readerXml, expected, "Should be able to print XML formatted string.")
+    }
+    
     // MARK: - XML Write
     
     func testAddChild() {
@@ -435,6 +449,8 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(testDocument.xml, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<children>\n\t<child attribute=\"attributeValue&lt;&amp;&gt;\">value</child>\n\t<child />\n\t<child>&amp;&lt;&gt;&apos;&quot;</child>\n</children>", "Should be able to print XML formatted string.")
         
         XCTAssertEqual(testDocument.xmlCompact, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><children><child attribute=\"attributeValue&lt;&amp;&gt;\">value</child><child /><child>&amp;&lt;&gt;&apos;&quot;</child></children>", "Should be able to print compact XML string.")
+        
+        XCTAssertEqual(testDocument.xmlSpaces, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<children>\n    <child attribute=\"attributeValue&lt;&amp;&gt;\">value</child>\n    <child />\n    <child>&amp;&lt;&gt;&apos;&quot;</child>\n</children>", "Should be able to print XML formatted string.")
     }
     
     // MARK: - XML Parse Performance
