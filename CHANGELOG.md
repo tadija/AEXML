@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 4.3.0
+
+- Migrated to Swift 4.1 with Xcode 9.3 (9E145)
+- Merged: #139, #140, #144
+
 ## Version 4.2.2
 
 - Fixed #133
