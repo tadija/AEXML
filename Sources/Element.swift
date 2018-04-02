@@ -306,6 +306,11 @@ open class AEXMLElement {
         return xml.components(separatedBy: chars).joined(separator: "")
     }
     
+    /// Same as `xmlString` but with 4 spaces instead '\t' characters
+    open var xmlSpaces: String {
+        let chars = CharacterSet(charactersIn: "\t")
+        return xml.components(separatedBy: chars).joined(separator: "    ")
+    }
 }
 
 public extension String {
