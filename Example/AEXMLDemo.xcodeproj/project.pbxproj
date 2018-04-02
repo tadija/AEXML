@@ -119,9 +119,9 @@
 		8B8C73191CD80B6800A4E197 = {
 			isa = PBXGroup;
 			children = (
+				8B8C73381CD80D4100A4E197 /* AEXML.xcodeproj */,
 				8B8C73241CD80B6800A4E197 /* AEXMLDemo */,
 				8B8C73231CD80B6800A4E197 /* Products */,
-				8B8C73381CD80D4100A4E197 /* AEXML.xcodeproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -138,6 +138,7 @@
 			children = (
 				8B8C73251CD80B6800A4E197 /* AppDelegate.swift */,
 				8B8C73271CD80B6800A4E197 /* ViewController.swift */,
+				8B8C73291CD80B6800A4E197 /* Main.storyboard */,
 				8B8C73631CD8101100A4E197 /* Resources */,
 				8B8C73551CD80EC100A4E197 /* Supporting Files */,
 			);
@@ -161,9 +162,8 @@
 		8B8C73551CD80EC100A4E197 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				8B8C73291CD80B6800A4E197 /* Main.storyboard */,
-				8B8C732C1CD80B6800A4E197 /* Assets.xcassets */,
 				8B8C732E1CD80B6800A4E197 /* LaunchScreen.storyboard */,
+				8B8C732C1CD80B6800A4E197 /* Assets.xcassets */,
 				8B8C73311CD80B6800A4E197 /* Info.plist */,
 			);
 			name = "Supporting Files";
