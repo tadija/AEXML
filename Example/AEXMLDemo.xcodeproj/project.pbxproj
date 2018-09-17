@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B080D6221505245009B8DBB /* example.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8B080D5F21505245009B8DBB /* example.xml */; };
+		8B080D6321505245009B8DBB /* plant_catalog.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8B080D6021505245009B8DBB /* plant_catalog.xml */; };
+		8B080D6421505245009B8DBB /* whitespace_examples.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8B080D6121505245009B8DBB /* whitespace_examples.xml */; };
 		8B8C73261CD80B6800A4E197 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8C73251CD80B6800A4E197 /* AppDelegate.swift */; };
 		8B8C73281CD80B6800A4E197 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8C73271CD80B6800A4E197 /* ViewController.swift */; };
 		8B8C732B1CD80B6800A4E197 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B8C73291CD80B6800A4E197 /* Main.storyboard */; };
@@ -14,8 +17,6 @@
 		8B8C73301CD80B6800A4E197 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B8C732E1CD80B6800A4E197 /* LaunchScreen.storyboard */; };
 		8B8C73501CD80D4D00A4E197 /* AEXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B8C73431CD80D4100A4E197 /* AEXML.framework */; };
 		8B8C73511CD80D4D00A4E197 /* AEXML.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8B8C73431CD80D4100A4E197 /* AEXML.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8B8C73661CD8101100A4E197 /* example.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8B8C73641CD8101100A4E197 /* example.xml */; };
-		8B8C73671CD8101100A4E197 /* plant_catalog.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8B8C73651CD8101100A4E197 /* plant_catalog.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +93,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8B080D5F21505245009B8DBB /* example.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = example.xml; sourceTree = "<group>"; };
+		8B080D6021505245009B8DBB /* plant_catalog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = plant_catalog.xml; sourceTree = "<group>"; };
+		8B080D6121505245009B8DBB /* whitespace_examples.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = whitespace_examples.xml; sourceTree = "<group>"; };
 		8B8C73221CD80B6800A4E197 /* AEXMLDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AEXMLDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B8C73251CD80B6800A4E197 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8B8C73271CD80B6800A4E197 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -100,8 +104,6 @@
 		8B8C732F1CD80B6800A4E197 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8B8C73311CD80B6800A4E197 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B8C73381CD80D4100A4E197 /* AEXML.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AEXML.xcodeproj; path = ../AEXML.xcodeproj; sourceTree = "<group>"; };
-		8B8C73641CD8101100A4E197 /* example.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = example.xml; sourceTree = "<group>"; };
-		8B8C73651CD8101100A4E197 /* plant_catalog.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = plant_catalog.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8B080D5E21505245009B8DBB /* Sample XML Files */ = {
+			isa = PBXGroup;
+			children = (
+				8B080D5F21505245009B8DBB /* example.xml */,
+				8B080D6021505245009B8DBB /* plant_catalog.xml */,
+				8B080D6121505245009B8DBB /* whitespace_examples.xml */,
+			);
+			name = "Sample XML Files";
+			path = "../../Resources/Sample XML Files";
+			sourceTree = "<group>";
+		};
 		8B8C73191CD80B6800A4E197 = {
 			isa = PBXGroup;
 			children = (
@@ -136,10 +149,9 @@
 		8B8C73241CD80B6800A4E197 /* AEXMLDemo */ = {
 			isa = PBXGroup;
 			children = (
-				8B8C73251CD80B6800A4E197 /* AppDelegate.swift */,
 				8B8C73271CD80B6800A4E197 /* ViewController.swift */,
 				8B8C73291CD80B6800A4E197 /* Main.storyboard */,
-				8B8C73631CD8101100A4E197 /* Resources */,
+				8B080D5E21505245009B8DBB /* Sample XML Files */,
 				8B8C73551CD80EC100A4E197 /* Supporting Files */,
 			);
 			path = AEXMLDemo;
@@ -154,7 +166,7 @@
 				8B8C73491CD80D4100A4E197 /* AEXML.framework */,
 				8B8C734B1CD80D4100A4E197 /* AEXML tvOS Tests.xctest */,
 				8B8C734D1CD80D4100A4E197 /* AEXML.framework */,
-				8B8C734F1CD80D4100A4E197 /* AEXML OSX Tests.xctest */,
+				8B8C734F1CD80D4100A4E197 /* AEXML macOS Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -162,21 +174,13 @@
 		8B8C73551CD80EC100A4E197 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				8B8C73251CD80B6800A4E197 /* AppDelegate.swift */,
 				8B8C732E1CD80B6800A4E197 /* LaunchScreen.storyboard */,
 				8B8C732C1CD80B6800A4E197 /* Assets.xcassets */,
 				8B8C73311CD80B6800A4E197 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
-		};
-		8B8C73631CD8101100A4E197 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				8B8C73641CD8101100A4E197 /* example.xml */,
-				8B8C73651CD8101100A4E197 /* plant_catalog.xml */,
-			);
-			path = Resources;
-			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -283,10 +287,10 @@
 			remoteRef = 8B8C734C1CD80D4100A4E197 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		8B8C734F1CD80D4100A4E197 /* AEXML OSX Tests.xctest */ = {
+		8B8C734F1CD80D4100A4E197 /* AEXML macOS Tests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = "AEXML OSX Tests.xctest";
+			path = "AEXML macOS Tests.xctest";
 			remoteRef = 8B8C734E1CD80D4100A4E197 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -298,9 +302,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B8C73301CD80B6800A4E197 /* LaunchScreen.storyboard in Resources */,
+				8B080D6421505245009B8DBB /* whitespace_examples.xml in Resources */,
 				8B8C732D1CD80B6800A4E197 /* Assets.xcassets in Resources */,
-				8B8C73671CD8101100A4E197 /* plant_catalog.xml in Resources */,
-				8B8C73661CD8101100A4E197 /* example.xml in Resources */,
+				8B080D6321505245009B8DBB /* plant_catalog.xml in Resources */,
+				8B080D6221505245009B8DBB /* example.xml in Resources */,
 				8B8C732B1CD80B6800A4E197 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
