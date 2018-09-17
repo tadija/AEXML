@@ -76,8 +76,7 @@ open class AEXMLDocument: AEXMLElement {
     */
     public convenience init(xml: String,
                             encoding: String.Encoding = String.Encoding.utf8,
-                            options: AEXMLOptions = AEXMLOptions()) throws
-    {
+                            options: AEXMLOptions = AEXMLOptions()) throws {
         guard let data = xml.data(using: encoding) else { throw AEXMLError.parsingFailed }
         try self.init(xml: data, options: options)
     }
