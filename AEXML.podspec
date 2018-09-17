@@ -2,13 +2,13 @@ Pod::Spec.new do |s|
 
 s.name = 'AEXML'
 s.summary = 'Swift minion for simple and lightweight XML parsing'
-s.version = '4.3.0'
+s.version = '4.3.1'
 s.license = { :type => 'MIT', :file => 'LICENSE' }
 
 s.source = { :git => 'https://github.com/tadija/AEXML.git', :tag => s.version }
-s.source_files = 'Sources/*.swift'
+s.source_files = 'Sources/AEXML/*.swift'
 
-s.swift_version = '4.1'
+s.swift_version = '4.2'
 
 s.ios.deployment_target = '8.0'
 s.osx.deployment_target = '10.9'
