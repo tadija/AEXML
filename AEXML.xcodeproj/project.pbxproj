@@ -421,7 +421,7 @@
 				TargetAttributes = {
 					8B4A92781BDD47210011F36F = {
 						CreatedOnToolsVersion = 7.1;
-						LastSwiftMigration = 0910;
+						LastSwiftMigration = "";
 					};
 					8B4A92891BDD49390011F36F = {
 						CreatedOnToolsVersion = 7.1;
@@ -429,7 +429,7 @@
 					};
 					8B4A92981BDD4CEF0011F36F = {
 						CreatedOnToolsVersion = 7.1;
-						LastSwiftMigration = 0910;
+						LastSwiftMigration = "";
 					};
 					8B4A92AA1BDD54F50011F36F = {
 						CreatedOnToolsVersion = 7.1;
@@ -965,7 +965,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1017,7 +1017,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALIDATE_PRODUCT = YES;
