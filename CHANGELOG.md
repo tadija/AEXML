@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 4.3.2
+
+- Minor changes
+
 ## Version 4.3.1
 
 - Migrated to Swift 4.2 with Xcode 10.0 (10A254a)
