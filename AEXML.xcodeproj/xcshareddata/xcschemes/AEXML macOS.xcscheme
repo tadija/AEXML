@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8B4A92891BDD49390011F36F"
                BuildableName = "AEXML.framework"
-               BlueprintName = "AEXML OSX"
+               BlueprintName = "AEXML macOS"
                ReferencedContainer = "container:AEXML.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8B4A92AA1BDD54F50011F36F"
-               BuildableName = "AEXML OSX Tests.xctest"
-               BlueprintName = "AEXML OSX Tests"
+               BuildableName = "AEXML macOS Tests.xctest"
+               BlueprintName = "AEXML macOS Tests"
                ReferencedContainer = "container:AEXML.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -48,8 +48,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8B4A92AA1BDD54F50011F36F"
-               BuildableName = "AEXML OSX Tests.xctest"
-               BlueprintName = "AEXML OSX Tests"
+               BuildableName = "AEXML macOS Tests.xctest"
+               BlueprintName = "AEXML macOS Tests"
                ReferencedContainer = "container:AEXML.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -59,7 +59,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8B4A92891BDD49390011F36F"
             BuildableName = "AEXML.framework"
-            BlueprintName = "AEXML OSX"
+            BlueprintName = "AEXML macOS"
             ReferencedContainer = "container:AEXML.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -81,7 +81,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8B4A92891BDD49390011F36F"
             BuildableName = "AEXML.framework"
-            BlueprintName = "AEXML OSX"
+            BlueprintName = "AEXML macOS"
             ReferencedContainer = "container:AEXML.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -99,7 +99,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8B4A92891BDD49390011F36F"
             BuildableName = "AEXML.framework"
-            BlueprintName = "AEXML OSX"
+            BlueprintName = "AEXML macOS"
             ReferencedContainer = "container:AEXML.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
