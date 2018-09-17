@@ -85,6 +85,8 @@
 		8B080D3721504733009B8DBB /* plant_catalog.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = plant_catalog.xml; sourceTree = "<group>"; };
 		8B080D3821504733009B8DBB /* whitespace_examples.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = whitespace_examples.xml; sourceTree = "<group>"; };
 		8B080D482150489F009B8DBB /* AEXMLTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AEXMLTests.swift; sourceTree = "<group>"; };
+		8B080D5021504BFA009B8DBB /* LinuxMain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinuxMain.swift; sourceTree = "<group>"; };
+		8B080D56215050FC009B8DBB /* XCTestManifests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestManifests.swift; sourceTree = "<group>"; };
 		8B0D48AA1C594F8D0075C8BF /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		8B4A92791BDD47210011F36F /* AEXML.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AEXML.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B4A928A1BDD49390011F36F /* AEXML.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AEXML.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -200,6 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				8B080D472150489F009B8DBB /* AEXMLTests */,
+				8B080D5021504BFA009B8DBB /* LinuxMain.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -208,6 +211,7 @@
 			isa = PBXGroup;
 			children = (
 				8B080D482150489F009B8DBB /* AEXMLTests.swift */,
+				8B080D56215050FC009B8DBB /* XCTestManifests.swift */,
 			);
 			path = AEXMLTests;
 			sourceTree = "<group>";
