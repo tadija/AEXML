@@ -1,23 +1,24 @@
-//
-//  ViewController.swift
-//  AEXMLExample
-//
-//  Created by Marko Tadic on 10/16/14.
-//  Copyright (c) 2014 ae. All rights reserved.
-//
+/**
+ *  https://github.com/tadija/AEXML
+ *  Copyright (c) Marko Tadić 2014-2018
+ *  Licensed under the MIT license. See LICENSE file.
+ */
 
 import UIKit
 import AEXML
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
 
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var textView: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // example from README.md
+
+        printExampleFromReadme()
+    }
+
+    private func printExampleFromReadme() {
         guard
             let xmlPath = Bundle.main.path(forResource: "example", ofType: "xml"),
             let data = try? Data(contentsOf: URL(fileURLWithPath: xmlPath))
@@ -25,36 +26,36 @@ class ViewController: UIViewController {
             print("resource not found!")
             return
         }
-        
+
         // example of using NSXMLParserOptions
         var options = AEXMLOptions()
         options.parserSettings.shouldProcessNamespaces = false
         options.parserSettings.shouldReportNamespacePrefixes = false
         options.parserSettings.shouldResolveExternalEntities = false
-        
+
         do {
             let xmlDoc = try AEXMLDocument(xml: data, options: options)
-                
+
             // prints the same XML structure as original
             print(xmlDoc.xml)
-            
+
             // prints cats, dogs
             for child in xmlDoc.root.children {
                 print(child.name)
             }
-            
+
             // prints Optional("Tinna") (first element)
             print(String(describing: xmlDoc.root["cats"]["cat"].value))
-            
+
             // prints Tinna (first element)
             print(xmlDoc.root["cats"]["cat"].string)
-            
+
             // prints Optional("Kika") (last element)
             print(String(describing: xmlDoc.root["dogs"]["dog"].last?.value))
-            
+
             // prints Betty (3rd element)
             print(xmlDoc.root["dogs"].children[2].string)
-            
+
             // prints Tinna, Rose, Caesar
             if let cats = xmlDoc.root["cats"]["cat"].all {
                 for cat in cats {
@@ -63,7 +64,7 @@ class ViewController: UIViewController {
                     }
                 }
             }
-            
+
             // prints Villy, Spot
             for dog in xmlDoc.root["dogs"]["dog"].all! {
                 if let color = dog.attributes["color"] {
@@ -72,34 +73,33 @@ class ViewController: UIViewController {
                     }
                 }
             }
-            
+
             // prints Tinna
             if let cats = xmlDoc.root["cats"]["cat"].all(withValue: "Tinna") {
                 for cat in cats {
                     print(cat.string)
                 }
             }
-            
+
             // prints Caesar
             if let cats = xmlDoc.root["cats"]["cat"].all(withAttributes: ["breed" : "Domestic", "color" : "yellow"]) {
                 for cat in cats {
                     print(cat.string)
                 }
             }
-            
+
             // prints 4
             print(xmlDoc.root["cats"]["cat"].count)
-            
+
             // prints Siberian
             print(xmlDoc.root["cats"]["cat"].attributes["breed"]!)
-            
+
             // prints <cat breed="Siberian" color="lightgray">Tinna</cat>
             print(xmlDoc.root["cats"]["cat"].xmlCompact)
-            
+
             // prints Optional(AEXML.AEXMLError.elementNotFound)
             print(String(describing: xmlDoc["NotExistingElement"].error))
-        }
-        catch {
+        } catch {
             print("\(error)")
         }
     }
