@@ -10,13 +10,16 @@ import PackageDescription
 
 let package = Package(
     name: "AEXML",
-    dependencies: [],
+    products: [
+        .library(name: "AEXML", targets: ["AEXML"])
+    ],
     targets: [
         .target(
-            name: "AEXML",
-            dependencies: []),
+            name: "AEXML"
+        ),
         .testTarget(
             name: "AEXMLTests",
-            dependencies: ["AEXML"])
+            dependencies: ["AEXML"]
+        )
     ]
 )
