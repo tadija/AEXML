@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 4.3.3
+
+- Fixed Package.swift
+
 ## Version 4.3.2
 
 - Minor changes
