@@ -10,6 +10,9 @@ import PackageDescription
 
 let package = Package(
     name: "AEXML",
+    products: [
+        .library(name: "AEXML", targets: ["AEXML"])
+    ],
     dependencies: [],
     targets: [
         .target(
