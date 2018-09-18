@@ -13,13 +13,13 @@ let package = Package(
     products: [
         .library(name: "AEXML", targets: ["AEXML"])
     ],
-    dependencies: [],
     targets: [
         .target(
-            name: "AEXML",
-            dependencies: []),
+            name: "AEXML"
+        ),
         .testTarget(
             name: "AEXMLTests",
-            dependencies: ["AEXML"])
+            dependencies: ["AEXML"]
+        )
     ]
 )
