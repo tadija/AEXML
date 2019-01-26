@@ -3,7 +3,7 @@
 //  AEXMLExample
 //
 //  Created by Marko Tadic on 10/16/14.
-//  Copyright (c) 2014 ae. All rights reserved.
+//  Copyright (c) 2014-2019 ae. All rights reserved.
 //
 
 import UIKit
@@ -13,9 +13,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    private func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         return true
     }
-
 }
 

@@ -10,7 +10,7 @@ Class | Description
 ------------ | -------------
 `AEXMLElement` | Base class
 `AEXMLDocument` | Inherited from `AEXMLElement` with a few addons
-`AEXMLParser` | Simple (private) wrapper around `NSXMLParser`
+`AEXMLParser` | Simple (private) wrapper around `XMLParser`
 
 
 ## Features
@@ -18,7 +18,7 @@ Class | Description
 - **Write XML** string
 - Covered with **unit tests**
 - Covered with [docs](http://tadija.net/projects/AEXML/docs/)
-- **Swift 2.0** ready
+- **Swift 4.2**
 
 
 ## Index
@@ -33,7 +33,7 @@ Class | Description
 ## Example
 
 ### Read XML
-Let's say this is some XML string you picked up somewhere and made a variable `data: NSData` from that.
+Let's say this is some XML string you picked up somewhere and made a variable `data: Data` from that.
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -58,8 +58,8 @@ This is how you can use AEXML for working with this data:
 
 ```swift
 guard let
-    xmlPath = NSBundle.mainBundle().pathForResource("example", ofType: "xml"),
-    data = NSData(contentsOfFile: xmlPath)
+    xmlPath = Bundle.main.path(forResource: "example", ofType: "xml"),
+    let data = Data(contentsOfFile: URL(fileURLWithPath: xmlPath))
 else { return }
 
 do {
@@ -74,13 +74,13 @@ do {
     }
 
     // prints Optional("Tinna") (first element)
-    print(xmlDoc.root["cats"]["cat"].value)
+    print(xmlDoc.root["cats"]["cat"].value ?? "Unexpected nil value")
 
     // prints Tinna (first element)
     print(xmlDoc.root["cats"]["cat"].stringValue)
 
     // prints Optional("Kika") (last element)
-    print(xmlDoc.root["dogs"]["dog"].last?.value)
+    print(xmlDoc.root["dogs"]["dog"].last?.value ?? "Unexpected nil value")
 
     // prints Betty (3rd element)
     print(xmlDoc.root["dogs"].children[2].stringValue)
@@ -166,7 +166,7 @@ println(soapRequest.xmlString)
 
 
 ## Requirements
-- Xcode 7.0
+- Xcode 10.1
 - iOS 8.0+
 - AEXML doesn't require any additional libraries for it to work.
 

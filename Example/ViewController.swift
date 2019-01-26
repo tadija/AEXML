@@ -3,7 +3,7 @@
 //  AEXMLExample
 //
 //  Created by Marko Tadic on 10/16/14.
-//  Copyright (c) 2014 ae. All rights reserved.
+//  Copyright (c) 2014-2019 ae. All rights reserved.
 //
 
 import UIKit
@@ -18,8 +18,8 @@ class ViewController: UIViewController {
         
         // example from README.md
         guard let
-            xmlPath = NSBundle.mainBundle().pathForResource("example", ofType: "xml"),
-            data = NSData(contentsOfFile: xmlPath)
+            xmlPath = Bundle.main.path(forResource: "example", ofType: "xml"),
+            let data = try? Data(contentsOf: URL(fileURLWithPath: xmlPath))
         else { return }
         
         do {
@@ -34,13 +34,13 @@ class ViewController: UIViewController {
             }
             
             // prints Optional("Tinna") (first element)
-            print(xmlDoc.root["cats"]["cat"].value)
+            print(xmlDoc.root["cats"]["cat"].value ?? "Unexpected nil value")
             
             // prints Tinna (first element)
             print(xmlDoc.root["cats"]["cat"].stringValue)
             
             // prints Optional("Kika") (last element)
-            print(xmlDoc.root["dogs"]["dog"].last?.value)
+            print(xmlDoc.root["dogs"]["dog"].last?.value ?? "Unexpected nil value")
             
             // prints Betty (3rd element)
             print(xmlDoc.root["dogs"].children[2].stringValue)
@@ -91,14 +91,14 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func readXML(sender: UIBarButtonItem) {
+    @IBAction func readXML(_ sender: UIBarButtonItem) {
         defer {
             resetTextField()
         }
         
         guard let
-            xmlPath = NSBundle.mainBundle().pathForResource("plant_catalog", ofType: "xml"),
-            data = NSData(contentsOfFile: xmlPath)
+            xmlPath = Bundle.main.path(forResource: "plant_catalog", ofType: "xml"),
+            let data = try? Data(contentsOf: URL(fileURLWithPath: xmlPath))
         else {
             textView.text = "Sample XML Data error."
             return
@@ -117,7 +117,7 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func writeXML(sender: UIBarButtonItem) {
+    @IBAction func writeXML(_ sender: UIBarButtonItem) {
         resetTextField()
         // sample SOAP request
         let soapRequest = AEXMLDocument()
@@ -125,9 +125,9 @@ class ViewController: UIViewController {
         let envelope = soapRequest.addChild(name: "soap:Envelope", attributes: attributes)
         let header = envelope.addChild(name: "soap:Header")
         let body = envelope.addChild(name: "soap:Body")
-        header.addChild(name: "m:Trans", value: "234", attributes: ["xmlns:m" : "http://www.w3schools.com/transaction/", "soap:mustUnderstand" : "1"])
+        _ = header.addChild(name: "m:Trans", value: "234", attributes: ["xmlns:m" : "http://www.w3schools.com/transaction/", "soap:mustUnderstand" : "1"])
         let getStockPrice = body.addChild(name: "m:GetStockPrice")
-        getStockPrice.addChild(name: "m:StockName", value: "AAPL")
+        _ = getStockPrice.addChild(name: "m:StockName", value: "AAPL")
         textView.text = soapRequest.xmlString
     }
     
@@ -136,15 +136,15 @@ class ViewController: UIViewController {
         textField.text = "http://www.w3schools.com/xml/cd_catalog.xml"
     }
     
-    @IBAction func tryRemoteXML(sender: UIButton) {
+    @IBAction func tryRemoteXML(_ sender: UIButton) {
         defer {
             textField.resignFirstResponder()
         }
 
         guard let
             text = textField.text,
-            url = NSURL(string: text),
-            data = NSData(contentsOfURL: url)
+            let url = URL(string: text),
+            let data = try? Data(contentsOf: url)
         else {
             textView.text = "Bad URL or XML Data."
             return
@@ -162,6 +162,5 @@ class ViewController: UIViewController {
             textView.text = "\(error)"
         }
     }
-
 }
 
