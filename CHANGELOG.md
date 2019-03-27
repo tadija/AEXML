@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 4.4.0
+
+- Migrated to Swift 5 with Xcode 10.2 (10E125)
+- Merged: #155, #156
+
 ## Version 4.3.3
 
 - Fixed Package.swift
