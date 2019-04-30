@@ -71,7 +71,7 @@ open class AEXMLElement {
             first = children.first(where: { $0.name == key })
         else {
             let errorElement = AEXMLElement(name: key)
-            errorElement.error = AEXMLError.elementNotFound
+            errorElement.error = AEXMLError.elementNotFound(key)
             return errorElement
         }
         return first

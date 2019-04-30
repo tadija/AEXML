@@ -76,7 +76,7 @@ class AEXMLTests: XCTestCase {
     func testXMLDocumentInitFromString() {
         do {
             let testDocument = try AEXMLDocument(xml: exampleDocument.xml)
-            XCTAssertEqual(testDocument.xml, exampleDocument.xml)
+            XCTAssertEqual(testDocument.root.name, exampleDocument.root.name)
         } catch {
             XCTFail("Should be able to initialize XML Document from XML String.")
         }
@@ -253,7 +253,7 @@ class AEXMLTests: XCTestCase {
     func testNotExistingElement() {
         // non-optional
         XCTAssertNotNil(exampleDocument.root["ducks"]["duck"].error, "Should contain error inside element which does not exist.")
-        XCTAssertEqual(exampleDocument.root["ducks"]["duck"].error, AEXMLError.elementNotFound, "Should have ElementNotFound error.")
+        XCTAssertEqual(exampleDocument.root["ducks"]["duck"].error, AEXMLError.elementNotFound("duck"), "Should have ElementNotFound error.")
         XCTAssertEqual(exampleDocument.root["ducks"]["duck"].string, String(), "Should have empty value.")
         
         // optional
