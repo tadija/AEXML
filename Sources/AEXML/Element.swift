@@ -77,10 +77,17 @@ open class AEXMLElement {
         return first
     }
     
-    open func getValue(withKey key: String) throws -> String {
-        guard let first = firstDescendant(where: { $0.name == key }),
-            let value = first.value else {
-            throw AEXMLError.elementNotFound(key)
+    open func getElement(for tag: CodingTag) throws -> AEXMLElement {
+        guard let element = firstDescendant(where: { $0.name == tag.stringValue }) else {
+            throw AEXMLError.elementNotFound(tag.description)
+        }
+        return element
+    }
+    
+    open func getValue(for tag: CodingTag) throws -> String {
+        let element = try getElement(for: tag)
+        guard let value = element.value else {
+            throw AEXMLError.valueNotFound(tag.description)
         }
         return value
     }

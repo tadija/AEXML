@@ -16,6 +16,9 @@ public enum AEXMLError: Error {
     
     /// `AEXMLDocument` can throw this error on `init` or `loadXMLData` if parsing with `XMLParser` was not successful.
     case parsingFailed
+    
+    /// This can be thrown when attempting to get value for an element within `AEXMLElement`.
+    case valueNotFound(String)
 }
 
 // MARK: - Equatable
