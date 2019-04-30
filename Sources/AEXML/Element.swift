@@ -77,6 +77,13 @@ open class AEXMLElement {
         return first
     }
     
+    open func getElement(withKey key: String) throws -> AEXMLElement {
+        guard let first = firstDescendant(where: { $0.name == key }) else {
+            throw AEXMLError.elementNotFound(key)
+        }
+        return first
+    }
+    
     /// Returns all of the elements with equal name as `self` **(nil if not exists)**.
     open var all: [AEXMLElement]? { return parent?.children.filter { $0.name == self.name } }
     
