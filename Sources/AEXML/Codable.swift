@@ -12,7 +12,7 @@ public typealias SoapCodable = SoapDecodable & SoapEncodable
 
 public protocol SoapEncodable {
     
-    func encode() -> AEXMLElement
+    func encode(into element: AEXMLElement?) -> AEXMLElement
 }
 
 public protocol SoapDecodable {
