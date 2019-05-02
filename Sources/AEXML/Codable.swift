@@ -12,35 +12,31 @@ public typealias SoapCodable = SoapDecodable & SoapEncodable
 
 public protocol SoapEncodable {
     
+    /// Create XML Element from Object.
+    ///
+    /// - Parameter element: rootElement
+    /// - Returns: XML Element representation of Object
     func encode(into element: AEXMLElement?) -> AEXMLElement
 }
 
 public protocol SoapDecodable {
     
-    init(from data: Data) throws
-}
-
-public protocol CodingTag: CodingKey {
+//    /// Initialize object from XML Data.
+//    ///
+//    /// - Parameter data: XML Data
+//    /// - Throws: AEXMLError
+//    init(from data: Data) throws
     
-    func createElement(withValue value: String?) -> AEXMLElement
-    func findElement(in xmlDoc: AEXMLDocument) throws -> AEXMLElement
-    func value(in xmlDoc: AEXMLDocument) throws -> String
+    /// Initialize object from XML Object.
+    ///
+    /// - Parameter element: XML Object
+    /// - Throws: AEXMLError
+    init(from element: AEXMLElement) throws
 }
 
-// MARK: - Default Implementation
-public extension CodingTag {
+public extension CodingKey {
     
     func createElement(withValue value: String?) -> AEXMLElement {
         return AEXMLElement(name: stringValue, value: value)
-    }
-    
-    func findElement(in xmlDoc: AEXMLDocument) throws -> AEXMLElement {
-        let element = try xmlDoc.getElement(for: self)
-        return element
-    }
-    
-    func value(in xmlDoc: AEXMLDocument) throws -> String {
-        let value = try xmlDoc.getValue(for: self)
-        return value
     }
 }

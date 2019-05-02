@@ -77,16 +77,33 @@ open class AEXMLElement {
         return first
     }
     
-    open func getElement(for tag: CodingTag) throws -> AEXMLElement {
-        guard let element = firstDescendant(where: { $0.name == tag.stringValue }) else {
+    open func getChildren(for tag: CodingKey) throws -> [AEXMLElement] {
+        let children = allDescendants(where: { $0.name == tag.stringValue })
+        guard !children.isEmpty else {
             throw AEXMLError.elementNotFound(tag.description)
         }
-        return element
+        return children
     }
     
-    open func getValue(for tag: CodingTag) throws -> String {
-        let element = try getElement(for: tag)
-        guard let value = element.value else {
+    open func getValues(for tag: CodingKey) throws -> [String] {
+        let children = try getChildren(for: tag)
+        let values = children.compactMap { $0.value }
+        guard !values.isEmpty else {
+            throw AEXMLError.valueNotFound(tag.description)
+        }
+        return values
+    }
+    
+    open func getFirstChild(for tag: CodingKey) throws -> AEXMLElement {
+        guard let child = firstDescendant(where: { $0.name == tag.stringValue }) else {
+            throw AEXMLError.elementNotFound(tag.description)
+        }
+        return child
+    }
+    
+    open func getFirstValue(for tag: CodingKey) throws -> String {
+        let child = try getFirstChild(for: tag)
+        guard let value = child.value else {
             throw AEXMLError.valueNotFound(tag.description)
         }
         return value
