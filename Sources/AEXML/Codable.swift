@@ -12,11 +12,22 @@ public typealias SoapCodable = SoapDecodable & SoapEncodable
 
 public protocol SoapEncodable {
     
+    var children: [AEXMLElement] { get }
+    
     /// Create XML Element from Object.
     ///
     /// - Parameter element: rootElement
     /// - Returns: XML Element representation of Object
     func encode(into root: AEXMLElement) -> AEXMLElement
+}
+
+// MARK: - Default Encode
+public extension SoapEncodable {
+    
+    func encode(into root: AEXMLElement) -> AEXMLElement {
+        root.addChildren(children)
+        return root
+    }
 }
 
 public protocol SoapDecodable {
