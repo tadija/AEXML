@@ -16,7 +16,7 @@ public protocol SoapEncodable {
     ///
     /// - Parameter element: rootElement
     /// - Returns: XML Element representation of Object
-    func encode(into element: AEXMLElement?) -> AEXMLElement
+    func encode(into root: AEXMLElement) -> AEXMLElement
 }
 
 public protocol SoapDecodable {
