@@ -42,7 +42,7 @@ public protocol SoapDecodable {
     ///
     /// - Parameter element: XML Object
     /// - Throws: AEXMLError
-    init(from element: AEXMLElement) throws
+    init(from root: AEXMLElement) throws
 }
 
 public extension CodingKey {
