@@ -32,12 +32,6 @@ public extension SoapEncodable {
 
 public protocol SoapDecodable {
     
-//    /// Initialize object from XML Data.
-//    ///
-//    /// - Parameter data: XML Data
-//    /// - Throws: AEXMLError
-//    init(from data: Data) throws
-    
     /// Initialize object from XML Object.
     ///
     /// - Parameter element: XML Object
