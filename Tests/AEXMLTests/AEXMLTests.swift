@@ -5,7 +5,7 @@
  */
 
 import Foundation
-#if swift(>=5.1) && os(Linux)
+#if canImport(FoundationXML)
 import FoundationXML
 #endif
 
