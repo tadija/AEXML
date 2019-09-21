@@ -5,6 +5,9 @@
  */
 
 import Foundation
+#if swift(>=5.1) && os(Linux)
+import FoundationXML
+#endif
 
 /// A type representing error value that can be thrown or inside `error` property of `AEXMLElement`.
 public enum AEXMLError: Error {

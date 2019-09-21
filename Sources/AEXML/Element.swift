@@ -5,6 +5,9 @@
  */
 
 import Foundation
+#if swift(>=5.1) && os(Linux)
+import FoundationXML
+#endif
 
 /**
     This is base class for holding XML structure.

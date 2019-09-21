@@ -5,6 +5,10 @@
  */
 
 import Foundation
+#if swift(>=5.1) && os(Linux)
+import FoundationXML
+#endif
+
 import XCTest
 @testable import AEXML
 

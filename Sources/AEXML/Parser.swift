@@ -5,6 +5,9 @@
  */
 
 import Foundation
+#if swift(>=5.1) && os(Linux)
+import FoundationXML
+#endif
 
 /// Simple wrapper around `Foundation.XMLParser`.
 internal class AEXMLParser: NSObject, XMLParserDelegate {
