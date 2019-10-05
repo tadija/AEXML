@@ -51,7 +51,7 @@ open class AEXMLDocument: AEXMLElement {
         
         // add root element to document (if any)
         if let rootElement = root {
-            _ = addChild(rootElement)
+            addChild(rootElement)
         }
     }
     
