@@ -5,6 +5,9 @@
  */
 
 import Foundation
+#if canImport(FoundationXML)
+import FoundationXML
+#endif
 
 /// Simple wrapper around `Foundation.XMLParser`.
 internal class AEXMLParser: NSObject, XMLParserDelegate {

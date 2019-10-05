@@ -5,6 +5,9 @@
  */
 
 import Foundation
+#if canImport(FoundationXML)
+import FoundationXML
+#endif
 
 /**
     This class is inherited from `AEXMLElement` and has a few addons to represent **XML Document**.
