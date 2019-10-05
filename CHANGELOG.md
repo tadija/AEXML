@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 4.5.0
+
+- Import FoundationXML on Linux (PR #159)
+- Minor fix for XML attributes order #148
+- Update "swift_versions" in podspec file
+
 ## Version 4.4.0
 
 - Migrated to Swift 5 with Xcode 10.2 (10E125)
