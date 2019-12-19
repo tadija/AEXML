@@ -379,6 +379,32 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(animalsCount, 3, "Should be able to add child elements to an element.")
         XCTAssertEqual(exampleDocument.root["ducks"]["duck"].last!.string, "Scrooge", "Should be able to iterate ducks now.")
     }
+
+    func testAddChildAtIndex() {
+        let ducks = exampleDocument.root.addChild(name: "ducks")
+        ducks.addChild(name: "duck", value: "Donald")
+        ducks.addChild(name: "duck", value: "Daisy")
+
+        var addElementAtValidIndexSuccess = true
+        let thirdDuck = AEXMLElement(name: "duck", value: "Scrooge")
+        do {
+            try ducks.addChild(thirdDuck, at: 1)
+        } catch {
+            addElementAtValidIndexSuccess = false
+        }
+
+        var addElementAtInvalidIndexDidThrow = false
+        let fourthDuck = AEXMLElement(name: "duck", value: "Scrooge")
+        do {
+            try ducks.addChild(fourthDuck, at: 10)
+        } catch {
+            addElementAtInvalidIndexDidThrow = true
+        }
+
+        XCTAssertEqual(addElementAtValidIndexSuccess, true, "Adding an element in the middle of the children at a valid index should not throw.")
+        XCTAssertEqual(addElementAtInvalidIndexDidThrow, true, "Adding an element in the middle of the children at an invalid index should throw.")
+        XCTAssertEqual(exampleDocument.root["ducks"].children[1].string, "Scrooge", "Adding an element in the middle of the children at a valid index should succeed.")
+    }
     
     func testAddChildWithAttributes() {
         let cats = exampleDocument.root["cats"]

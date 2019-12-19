@@ -204,11 +204,30 @@ open class AEXMLElement {
     */
     @discardableResult
     open func addChild(_ child: AEXMLElement) -> AEXMLElement {
-        child.parent = self
-        children.append(child)
+        _ = try? addChild(child, at: nil) // it never throws for index 'nil'
         return child
     }
-    
+
+    @discardableResult
+    open func addChild(_ child: AEXMLElement, at index: Int?) throws -> AEXMLElement {
+        child.parent = self
+        let index = index ?? children.endIndex
+
+        switch index {
+        case ..<children.endIndex:
+            children.insert(child, at: index)
+            return child
+        case children.endIndex:
+            children.append(child)
+            return child
+        default:
+            let desc = "Cannot insert child: \(child.name), index: \(index) is out of bounds."
+            let e = NSError(domain: XMLParser.errorDomain, code: 5035, //XML_CHECK_OUTSIDE_DICT,
+                            userInfo: [NSLocalizedDescriptionKey: desc])
+            throw e
+        }
+    }
+
     /**
         Adds child XML element to `self`.
         
