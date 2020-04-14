@@ -41,8 +41,12 @@ open class AEXMLElement {
     open var string: String { return value ?? String() }
     
     /// Boolean representation of `value` property (`nil` if `value` can't be represented as Bool).
-    open var bool: Bool? { return Bool(string) }
-    
+    open var bool: Bool? {
+        if string == "true" || string == "1" { return true }
+        if string == "false" || string == "0" { return false }
+        return nil
+    }
+
     /// Integer representation of `value` property (`nil` if `value` can't be represented as Integer).
     open var int: Int? { return Int(string) }
     

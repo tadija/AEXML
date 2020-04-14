@@ -234,6 +234,12 @@ class AEXMLTests: XCTestCase {
         let firstFalseString = plantsDocument.root["PLANT"]["FALSESTRING"].bool
         XCTAssertEqual(firstFalseString, false, "Should be able to cast element value as Bool.")
         
+        let firstTrueInt = plantsDocument.root["PLANT"]["TRUEINT"].bool
+        XCTAssertEqual(firstTrueInt, true, "Should be able to cast element value as Bool.")
+        
+        let firstFalseInt = plantsDocument.root["PLANT"]["FALSEINT"].bool
+        XCTAssertEqual(firstFalseInt, false, "Should be able to cast element value as Bool.")
+        
         let firstElementWithoutValue = plantsDocument.root["ELEMENTWITHOUTVALUE"].bool
         XCTAssertNil(firstElementWithoutValue, "Should be able to return nil if value can't be represented as Bool.")
     }
