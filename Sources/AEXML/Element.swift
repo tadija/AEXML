@@ -1,7 +1,7 @@
 /**
  *  https://github.com/tadija/AEXML
- *  Copyright (c) Marko Tadić 2014-2019
- *  Licensed under the MIT license. See LICENSE file.
+ *  Copyright © Marko Tadić 2014-2020
+ *  Licensed under the MIT license
  */
 
 import Foundation
@@ -41,8 +41,17 @@ open class AEXMLElement {
     open var string: String { return value ?? String() }
     
     /// Boolean representation of `value` property (`nil` if `value` can't be represented as Bool).
-    open var bool: Bool? { return Bool(string) }
-    
+    open var bool: Bool? {
+        switch string.lowercased() {
+        case "true", "1":
+            return true
+        case "false", "0":
+            return false
+        default:
+            return nil
+        }
+    }
+
     /// Integer representation of `value` property (`nil` if `value` can't be represented as Integer).
     open var int: Int? { return Int(string) }
     

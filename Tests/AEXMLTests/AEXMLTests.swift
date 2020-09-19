@@ -1,7 +1,7 @@
 /**
  *  https://github.com/tadija/AEXML
- *  Copyright (c) Marko Tadić 2014-2019
- *  Licensed under the MIT license. See LICENSE file.
+ *  Copyright © Marko Tadić 2014-2020
+ *  Licensed under the MIT license
  */
 
 import Foundation
@@ -21,9 +21,17 @@ class AEXMLTests: XCTestCase {
     
     // MARK: - Helpers
     
-    func URLForResource(fileName: String, withExtension: String) -> URL {
-        let bundle = Bundle(for: AEXMLTests.self)
-        return bundle.url(forResource: fileName, withExtension: withExtension)!
+    func URLForResource(fileName: String, withExtension ext: String) -> URL {
+        if let url = Bundle(for: AEXMLTests.self)
+            .url(forResource: fileName, withExtension: ext) {
+            return url
+        } else {
+            guard let url = Bundle.module
+                    .url(forResource: "Resources/\(fileName)", withExtension: ext) else {
+                fatalError("can't find resource named: '\(fileName)'")
+            }
+            return url
+        }
     }
     
     func xmlDocumentFromURL(url: URL) -> AEXMLDocument {
@@ -233,6 +241,18 @@ class AEXMLTests: XCTestCase {
         
         let firstFalseString = plantsDocument.root["PLANT"]["FALSESTRING"].bool
         XCTAssertEqual(firstFalseString, false, "Should be able to cast element value as Bool.")
+
+        let firstTrueString2 = plantsDocument.root["PLANT"]["TRUESTRING2"].bool
+        XCTAssertEqual(firstTrueString2, true, "Should be able to cast element value as Bool.")
+
+        let firstFalseString2 = plantsDocument.root["PLANT"]["FALSESTRING2"].bool
+        XCTAssertEqual(firstFalseString2, false, "Should be able to cast element value as Bool.")
+        
+        let firstTrueInt = plantsDocument.root["PLANT"]["TRUEINT"].bool
+        XCTAssertEqual(firstTrueInt, true, "Should be able to cast element value as Bool.")
+        
+        let firstFalseInt = plantsDocument.root["PLANT"]["FALSEINT"].bool
+        XCTAssertEqual(firstFalseInt, false, "Should be able to cast element value as Bool.")
         
         let firstElementWithoutValue = plantsDocument.root["ELEMENTWITHOUTVALUE"].bool
         XCTAssertNil(firstElementWithoutValue, "Should be able to return nil if value can't be represented as Bool.")
@@ -472,3 +492,33 @@ class AEXMLTests: XCTestCase {
     }
     
 }
+
+#if XCODE
+/// - Note: copied this extension from private "resource_bundle_accessor.swift"
+/// - SeeAlso: https://stackoverflow.com/a/61263653/2165585
+extension Foundation.Bundle {
+    /// Returns the resource bundle associated with the current Swift module.
+    static var module: Bundle = {
+        let bundleName = "AEXML_AEXMLTests"
+
+        let candidates = [
+            // Bundle should be present here when the package is linked into an App.
+            Bundle.main.resourceURL,
+
+            // Bundle should be present here when the package is linked into a framework.
+            Bundle(for: AEXMLTests.self).resourceURL,
+
+            // For command-line tools.
+            Bundle.main.bundleURL,
+        ]
+
+        for candidate in candidates {
+            let bundlePath = candidate?.appendingPathComponent(bundleName + ".bundle")
+            if let bundle = bundlePath.flatMap(Bundle.init(url:)) {
+                return bundle
+            }
+        }
+        fatalError("unable to find bundle named AEXML_AEXMLTests")
+    }()
+}
+#endif
