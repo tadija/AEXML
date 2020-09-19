@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 4.6.0
+
+- Merged: #170, #175
+- Fixed: #169, #172, #173, #174
+- Update project for Xcode 12
+
 ## Version 4.5.0
 
 - Import FoundationXML on Linux (PR #159)
