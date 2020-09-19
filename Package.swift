@@ -1,4 +1,4 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.3
 
 /**
  *  https://github.com/tadija/AEXML
@@ -27,7 +27,10 @@ let package = Package(
         ),
         .testTarget(
             name: "AEXMLTests",
-            dependencies: ["AEXML"]
-        )
+            dependencies: ["AEXML"],
+            resources: [
+                .copy("Resources"),
+            ]
+        ),
     ]
 )

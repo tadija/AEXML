@@ -183,19 +183,18 @@
 				8B080D3221504733009B8DBB /* AEXML.h */,
 				8B080D3321504733009B8DBB /* AEXML.plist */,
 				8B080D3421504733009B8DBB /* AEXMLTests.plist */,
-				8B080D3521504733009B8DBB /* Sample XML Files */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		8B080D3521504733009B8DBB /* Sample XML Files */ = {
+		8B080D3521504733009B8DBB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				8B080D3621504733009B8DBB /* example.xml */,
 				8B080D3721504733009B8DBB /* plant_catalog.xml */,
 				8B080D3821504733009B8DBB /* whitespace_examples.xml */,
 			);
-			path = "Sample XML Files";
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		8B080D462150489F009B8DBB /* Tests */ = {
@@ -210,6 +209,7 @@
 		8B080D472150489F009B8DBB /* AEXMLTests */ = {
 			isa = PBXGroup;
 			children = (
+				8B080D3521504733009B8DBB /* Resources */,
 				8B080D482150489F009B8DBB /* AEXMLTests.swift */,
 				8B080D56215050FC009B8DBB /* XCTestManifests.swift */,
 			);
@@ -984,6 +984,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = XCODE;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1038,6 +1039,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = XCODE;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
