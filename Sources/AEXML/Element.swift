@@ -42,9 +42,14 @@ open class AEXMLElement {
     
     /// Boolean representation of `value` property (`nil` if `value` can't be represented as Bool).
     open var bool: Bool? {
-        if string == "true" || string == "1" { return true }
-        if string == "false" || string == "0" { return false }
-        return nil
+        switch string.lowercased() {
+        case "true", "1":
+            return true
+        case "false", "0":
+            return false
+        default:
+            return nil
+        }
     }
 
     /// Integer representation of `value` property (`nil` if `value` can't be represented as Integer).

@@ -743,7 +743,6 @@
 				DEVELOPMENT_TEAM = "";
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Resources/AEXMLTests.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.tadija.AEXML-iOS-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -763,7 +762,6 @@
 				DEVELOPMENT_TEAM = "";
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Resources/AEXMLTests.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.tadija.AEXML-iOS-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -783,7 +781,6 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Resources/AEXMLTests.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.tadija.AEXML-macOS-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -801,7 +798,6 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Resources/AEXMLTests.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.tadija.AEXML-macOS-Tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -828,7 +824,6 @@
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
 		};
@@ -853,7 +848,6 @@
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;
 		};
@@ -872,7 +866,6 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
 		};
@@ -893,7 +886,6 @@
 				SDKROOT = appletvos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;
 		};
@@ -919,7 +911,6 @@
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-				WATCHOS_DEPLOYMENT_TARGET = 3.0;
 			};
 			name = Debug;
 		};
@@ -947,7 +938,6 @@
 				TARGETED_DEVICE_FAMILY = 4;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-				WATCHOS_DEPLOYMENT_TARGET = 3.0;
 			};
 			name = Release;
 		};
@@ -1011,7 +1001,7 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VERSIONING_SYSTEM = "apple-generic";
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+				WATCHOS_DEPLOYMENT_TARGET = 3.0;
 			};
 			name = Debug;
 		};
@@ -1067,7 +1057,7 @@
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
-				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+				WATCHOS_DEPLOYMENT_TARGET = 3.0;
 			};
 			name = Release;
 		};
