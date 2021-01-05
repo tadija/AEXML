@@ -339,7 +339,7 @@ public extension String {
         // we need to make sure "&" is escaped first. Not doing this may break escaping the other characters
         var escaped = replacingOccurrences(of: "&", with: "&amp;", options: .literal)
         
-        // replace the other four special characters
+        // replace the other five special characters
         let escapeChars = ["<" : "&lt;", ">" : "&gt;", "'" : "&apos;", "\"" : "&quot;", "\n": "&#10;"]
         for (char, echar) in escapeChars {
             escaped = escaped.replacingOccurrences(of: char, with: echar, options: .literal)
