@@ -340,7 +340,7 @@ public extension String {
         var escaped = replacingOccurrences(of: "&", with: "&amp;", options: .literal)
         
         // replace the other four special characters
-        let escapeChars = ["<" : "&lt;", ">" : "&gt;", "'" : "&apos;", "\"" : "&quot;"]
+        let escapeChars = ["<" : "&lt;", ">" : "&gt;", "'" : "&apos;", "\"" : "&quot;", "\n": "&#10;"]
         for (char, echar) in escapeChars {
             escaped = escaped.replacingOccurrences(of: char, with: echar, options: .literal)
         }
