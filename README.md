@@ -54,7 +54,7 @@ Let's say this is some XML string you picked up somewhere and made a variable `d
 </animals>
 ```
 
-This is how you can use **AEXML** for working with this data:  
+This is how you can use **AEXML** for working with this data:
 (for even more examples, look at the unit tests code included in project)
 
 ```swift
@@ -65,27 +65,27 @@ else { return }
 
 do {
     let xmlDoc = try AEXMLDocument(xml: data, options: options)
-        
+
     // prints the same XML structure as original
     print(xmlDoc.xml)
-    
+
     // prints cats, dogs
     for child in xmlDoc.root.children {
         print(child.name)
     }
-    
+
     // prints Optional("Tinna") (first element)
     print(xmlDoc.root["cats"]["cat"].value)
-    
+
     // prints Tinna (first element)
     print(xmlDoc.root["cats"]["cat"].string)
-    
+
     // prints Optional("Kika") (last element)
     print(xmlDoc.root["dogs"]["dog"].last?.value)
-    
+
     // prints Betty (3rd element)
     print(xmlDoc.root["dogs"].children[2].string)
-    
+
     // prints Tinna, Rose, Caesar
     if let cats = xmlDoc.root["cats"]["cat"].all {
         for cat in cats {
@@ -94,7 +94,7 @@ do {
             }
         }
     }
-    
+
     // prints Villy, Spot
     for dog in xmlDoc.root["dogs"]["dog"].all! {
         if let color = dog.attributes["color"] {
@@ -103,30 +103,30 @@ do {
             }
         }
     }
-    
+
     // prints Tinna
     if let cats = xmlDoc.root["cats"]["cat"].all(withValue: "Tinna") {
         for cat in cats {
             print(cat.string)
         }
     }
-    
+
     // prints Caesar
     if let cats = xmlDoc.root["cats"]["cat"].all(withAttributes: ["breed" : "Domestic", "color" : "yellow"]) {
         for cat in cats {
             print(cat.string)
         }
     }
-    
+
     // prints 4
     print(xmlDoc.root["cats"]["cat"].count)
-    
+
     // prints Siberian
     print(xmlDoc.root["cats"]["cat"].attributes["breed"]!)
-    
+
     // prints <cat breed="Siberian" color="lightgray">Tinna</cat>
     print(xmlDoc.root["cats"]["cat"].xmlCompact)
-    
+
     // prints Optional(AEXML.AEXMLError.elementNotFound)
     print(xmlDoc["NotExistingElement"].error)
 }
@@ -136,7 +136,7 @@ catch {
 ```
 
 ### Write XML
-Let's say this is some SOAP XML request you need to generate.  
+Let's say this is some SOAP XML request you need to generate.
 Well, you could just build ordinary string for that?
 
 ```xml
@@ -189,6 +189,21 @@ print(soapRequest.xml)
 	```ruby
 	pod 'AEXML'
 	```
+
+- [Bazel](https://bazel.build):
+
+In your WORKSPACE file
+
+```WORKSPACE
+AEXML_GIT_SHA = "SOME_SHA"
+http_archive(
+    name = "com_github_aexml",
+    urls = [
+        "https://github.com/tadija/AEXML/archive/%s.zip" % AEXML_GIT_SHA,
+    ],
+    strip_prefix = "AEXML-%s" % AEXML_GIT_SHA,
+)
+```
 
 ## License
 AEXML is released under the MIT license. See [LICENSE](LICENSE) for details.
