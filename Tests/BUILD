@@ -22,6 +22,6 @@ swift_test(
      defines = ["BAZEL"],
      data = glob(["YamsTests/Resources/**/*.*"]),
      deps = [
-         "//Sources/AEXML:AEXML",
+         "//:AEXML",
      ],
  )
