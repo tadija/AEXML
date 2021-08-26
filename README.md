@@ -175,7 +175,7 @@ print(soapRequest.xml)
 - [Swift Package Manager](https://swift.org/package-manager/):
 
 	```swift
-    .package(url: "https://github.com/tadija/AEXML.git", from: "4.6.0")
+    .package(url: "https://github.com/tadija/AEXML.git", from: "4.6.1")
 	```
 
 - [Carthage](https://github.com/Carthage/Carthage):
