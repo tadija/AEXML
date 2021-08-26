@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 4.6.1
+
+- Merged: #177
+
 ## Version 4.6.0
 
 - Merged: #170, #175
