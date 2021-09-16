@@ -2,7 +2,7 @@
 
 /**
  *  https://github.com/tadija/AEXML
- *  Copyright © Marko Tadić 2014-2020
+ *  Copyright © Marko Tadić 2014-2021
  *  Licensed under the MIT license
  */
 
