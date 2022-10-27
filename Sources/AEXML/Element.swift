@@ -303,6 +303,12 @@ open class AEXMLElement {
         let chars = CharacterSet(charactersIn: "\t")
         return xml.components(separatedBy: chars).joined(separator: "    ")
     }
+    
+    /// Same as `xmlString` but with 2 spaces instead '\t' characters
+    open var xmlDoubleSpace: String {
+        let chars = CharacterSet(charactersIn: "\t")
+        return xml.components(separatedBy: chars).joined(separator: "  ")
+    }
 
     // MARK: - Helpers
 
