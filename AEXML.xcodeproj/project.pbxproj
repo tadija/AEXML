@@ -298,9 +298,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8B4A92801BDD47210011F36F /* Build configuration list for PBXNativeTarget "AEXML iOS" */;
 			buildPhases = (
+				8B4A92761BDD47210011F36F /* Headers */,
 				8B4A92741BDD47210011F36F /* Sources */,
 				8B4A92751BDD47210011F36F /* Frameworks */,
-				8B4A92761BDD47210011F36F /* Headers */,
 				8B4A92771BDD47210011F36F /* Resources */,
 			);
 			buildRules = (
