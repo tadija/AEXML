@@ -170,7 +170,7 @@ getStockPrice.addChild(name: "m:StockName", value: "AAPL")
 print(soapRequest.xml)
 ```
 
-Or perhaps like this (see PR #186):
+Or perhaps like this, using result builders (see [#186](https://github.com/tadija/AEXML/pull/186)):
 
 ```swift
 @AEXMLDocumentBuilder
@@ -204,7 +204,7 @@ private func buildSoapEnvelope(
 - [Swift Package Manager](https://swift.org/package-manager/):
 
 	```swift
-    .package(url: "https://github.com/tadija/AEXML.git", from: "4.6.1")
+    .package(url: "https://github.com/tadija/AEXML.git", from: "4.7.0")
 	```
 
 - [Carthage](https://github.com/Carthage/Carthage):
