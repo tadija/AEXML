@@ -1,6 +1,6 @@
 /**
  *  https://github.com/tadija/AEXML
- *  Copyright © Marko Tadić 2014-2021
+ *  Copyright © Marko Tadić 2014-2024
  *  Licensed under the MIT license
  */
 
