@@ -170,6 +170,35 @@ getStockPrice.addChild(name: "m:StockName", value: "AAPL")
 print(soapRequest.xml)
 ```
 
+Or perhaps like this (see PR #186):
+
+```swift
+@AEXMLDocumentBuilder
+private func buildSoapEnvelope(
+    for action: String,
+    in serviceType: String,
+    with parameters: [String: String] = [:]
+) -> AEXMLDocument {
+    AEXMLElement("s:Envelope", attributes: [
+        "xmlns:s": "http://schemas.xmlsoap.org/soap/envelope/",
+        "s:encodingStyle": "http://schemas.xmlsoap.org/soap/encoding/"
+    ]) {
+        AEXMLElement("s:Body") {
+            AEXMLElement("s:\(action)", attributes: [
+                "xmlns:u": serviceType
+            ]) {
+                for parameter in parameters {
+                    AEXMLElement(
+                        name: parameter.key,
+                        value: parameter.value
+                    )
+                }
+            }
+        }
+    }
+}
+```
+
 ## Installation
 
 - [Swift Package Manager](https://swift.org/package-manager/):
