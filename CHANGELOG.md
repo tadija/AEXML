@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 4.7.0
+
+- Merged: #183, #186
+- Update project for Xcode 15
+- Bump deployment targets
+
 ## Version 4.6.1
 
 - Merged: #177

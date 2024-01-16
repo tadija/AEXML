@@ -1,20 +1,14 @@
-// swift-tools-version:5.3
-
-/**
- *  https://github.com/tadija/AEXML
- *  Copyright © Marko Tadić 2014-2021
- *  Licensed under the MIT license
- */
+// swift-tools-version:5.9
 
 import PackageDescription
 
 let package = Package(
     name: "AEXML",
     platforms: [
-        .iOS(.v9),
-        .macOS(.v10_10),
-        .tvOS(.v9),
-        .watchOS(.v3)
+        .iOS(.v12),
+        .macOS(.v10_13),
+        .tvOS(.v12),
+        .watchOS(.v4)
     ],
     products: [
         .library(
