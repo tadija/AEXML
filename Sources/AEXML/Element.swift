@@ -345,8 +345,8 @@ public extension String {
         // we need to make sure "&" is escaped first. Not doing this may break escaping the other characters
         var escaped = replacingOccurrences(of: "&", with: "&amp;", options: .literal)
         
-        // replace the other five special characters
-        let escapeChars = ["<" : "&lt;", ">" : "&gt;", "'" : "&apos;", "\"" : "&quot;", "\n": "&#10;"]
+        // replace the other special characters and the whitespace that XML parsers would normalize
+        let escapeChars = ["<" : "&lt;", ">" : "&gt;", "'" : "&apos;", "\"" : "&quot;", "\n": "&#10;", "\r": "&#13;", "\t": "&#9;"]
         for (char, echar) in escapeChars {
             escaped = escaped.replacingOccurrences(of: char, with: echar, options: .literal)
         }

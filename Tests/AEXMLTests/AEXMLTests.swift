@@ -479,6 +479,17 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(testDocument.xmlDoubleSpace, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<children>\n  <child attribute=\"attributeValue&lt;&amp;&gt;\">value</child>\n  <child />\n  <child>&amp;&lt;&gt;&apos;&quot;&#10;</child>\n</children>", "Should be able to print XML formatted string.")
     }
     
+    func testXMLStringKeepsTabsAndCarriageReturns() throws {
+        let testDocument = AEXMLDocument()
+        testDocument.addChild(name: "child", value: "a\tb\r\nc", attributes: ["attribute" : "x\ty\rz"])
+
+        for xml in [testDocument.xml, testDocument.xmlCompact, testDocument.xmlSpaces, testDocument.xmlDoubleSpace] {
+            let parsedDocument = try AEXMLDocument(xml: xml)
+            XCTAssertEqual(parsedDocument.root.value, "a\tb\r\nc", "Should keep tabs and carriage returns in values.")
+            XCTAssertEqual(parsedDocument.root.attributes["attribute"], "x\ty\rz", "Should keep tabs and carriage returns in attributes.")
+        }
+    }
+    
     // MARK: - XML Parse Performance
     
     func testReadXMLPerformance() {
