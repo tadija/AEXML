@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name = 'AEXML'
-s.version = '4.7.0'
+s.version = '4.7.2'
 s.license = { :type => 'MIT', :file => 'LICENSE' }
 s.summary = 'Swift minion for simple and lightweight XML parsing'
 
@@ -17,6 +17,6 @@ s.watchos.deployment_target = '10.0'
 
 s.homepage = 'https://github.com/tadija/AEXML'
 s.author = { 'tadija' => 'tadija@me.com' }
-s.social_media_url = 'https://twitter.com/tadija'
+s.social_media_url = 'https://x.com/tadija'
 
 end
