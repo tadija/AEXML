@@ -5,10 +5,10 @@ import PackageDescription
 let package = Package(
     name: "AEXML",
     platforms: [
-        .iOS(.v12),
-        .macOS(.v10_13),
-        .tvOS(.v12),
-        .watchOS(.v9)
+        .iOS(.v17),
+        .macOS(.v10_14),
+        .tvOS(.v17),
+        .watchOS(.v10)
     ],
     products: [
         .library(
