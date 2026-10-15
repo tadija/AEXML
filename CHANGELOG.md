@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 4.7.3
+- Merged: #194
+
 ## Version 4.7.2
 
 - Update project for Xcode 27
