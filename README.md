@@ -204,7 +204,7 @@ private func buildSoapEnvelope(
 - [Swift Package Manager](https://swift.org/package-manager/):
 
 	```swift
-    .package(url: "https://github.com/tadija/AEXML.git", from: "4.7.2")
+    .package(url: "https://github.com/tadija/AEXML.git", from: "4.7.3")
 	```
 
 - [Carthage](https://github.com/Carthage/Carthage):
