@@ -33,74 +33,134 @@ final class ViewController: UIViewController {
         options.parserSettings.shouldReportNamespacePrefixes = false
         options.parserSettings.shouldResolveExternalEntities = false
 
+        let xmlDoc: AEXMLDocument
+        let root: AEXMLElement
         do {
-            let xmlDoc = try AEXMLDocument(xml: data, options: options)
+            xmlDoc = try AEXMLDocument(xml: data, options: options)
+            root = try xmlDoc.root
+        } catch {
+            print("Failed to parse doc and root:", error)
+            return
+        }
 
-            // prints the same XML structure as original
-            print(xmlDoc.xml)
+        // prints the same XML structure as original
+        print(xmlDoc.xml)
 
-            // prints cats, dogs
-            for child in xmlDoc.root.children {
-                print(child.name)
-            }
+        // prints cats, dogs
+        for child in root.children {
+            print(child.name)
+        }
 
-            // prints Optional("Tinna") (first element)
-            print(String(describing: xmlDoc.root["cats"]["cat"].value))
+        // prints Optional("Tinna") (first element)
+        do {
+            let tinna = try root["cats"]["cat"].value
+            print(String(describing: tinna))
+        } catch {
+            print(error)
+        }
 
-            // prints Tinna (first element)
-            print(xmlDoc.root["cats"]["cat"].string)
+        // prints Tinna (first element)
+        do {
+            let tinna = try root["cats"]["cat"].string
+            print(tinna)
+        } catch {
+            print(error)
+        }
 
-            // prints Optional("Kika") (last element)
-            print(String(describing: xmlDoc.root["dogs"]["dog"].last?.value))
+        // prints Optional("Kika") (last element)
+        do {
+            let kika = try root["dogs"]["dog"].last?.value
+            print(String(describing: kika))
+        } catch {
+            print(error)
+        }
 
-            // prints Betty (3rd element)
-            print(xmlDoc.root["dogs"].children[2].string)
+        // prints Betty (3rd element)
+        do {
+            let betty = try root["dogs"].children[2].string
+            print(betty)
+        } catch {
+            print(error)
+        }
 
-            // prints Tinna, Rose, Caesar
-            if let cats = xmlDoc.root["cats"]["cat"].all {
-                for cat in cats {
+        // prints Tinna, Rose, Caesar
+        do {
+            let cats = try root["cats"]["cat"]
+            if let allCats = cats.all {
+                for cat in allCats {
                     if let name = cat.value {
                         print(name)
                     }
                 }
             }
+        } catch {
+            print(error)
+        }
 
-            // prints Villy, Spot
-            for dog in xmlDoc.root["dogs"]["dog"].all! {
+        // prints Villy, Spot
+        do {
+            let dogs = try root["dogs"]["dog"]
+            for dog in dogs.all! {
                 if let color = dog.attributes["color"] {
                     if color == "white" {
                         print(dog.string)
                     }
                 }
             }
-
-            // prints Tinna
-            if let cats = xmlDoc.root["cats"]["cat"].all(withValue: "Tinna") {
-                for cat in cats {
-                    print(cat.string)
-                }
-            }
-
-            // prints Caesar
-            if let cats = xmlDoc.root["cats"]["cat"].all(withAttributes: ["breed" : "Domestic", "color" : "yellow"]) {
-                for cat in cats {
-                    print(cat.string)
-                }
-            }
-
-            // prints 4
-            print(xmlDoc.root["cats"]["cat"].count)
-
-            // prints Siberian
-            print(xmlDoc.root["cats"]["cat"].attributes["breed"]!)
-
-            // prints <cat breed="Siberian" color="lightgray">Tinna</cat>
-            print(xmlDoc.root["cats"]["cat"].xmlCompact)
-
-            // prints Optional(AEXML.AEXMLError.elementNotFound)
-            print(String(describing: xmlDoc["NotExistingElement"].error))
         } catch {
-            print("\(error)")
+            print(error)
+        }
+
+        // prints Tinna
+        do {
+            let cats = try root["cats"]["cat"]
+            if let tinna = cats.all(withValue: "Tinna") {
+                for cat in tinna {
+                    print(cat.string)
+                }
+            }
+        } catch {
+            print(error)
+        }
+
+        // prints Caesar
+        do {
+            let cats = try root["cats"]["cat"]
+            if let caesar = cats.all(withAttributes: ["breed" : "Domestic", "color" : "yellow"]) {
+                for cat in caesar {
+                    print(cat.string)
+                }
+            }
+        } catch {
+            print(error)
+        }
+
+        // prints 4
+        do {
+            print(try root["cats"]["cat"].count)
+        } catch {
+            print(error)
+        }
+
+        // prints Siberian
+        do {
+            print(try root["cats"]["cat"].attributes["breed"]!)
+        } catch {
+            print(error)
+        }
+
+        // prints <cat breed="Siberian" color="lightgray">Tinna</cat>
+        do {
+            print(try root["cats"]["cat"].xmlCompact)
+        } catch {
+            print(error)
+        }
+
+        // prints Optional(AEXML.AEXMLError.elementNotFound)
+        do {
+            let _ = try xmlDoc["NotExistingElement"]
+        } catch {
+            print(error)
         }
     }
     
@@ -121,8 +181,8 @@ final class ViewController: UIViewController {
             let document = try AEXMLDocument(xml: data)
             var parsedText = String()
             // parse known structure
-            for plant in document["CATALOG"]["PLANT"].all! {
-                parsedText += plant["COMMON"].string + "\n"
+            for plant in try document["CATALOG"]["PLANT"].all! {
+                parsedText += try plant["COMMON"].string + "\n"
             }
             textView.text = parsedText
         } catch {
@@ -167,7 +227,7 @@ final class ViewController: UIViewController {
             let document = try AEXMLDocument(xml: data)
             var parsedText = String()
             // parse unknown structure
-            for child in document.root.children {
+            for child in try document.root.children {
                 parsedText += child.xml + "\n"
             }
             textView.text = parsedText
