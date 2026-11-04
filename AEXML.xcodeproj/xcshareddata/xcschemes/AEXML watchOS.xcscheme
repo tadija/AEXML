@@ -20,6 +20,20 @@
                ReferencedContainer = "container:AEXML.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "3AC12BA32F9A002EF79A337C"
+               BuildableName = "AEXML watchOS Tests.xctest"
+               BlueprintName = "AEXML watchOS Tests"
+               ReferencedContainer = "container:AEXML.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -28,7 +42,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
       codeCoverageEnabled = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "8B4A92DE1BDD5D330011F36F"
+            BuildableName = "AEXML.framework"
+            BlueprintName = "AEXML watchOS"
+            ReferencedContainer = "container:AEXML.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "3AC12BA32F9A002EF79A337C"
+               BuildableName = "AEXML watchOS Tests.xctest"
+               BlueprintName = "AEXML watchOS Tests"
+               ReferencedContainer = "container:AEXML.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

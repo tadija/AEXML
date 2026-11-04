@@ -21,6 +21,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1AB19C3A309B432B00C4C599 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8B8C73381CD80D4100A4E197 /* AEXML.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 356B5E9831F9084C077C1BC8;
+			remoteInfo = "AEXML watchOS Tests";
+		};
 		8B8C73421CD80D4100A4E197 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8B8C73381CD80D4100A4E197 /* AEXML.xcodeproj */;
@@ -169,6 +176,7 @@
 				8B8C73471CD80D4100A4E197 /* AEXML iOS Tests.xctest */,
 				8B8C734F1CD80D4100A4E197 /* AEXML macOS Tests.xctest */,
 				8B8C734B1CD80D4100A4E197 /* AEXML tvOS Tests.xctest */,
+				1AB19C3B309B432B00C4C599 /* AEXML watchOS Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -249,6 +257,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		1AB19C3B309B432B00C4C599 /* AEXML watchOS Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "AEXML watchOS Tests.xctest";
+			remoteRef = 1AB19C3A309B432B00C4C599 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		8B8C73431CD80D4100A4E197 /* AEXML.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
