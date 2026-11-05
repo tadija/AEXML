@@ -6,7 +6,7 @@ let package = Package(
     name: "AEXML",
     platforms: [
         .iOS(.v17),
-        .macOS(.v10_14),
+        .macOS(.v10_13),
         .tvOS(.v17),
         .watchOS(.v10)
     ],
