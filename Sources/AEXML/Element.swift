@@ -34,9 +34,6 @@ open class AEXMLElement {
     /// XML Element attributes.
     open var attributes: [String : String]
     
-    /// Error value (`nil` if there is no error).
-    open var error: AEXMLError?
-    
     /// String representation of `value` property (if `value` is `nil` this is empty String).
     open var string: String { return value ?? String() }
     
@@ -77,16 +74,18 @@ open class AEXMLElement {
     
     // MARK: - XML Read
     
-    /// The first element with given name **(Empty element with error if not exists)**.
+    /// The first element with given name.
+    ///
+    /// - Throws: `AEXMLError.elementNotFound` if not exists.
     open subscript(key: String) -> AEXMLElement {
-        guard let
-            first = children.first(where: { $0.name == key })
-        else {
-            let errorElement = AEXMLElement(name: key)
-            errorElement.error = AEXMLError.elementNotFound
-            return errorElement
+        get throws {
+            guard let
+                    first = children.first(where: { $0.name == key })
+            else {
+                throw AEXMLError.elementNotFound(key)
+            }
+            return first
         }
-        return first
     }
     
     /// Returns all of the elements with equal name as `self` **(nil if not exists)**.

@@ -18,14 +18,16 @@ open class AEXMLDocument: AEXMLElement {
     
     // MARK: - Properties
     
-    /// Root (the first child element) element of XML Document **(Empty element with error if not exists)**.
+    /// Root (the first child element) element of XML Document.
+    ///
+    /// - Throws: `AEXMLError.rootElementMissing` if not exists.
     open var root: AEXMLElement {
-        guard let rootElement = children.first else {
-            let errorElement = AEXMLElement(name: "Error")
-            errorElement.error = AEXMLError.rootElementMissing
-            return errorElement
+        get throws {
+            guard let rootElement = children.first else {
+                throw AEXMLError.rootElementMissing
+            }
+            return rootElement
         }
-        return rootElement
     }
     
     public let options: AEXMLOptions
@@ -103,7 +105,9 @@ open class AEXMLDocument: AEXMLElement {
     /// Override of `xml` property of `AEXMLElement` - it just inserts XML Document header at the beginning.
     open override var xml: String {
         var xml =  "\(options.documentHeader.xmlString)\n"
-        xml += root.xml
+        if let root = try? root {
+            xml += root.xml
+        }
         return xml
     }
     

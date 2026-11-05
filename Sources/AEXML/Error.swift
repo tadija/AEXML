@@ -10,10 +10,10 @@ import FoundationXML
 #endif
 
 /// A type representing error value that can be thrown or inside `error` property of `AEXMLElement`.
-public enum AEXMLError: Error {
+public enum AEXMLError: Error, Equatable {
     /// This will be inside `error` property of `AEXMLElement` when subscript is used for not-existing element.
-    case elementNotFound
-    
+    case elementNotFound(String)
+
     /// This will be inside `error` property of `AEXMLDocument` when there is no root element.
     case rootElementMissing
     
