@@ -10,6 +10,48 @@ import FoundationXML
 #endif
 
 /**
+    This is formatting used when serializing an element hierarchy to a String.
+
+    Each nesting level is prefixed with `indent` and each child is followed by `newline`, so for
+    `AEXMLFormat(indent: "\t", newline: "\n")` the `<a><b /></a>` XML is written as `<a>\n\t<b />\n</a>`,
+    while `AEXMLFormat(indent: "", newline: "")` keeps it as `<a><b /></a>`.
+*/
+public struct AEXMLFormat {
+    
+    /// String written once per nesting level in front of an element.
+    public let indent: String
+    
+    /// String written after an opening tag and after each child.
+    public let newline: String
+    
+    /**
+        Designated initializer - Creates and returns new serialization format.
+     
+        - parameter indent: String written once per nesting level in front of an element.
+        - parameter newline: String written after an opening tag and after each child.
+     
+        - returns: An initialized `AEXMLFormat` object.
+    */
+    public init(indent: String, newline: String) {
+        self.indent = indent
+        self.newline = newline
+    }
+    
+    /// Format used by `xml` property (`\t` indentation, `\n` line breaks).
+    public static let tabs = AEXMLFormat(indent: "\t", newline: "\n")
+    
+    /// Format used by `xmlCompact` property (no indentation, no line breaks).
+    public static let compact = AEXMLFormat(indent: "", newline: "")
+    
+    /// Format used by `xmlSpaces` property (4 spaces indentation, `\n` line breaks).
+    public static let fourSpaces = AEXMLFormat(indent: "    ", newline: "\n")
+    
+    /// Format used by `xmlDoubleSpace` property (2 spaces indentation, `\n` line breaks).
+    public static let doubleSpace = AEXMLFormat(indent: "  ", newline: "\n")
+
+}
+
+/**
     This is base class for holding XML structure.
 
     You can access its structure by using subscript like this: `element["foo"]["bar"]` which would
@@ -257,49 +299,63 @@ open class AEXMLElement {
     
     /// Complete hierarchy of `self` and `children` in **XML** escaped and formatted String
     open var xml: String {
-        var xml = String()
-        appendXML(to: &xml, depth: parentsCount - 1)
-        return xml
+        return xmlString(format: .tabs)
     }
     
     /// Same as `xmlString` but without `\n` and `\t` characters
     open var xmlCompact: String {
-        let chars = CharacterSet(charactersIn: "\n\t")
-        return xml.components(separatedBy: chars).joined(separator: "")
+        return xmlString(format: .compact)
     }
     
     /// Same as `xmlString` but with 4 spaces instead of '\t' character
     open var xmlSpaces: String {
-        let chars = CharacterSet(charactersIn: "\t")
-        return xml.components(separatedBy: chars).joined(separator: "    ")
+        return xmlString(format: .fourSpaces)
     }
     
     /// Same as `xmlString` but with 2 spaces instead of '\t' character
     open var xmlDoubleSpace: String {
-        let chars = CharacterSet(charactersIn: "\t")
-        return xml.components(separatedBy: chars).joined(separator: "  ")
+        return xmlString(format: .doubleSpace)
     }
-
-    // MARK: - Helpers
-
-    private var parentsCount: Int {
-        var count = 0
+    
+    /**
+        Complete hierarchy of `self` and `children` in **XML** escaped String with the given formatting.
+     
+        To customize serialization, override `appendXML(to:depth:format:)` instead. Overriding `xml`
+        or one of its variants affects only direct calls on that element, not its output inside a parent.
+     
+        - parameter format: Indentation and line breaks to use.
+     
+        - returns: XML String.
+    */
+    public func xmlString(format: AEXMLFormat) -> String {
+        // depth of self relative to the document (root element is at depth 0)
+        var depth = -1
         var element = self
-
         while let parent = element.parent {
-            count += 1
+            depth += 1
             element = parent
         }
-
-        return count
+        
+        var xml = String()
+        appendXML(to: &xml, depth: depth, format: format)
+        return xml
     }
-
-    /// Writes `self` and its `children` into the shared buffer in a single pass.
-    /// Depth is passed down so it's never recomputed per element and
-    /// no intermediate strings are created for nested levels.
-    private func appendXML(to xml: inout String, depth: Int) {
+    
+    /**
+        Writes `self` and its `children` into the given buffer in a single pass.
+     
+        This is the single customization point for serialization: `xml`, `xmlCompact`, `xmlSpaces`,
+        `xmlDoubleSpace` and `xmlString(format:)` all end up here, and parents serialize their children
+        through it, so overriding it in a subclass takes effect wherever the element appears in a tree.
+        Call `super` to write the standard representation.
+     
+        - parameter xml: Buffer to append to.
+        - parameter depth: Nesting level used for indentation (0 for the root element).
+        - parameter format: Indentation and line breaks to use.
+    */
+    open func appendXML(to xml: inout String, depth: Int, format: AEXMLFormat) {
         // open element
-        appendIndent(to: &xml, depth: depth)
+        appendIndent(to: &xml, depth: depth, format: format)
         xml += "<\(name)"
         
         if !attributes.isEmpty {
@@ -315,13 +371,13 @@ open class AEXMLElement {
         } else {
             if !children.isEmpty {
                 // add children
-                xml += ">\n"
+                xml += ">\(format.newline)"
                 for child in children {
-                    child.appendXML(to: &xml, depth: depth + 1)
-                    xml += "\n"
+                    child.appendXML(to: &xml, depth: depth + 1, format: format)
+                    xml += format.newline
                 }
                 // add indentation and close element
-                appendIndent(to: &xml, depth: depth)
+                appendIndent(to: &xml, depth: depth, format: format)
                 xml += "</\(name)>"
             } else {
                 // insert string value and close element
@@ -329,10 +385,12 @@ open class AEXMLElement {
             }
         }
     }
-    
-    private func appendIndent(to xml: inout String, depth: Int) {
-        guard depth > 0 else { return }
-        xml += String(repeating: "\t", count: depth)
+
+    // MARK: - Helpers
+
+    private func appendIndent(to xml: inout String, depth: Int, format: AEXMLFormat) {
+        guard depth > 0, !format.indent.isEmpty else { return }
+        xml += String(repeating: format.indent, count: depth)
     }
 
 }
