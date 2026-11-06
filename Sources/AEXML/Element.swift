@@ -341,16 +341,45 @@ public extension String {
     
     /// String representation of self with XML special characters escaped.
     var xmlEscaped: String {
-        // we need to make sure "&" is escaped first. Not doing this may break escaping the other characters
-        var escaped = replacingOccurrences(of: "&", with: "&amp;", options: .literal)
+        let scalars = unicodeScalars
         
-        // replace the other special characters and the whitespace that XML parsers would normalize
-        let escapeChars = ["<" : "&lt;", ">" : "&gt;", "'" : "&apos;", "\"" : "&quot;", "\n": "&#10;", "\r": "&#13;", "\t": "&#9;"]
-        for (char, echar) in escapeChars {
-            escaped = escaped.replacingOccurrences(of: char, with: echar, options: .literal)
+        // fast path: most values and attributes have nothing to escape
+        guard let firstIndex = scalars.firstIndex(where: { $0.xmlEscaped != nil }) else {
+            return self
+        }
+        
+        // single pass: copy the clean prefix, then escape the rest scalar by scalar
+        var escaped = String(scalars[..<firstIndex])
+        escaped.reserveCapacity(utf8.count + 16)
+        for scalar in scalars[firstIndex...] {
+            if let replacement = scalar.xmlEscaped {
+                escaped += replacement
+            } else {
+                escaped.unicodeScalars.append(scalar)
+            }
         }
         
         return escaped
+    }
+    
+}
+
+private extension Unicode.Scalar {
+    
+    /// XML entity for special characters and the whitespace that XML parsers would normalize
+    /// (`nil` if the scalar doesn't need escaping).
+    var xmlEscaped: String? {
+        switch self {
+        case "&": return "&amp;"
+        case "<": return "&lt;"
+        case ">": return "&gt;"
+        case "'": return "&apos;"
+        case "\"": return "&quot;"
+        case "\n": return "&#10;"
+        case "\r": return "&#13;"
+        case "\t": return "&#9;"
+        default: return nil
+        }
     }
     
 }
