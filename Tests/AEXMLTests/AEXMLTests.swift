@@ -134,6 +134,51 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(result, "Hello, ")
     }
     
+    func testXMLParserLeavesValueOfEmptyElementNil() throws {
+        let testDocument = try AEXMLDocument(xml: "<root><empty></empty><selfClosing /></root>")
+        
+        XCTAssertNil(testDocument.root["empty"].value)
+        XCTAssertNil(testDocument.root["selfClosing"].value)
+    }
+    
+    func testXMLParserTrimsWhitespaceOnlyValueToEmptyString() throws {
+        let testDocument = try AEXMLDocument(xml: "<root><blank>  \n  </blank></root>")
+        
+        XCTAssertEqual(testDocument.root["blank"].value, "")
+    }
+    
+    func testXMLParserJoinsValueSplitByEntityReferences() throws {
+        let testDocument = try AEXMLDocument(xml: "<root><text>a &amp; b &lt; c &gt; d &quot;e&quot; &apos;f&apos;</text></root>")
+        
+        XCTAssertEqual(testDocument.root["text"].value, "a & b < c > d \"e\" 'f'")
+    }
+    
+    func testXMLParserKeepsTextBeforeChildAndDropsTextAfterIt() throws {
+        let testDocument = try AEXMLDocument(xml: "<root><mixed> before <child>inner</child> after </mixed></root>")
+        
+        XCTAssertEqual(testDocument.root["mixed"].value, " before ")
+        XCTAssertEqual(testDocument.root["mixed"]["child"].value, "inner")
+    }
+    
+    func testXMLParserReadsLargeValueSplitIntoManyChunksFast() throws {
+        let repetitions = 100_000
+        let xml = "<root><text>" + String(repeating: "x &amp; ", count: repetitions) + "</text></root>"
+        
+        let start = Date()
+        let testDocument = try AEXMLDocument(xml: xml)
+        let elapsed = Date().timeIntervalSince(start)
+        
+        XCTAssertEqual(testDocument.root["text"].value?.utf8.count, repetitions * 4 - 1)
+        XCTAssertLessThan(elapsed, 0.25, "Accumulating a value from many chunks should be linear in its size.")
+    }
+    
+    func testXMLParserKeepsPartialValueWhenParsingFails() {
+        let testDocument = AEXMLDocument()
+        
+        XCTAssertThrowsError(try testDocument.loadXML("<root><text>hello wor".data(using: .utf8)!))
+        XCTAssertEqual(testDocument.root["text"].value, "hello wor", "Text found before the error should stay in the partial document.")
+    }
+    
     private func whitespaceResult(shouldTrimWhitespace: Bool) -> String?{
         do {
             var options = AEXMLOptions()
@@ -463,6 +508,52 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(escapedString, "&amp;&lt;&gt;&apos;&quot;")
     }
     
+    
+    func testXMLEscapedStringEscapesWhitespaceControlCharacters() {
+        XCTAssertEqual("a\nb\rc\td".xmlEscaped, "a&#10;b&#13;c&#9;d")
+    }
+    
+    func testXMLEscapedStringKeepsStringWithoutSpecialCharacters() {
+        let string = "Plain text with unicode: Žđšćč, 日本語, 👨‍👩‍👧 and spaces"
+        XCTAssertEqual(string.xmlEscaped, string)
+    }
+    
+    func testXMLEscapedStringEscapesSpecialCharactersAmongUnicode() {
+        XCTAssertEqual("Žđ<šćč>&日本語'👨‍👩‍👧\"".xmlEscaped, "Žđ&lt;šćč&gt;&amp;日本語&apos;👨‍👩‍👧&quot;")
+    }
+    
+    func testXMLEscapedStringEscapesAlreadyEscapedEntities() {
+        XCTAssertEqual("&amp;&lt;".xmlEscaped, "&amp;amp;&amp;lt;")
+    }
+    
+    func testXMLEscapedStringOnEmptyString() {
+        XCTAssertEqual("".xmlEscaped, "")
+    }
+    
+    func testXMLEscapedStringOfLongString() {
+        let chunk = "Lorem ipsum <dolor> sit & amet, \"consectetur\" 'adipiscing' elit.\n"
+        let string = String(repeating: chunk, count: 20_000)
+        
+        let escaped = string.xmlEscaped
+        
+        XCTAssertTrue(escaped.hasPrefix("Lorem ipsum &lt;dolor&gt; sit &amp; amet, &quot;consectetur&quot; &apos;adipiscing&apos; elit.&#10;"))
+        XCTAssertEqual(escaped.utf8.count, string.utf8.count + 20_000 * (3 + 3 + 4 + 10 + 10 + 4))
+    }
+    
+    func testXMLEscapedStringOfManyShortStringsIsFast() {
+        let strings = (0..<100_000).map { "Plant number \($0) in zone" }
+        
+        let start = Date()
+        var totalCount = 0
+        for string in strings {
+            totalCount += string.xmlEscaped.utf8.count
+        }
+        let elapsed = Date().timeIntervalSince(start)
+        
+        XCTAssertEqual(totalCount, strings.reduce(0) { $0 + $1.utf8.count })
+        XCTAssertLessThan(elapsed, 0.1, "Escaping many short strings should not pay a per-call Foundation overhead.")
+    }
+    
     func testXMLString() {
         let testDocument = AEXMLDocument()
         let children = testDocument.addChild(name: "children")
@@ -488,6 +579,128 @@ class AEXMLTests: XCTestCase {
             XCTAssertEqual(parsedDocument.root.value, "a\tb\r\nc", "Should keep tabs and carriage returns in values.")
             XCTAssertEqual(parsedDocument.root.attributes["attribute"], "x\ty\rz", "Should keep tabs and carriage returns in attributes.")
         }
+    }
+    
+    func testXMLStringOfNestedDocument() {
+        let testDocument = AEXMLDocument()
+        let root = testDocument.addChild(name: "root")
+        let level1 = root.addChild(name: "level1", attributes: ["b" : "2", "a" : "1"])
+        let level2 = level1.addChild(name: "level2")
+        level2.addChild(name: "leaf", value: "value")
+        level2.addChild(name: "empty")
+        root.addChild(name: "sibling", value: "")
+        
+        XCTAssertEqual(testDocument.xml, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<root>\n\t<level1 a=\"1\" b=\"2\">\n\t\t<level2>\n\t\t\t<leaf>value</leaf>\n\t\t\t<empty />\n\t\t</level2>\n\t</level1>\n\t<sibling></sibling>\n</root>")
+    }
+    
+    func testXMLStringVariantsOfNestedDocument() {
+        let testDocument = AEXMLDocument()
+        let root = testDocument.addChild(name: "root")
+        let level1 = root.addChild(name: "level1", attributes: ["a" : "1"])
+        level1.addChild(name: "leaf", value: "value")
+        level1.addChild(name: "empty")
+        
+        let header = "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>"
+        XCTAssertEqual(testDocument.xmlCompact, header + "<root><level1 a=\"1\"><leaf>value</leaf><empty /></level1></root>")
+        XCTAssertEqual(testDocument.xmlSpaces, header + "\n<root>\n    <level1 a=\"1\">\n        <leaf>value</leaf>\n        <empty />\n    </level1>\n</root>")
+        XCTAssertEqual(testDocument.xmlDoubleSpace, header + "\n<root>\n  <level1 a=\"1\">\n    <leaf>value</leaf>\n    <empty />\n  </level1>\n</root>")
+        
+        XCTAssertEqual(level1.xmlCompact, "<level1 a=\"1\"><leaf>value</leaf><empty /></level1>")
+        XCTAssertEqual(level1.xmlSpaces, "    <level1 a=\"1\">\n        <leaf>value</leaf>\n        <empty />\n    </level1>")
+        XCTAssertEqual(level1.xmlDoubleSpace, "  <level1 a=\"1\">\n    <leaf>value</leaf>\n    <empty />\n  </level1>")
+    }
+    
+    private class CommentedElement: AEXMLElement {
+        override func appendXML(to xml: inout String, depth: Int, format: AEXMLFormat) {
+            xml += "<!-- \(name) -->\(format.newline)"
+            super.appendXML(to: &xml, depth: depth, format: format)
+        }
+    }
+    
+    func testSubclassSerializationIsUsedInsideParentAndAllVariants() {
+        let testDocument = AEXMLDocument()
+        let root = testDocument.addChild(name: "root")
+        root.addChild(CommentedElement(name: "custom", value: "value"))
+        root.addChild(name: "plain")
+        
+        let header = "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>"
+        XCTAssertEqual(testDocument.xml, header + "\n<root>\n<!-- custom -->\n\t<custom>value</custom>\n\t<plain />\n</root>")
+        XCTAssertEqual(testDocument.xmlCompact, header + "<root><!-- custom --><custom>value</custom><plain /></root>")
+        XCTAssertEqual(testDocument.xmlSpaces, header + "\n<root>\n<!-- custom -->\n    <custom>value</custom>\n    <plain />\n</root>")
+        XCTAssertEqual(root["custom"].xml, "<!-- custom -->\n\t<custom>value</custom>")
+    }
+    
+    func testXMLCompactIsNotSlowerThanXML() {
+        let testDocument = AEXMLDocument()
+        let catalog = testDocument.addChild(name: "catalog")
+        for i in 0..<20_000 {
+            let plant = catalog.addChild(name: "plant", attributes: ["id" : "\(i)"])
+            plant.addChild(name: "common", value: "Bloodroot \(i)")
+            plant.addChild(name: "botanical", value: "Sanguinaria canadensis")
+            plant.addChild(name: "zone", value: "4")
+            plant.addChild(name: "price", value: "$2.44")
+        }
+        
+        func bestTime(of body: () -> String) -> TimeInterval {
+            var best = TimeInterval.infinity
+            for _ in 0..<3 {
+                let start = Date()
+                _ = body()
+                best = min(best, Date().timeIntervalSince(start))
+            }
+            return best
+        }
+        
+        let xmlTime = bestTime { testDocument.xml }
+        let compactTime = bestTime { testDocument.xmlCompact }
+        
+        XCTAssertLessThan(compactTime, xmlTime * 1.4, "Compact output should be written directly, not post-processed from formatted output.")
+    }
+    
+    func testXMLStringOfNestedElementIsIndentedByItsDepth() {
+        let testDocument = AEXMLDocument()
+        let root = testDocument.addChild(name: "root")
+        let level1 = root.addChild(name: "level1")
+        level1.addChild(name: "leaf", value: "value")
+        
+        XCTAssertEqual(root.xml, "<root>\n\t<level1>\n\t\t<leaf>value</leaf>\n\t</level1>\n</root>")
+        XCTAssertEqual(level1.xml, "\t<level1>\n\t\t<leaf>value</leaf>\n\t</level1>")
+        XCTAssertEqual(level1["leaf"].xml, "\t\t<leaf>value</leaf>")
+    }
+    
+    func testXMLStringOfDetachedElementIndentsRelativeToDocument() {
+        let element = AEXMLElement(name: "parent", attributes: ["key" : "value"])
+        element.addChild(name: "child", value: "text")
+        element.addChild(name: "child")
+        
+        XCTAssertEqual(element.xml, "<parent key=\"value\">\n<child>text</child>\n<child />\n</parent>")
+        XCTAssertEqual(element.xmlCompact, "<parent key=\"value\"><child>text</child><child /></parent>")
+        XCTAssertEqual(element.xmlSpaces, "<parent key=\"value\">\n<child>text</child>\n<child />\n</parent>")
+        XCTAssertEqual(element.xmlDoubleSpace, "<parent key=\"value\">\n<child>text</child>\n<child />\n</parent>")
+    }
+    
+    func testXMLStringOfElementWithChildrenIgnoresValue() {
+        let element = AEXMLElement(name: "parent", value: "ignored")
+        element.addChild(name: "child")
+        
+        XCTAssertEqual(element.xml, "<parent>\n<child />\n</parent>")
+    }
+    
+    func testXMLStringOfDeeplyNestedDocumentIsFast() {
+        let testDocument = AEXMLDocument()
+        var current: AEXMLElement = testDocument
+        for _ in 0..<4000 {
+            current = current.addChild(name: "e")
+        }
+        current.value = "leaf"
+        
+        let start = Date()
+        let xml = testDocument.xml
+        let elapsed = Date().timeIntervalSince(start)
+        
+        XCTAssertTrue(xml.contains("<e>leaf</e>\n"))
+        XCTAssertTrue(xml.hasSuffix("\n\t</e>\n</e>"))
+        XCTAssertLessThan(elapsed, 0.5, "Serializing a deeply nested document should scale with its output size.")
     }
     
     // MARK: - XML Parse Performance
