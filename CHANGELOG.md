@@ -1,5 +1,18 @@
 # Changelog
 
+## Version 4.7.3
+- Merged: #194
+
+## Version 4.7.2
+
+- Update project for Xcode 27
+- Bump deployment targets
+- Fix example demo project
+
+## Version 4.7.1
+
+- Merged: #193
+
 ## Version 4.7.0
 
 - Merged: #183, #186

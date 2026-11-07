@@ -50,6 +50,11 @@
 		8B79A7DA2B571A3E00826C72 /* Builders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B79A7D82B571A3E00826C72 /* Builders.swift */; };
 		8B79A7DB2B571A3E00826C72 /* Builders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B79A7D82B571A3E00826C72 /* Builders.swift */; };
 		8B79A7DC2B571A3E00826C72 /* Builders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B79A7D82B571A3E00826C72 /* Builders.swift */; };
+		61118209290D05F9FF8C2731 /* AEXMLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B080D482150489F009B8DBB /* AEXMLTests.swift */; };
+		7CF7D53853F6B3E8EAEF2660 /* AEXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B4A92DF1BDD5D330011F36F /* AEXML.framework */; };
+		E73012EF09B870998ECE2837 /* example.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8B080D3621504733009B8DBB /* example.xml */; };
+		6185D37074128B7FE30F9E46 /* whitespace_examples.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8B080D3821504733009B8DBB /* whitespace_examples.xml */; };
+		40E18B7BF85B8B9527D122C8 /* plant_catalog.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8B080D3721504733009B8DBB /* plant_catalog.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +78,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8B4A92BD1BDD5B300011F36F;
 			remoteInfo = "AEXML tvOS";
+		};
+		C3EF54EC310F5BAF2C006289 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8BFE78A119F0054100914487 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8B4A92DE1BDD5D330011F36F;
+			remoteInfo = "AEXML watchOS";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -102,6 +114,7 @@
 		8BD7A14319F0093F005F73F4 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		8BD7A14419F0093F005F73F4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8BDEBA8C1AEC588700A12D92 /* AEXML.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AEXML.podspec; sourceTree = "<group>"; };
+		356B5E9831F9084C077C1BC8 /* AEXML watchOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AEXML watchOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +167,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8FF992CB8DCBAE4C124B4E62 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7CF7D53853F6B3E8EAEF2660 /* AEXML.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,6 +275,7 @@
 				8B4A92BE1BDD5B300011F36F /* AEXML.framework */,
 				8B4A92CC1BDD5BB20011F36F /* AEXML tvOS Tests.xctest */,
 				8B4A92DF1BDD5D330011F36F /* AEXML.framework */,
+				356B5E9831F9084C077C1BC8 /* AEXML watchOS Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -422,6 +444,24 @@
 			productReference = 8B4A92DF1BDD5D330011F36F /* AEXML.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		3AC12BA32F9A002EF79A337C /* AEXML watchOS Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B7498F7514B2C2226CFDEB5C /* Build configuration list for PBXNativeTarget "AEXML watchOS Tests" */;
+			buildPhases = (
+				AFD219D1A28267B51EA1C0BA /* Sources */,
+				8FF992CB8DCBAE4C124B4E62 /* Frameworks */,
+				353DF2FEFDCEF1D3AC550C7C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B0AC6507B4182E91FB4F5DF6 /* PBXTargetDependency */,
+			);
+			name = "AEXML watchOS Tests";
+			productName = "AEXML watchOS Tests";
+			productReference = 356B5E9831F9084C077C1BC8 /* AEXML watchOS Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -430,7 +470,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 1520;
+				LastUpgradeCheck = 2700;
 				ORGANIZATIONNAME = AE;
 				TargetAttributes = {
 					8B4A92781BDD47210011F36F = {
@@ -463,6 +503,9 @@
 						CreatedOnToolsVersion = 7.1;
 						LastSwiftMigration = 0800;
 					};
+					3AC12BA32F9A002EF79A337C = {
+						CreatedOnToolsVersion = 7.1;
+					};
 				};
 			};
 			buildConfigurationList = 8BFE78A419F0054100914487 /* Build configuration list for PBXProject "AEXML" */;
@@ -485,6 +528,7 @@
 				8B4A92981BDD4CEF0011F36F /* AEXML iOS Tests */,
 				8B4A92AA1BDD54F50011F36F /* AEXML macOS Tests */,
 				8B4A92CB1BDD5BB20011F36F /* AEXML tvOS Tests */,
+				3AC12BA32F9A002EF79A337C /* AEXML watchOS Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -545,6 +589,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		353DF2FEFDCEF1D3AC550C7C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E73012EF09B870998ECE2837 /* example.xml in Resources */,
+				6185D37074128B7FE30F9E46 /* whitespace_examples.xml in Resources */,
+				40E18B7BF85B8B9527D122C8 /* plant_catalog.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -627,6 +681,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AFD219D1A28267B51EA1C0BA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				61118209290D05F9FF8C2731 /* AEXMLTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -645,6 +707,11 @@
 			target = 8B4A92BD1BDD5B300011F36F /* AEXML tvOS */;
 			targetProxy = 8B4A92D21BDD5BB20011F36F /* PBXContainerItemProxy */;
 		};
+		B0AC6507B4182E91FB4F5DF6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8B4A92DE1BDD5D330011F36F /* AEXML watchOS */;
+			targetProxy = C3EF54EC310F5BAF2C006289 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -652,6 +719,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_IDENTITY = "";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -678,6 +746,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
@@ -769,7 +838,6 @@
 		8B4A92A11BDD4CEF0011F36F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -789,7 +857,6 @@
 		8B4A92A21BDD4CEF0011F36F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
@@ -812,7 +879,6 @@
 		8B4A92B31BDD54F50011F36F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -832,7 +898,6 @@
 		8B4A92B41BDD54F50011F36F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
@@ -856,6 +921,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_IDENTITY = "";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -884,6 +950,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
@@ -914,7 +981,6 @@
 		8B4A92D51BDD5BB20011F36F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -935,7 +1001,6 @@
 		8B4A92D61BDD5BB20011F36F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
@@ -960,6 +1025,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
@@ -991,6 +1057,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -1070,19 +1137,20 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 4.7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 4.7.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = XCODE;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TVOS_DEPLOYMENT_TARGET = 12.0;
+				TVOS_DEPLOYMENT_TARGET = 15.0;
 				VERSIONING_SYSTEM = "apple-generic";
-				WATCHOS_DEPLOYMENT_TARGET = 4.0;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
 		};
@@ -1128,18 +1196,62 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 4.7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 4.7.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = XCODE;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TVOS_DEPLOYMENT_TARGET = 12.0;
+				TVOS_DEPLOYMENT_TARGET = 15.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
-				WATCHOS_DEPLOYMENT_TARGET = 4.0;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Release;
+		};
+		2F0D18F9A14895DB46BC8306 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Resources/AEXMLTests.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "net.tadija.AEXML-watchOS-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = watchos;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Debug;
+		};
+		B3C6D6247013117C45548388 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Resources/AEXMLTests.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "net.tadija.AEXML-watchOS-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = watchos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = 4;
 			};
 			name = Release;
 		};
@@ -1214,6 +1326,15 @@
 			buildConfigurations = (
 				8BFE78C619F0054200914487 /* Debug */,
 				8BFE78C719F0054200914487 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B7498F7514B2C2226CFDEB5C /* Build configuration list for PBXNativeTarget "AEXML watchOS Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2F0D18F9A14895DB46BC8306 /* Debug */,
+				B3C6D6247013117C45548388 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
