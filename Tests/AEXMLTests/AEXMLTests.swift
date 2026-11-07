@@ -66,7 +66,7 @@ class AEXMLTests {
         let testDocument = AEXMLDocument()
         try testDocument.loadXML(data)
 
-        let root = try testDocument.root
+        let root = testDocument.root
         #expect(root.name == "animals")
     }
 
@@ -86,7 +86,7 @@ class AEXMLTests {
         let testDocument = try AEXMLDocument(xml: "<foo><bar>hello</bar></foo>", options: options)
         #expect(testDocument.xml == "<?xml version=\"2.0\" encoding=\"utf-16\" standalone=\"yes\"?>\n<foo>\n\t<bar>hello</bar>\n</foo>")
 
-        let firstString = try testDocument.root["bar"].first?.string
+        let firstString = testDocument.root["bar"].first?.string
         #expect(firstString == "hello")
     }
 
@@ -99,7 +99,7 @@ class AEXMLTests {
         let parser = AEXMLParser(document: testDocument, data: data)
         try parser.parse()
 
-        let rootName = try testDocument.root.name
+        let rootName = testDocument.root.name
         #expect(rootName == "animals")
     }
 
@@ -126,7 +126,7 @@ class AEXMLTests {
         let parser = AEXMLParser(document: testDocument, data: data)
         try parser.parse()
 
-        return try testDocument.root["text"].first?.string
+        return testDocument.root["text"].first?.string
     }
 
     @Test
@@ -143,26 +143,24 @@ class AEXMLTests {
 
     @Test
     func testRootElement() throws {
-        let root = try exampleDocument.root
+        let root = exampleDocument.root
         #expect(root.name == "animals")
 
         let documentWithoutRootElement = AEXMLDocument()
-        #expect(throws: AEXMLError.rootElementMissing) {
-            try documentWithoutRootElement.root
-        }
+        #expect(documentWithoutRootElement.root.error == .rootElementMissing)
     }
 
     @Test
     func testParentElement() throws {
-        let root = try exampleDocument.root
-        let cats = try root["cats"]
+        let root = exampleDocument.root
+        let cats = root["cats"]
         let parent = try #require(cats.parent)
         #expect(parent.name == "animals")
     }
 
     @Test
     func testChildrenElements() throws {
-        let cats = try exampleDocument.root["cats"]
+        let cats = exampleDocument.root["cats"]
         var count = 0
         for _ in cats.children {
             count += 1
@@ -172,13 +170,13 @@ class AEXMLTests {
 
     @Test
     func testName() throws {
-        let secondChildElementName = try exampleDocument.root.children[1].name
+        let secondChildElementName = exampleDocument.root.children[1].name
         #expect(secondChildElementName == "dogs", "Should be able to return element name.")
     }
 
     @Test
     func testAttributes() throws {
-        let firstCatAttributes = try exampleDocument.root["cats"]["cat"].attributes
+        let firstCatAttributes = exampleDocument.root["cats"]["cat"].attributes
 
         // iterate attributes
         var count = 0
@@ -194,92 +192,91 @@ class AEXMLTests {
 
     @Test
     func testValue() throws {
-        let firstPlant = try plantsDocument.root["PLANT"]
+        let firstPlant = plantsDocument.root["PLANT"]
 
-        let firstPlantCommon = try firstPlant["COMMON"].value
+        let firstPlantCommon = firstPlant["COMMON"].value
         #expect(firstPlantCommon == "Bloodroot", "Should be able to return element value as optional string.")
 
-        let firstPlantElementWithoutValue = try firstPlant["ELEMENTWITHOUTVALUE"].value
+        let firstPlantElementWithoutValue = firstPlant["ELEMENTWITHOUTVALUE"].value
         #expect(firstPlantElementWithoutValue == nil, "Should be able to have nil value.")
 
-        let firstPlantEmptyElement = try firstPlant["EMPTYELEMENT"].value
+        let firstPlantEmptyElement = firstPlant["EMPTYELEMENT"].value
         #expect(firstPlantEmptyElement == nil, "Should be able to have nil value.")
     }
 
     @Test
     func testStringValue() throws {
-        let firstPlant = try plantsDocument.root["PLANT"]
+        let firstPlant = plantsDocument.root["PLANT"]
 
-        let firstPlantCommon = try firstPlant["COMMON"].string
+        let firstPlantCommon = firstPlant["COMMON"].string
         #expect(firstPlantCommon == "Bloodroot", "Should be able to return element value as string.")
 
-        let firstPlantElementWithoutValue = try firstPlant["ELEMENTWITHOUTVALUE"].string
+        let firstPlantElementWithoutValue = firstPlant["ELEMENTWITHOUTVALUE"].string
         #expect(firstPlantElementWithoutValue == "", "Should be able to return empty string if element has no value.")
 
-        let firstPlantEmptyElement = try firstPlant["EMPTYELEMENT"].string
+        let firstPlantEmptyElement = firstPlant["EMPTYELEMENT"].string
         #expect(firstPlantEmptyElement == String(), "Should be able to return empty string if element has no value.")
     }
 
     @Test
     func testBoolValue() throws {
-        let root = try plantsDocument.root
+        let root = plantsDocument.root
 
-        let firstTrueString = try root["PLANT"]["TRUESTRING"].bool
+        let firstTrueString = root["PLANT"]["TRUESTRING"].bool
         #expect(firstTrueString == true, "Should be able to cast element value as Bool.")
 
-        let firstFalseString = try root["PLANT"]["FALSESTRING"].bool
+        let firstFalseString = root["PLANT"]["FALSESTRING"].bool
         #expect(firstFalseString == false, "Should be able to cast element value as Bool.")
 
-        let firstTrueString2 = try root["PLANT"]["TRUESTRING2"].bool
+        let firstTrueString2 = root["PLANT"]["TRUESTRING2"].bool
         #expect(firstTrueString2 == true, "Should be able to cast element value as Bool.")
 
-        let firstFalseString2 = try root["PLANT"]["FALSESTRING2"].bool
+        let firstFalseString2 = root["PLANT"]["FALSESTRING2"].bool
         #expect(firstFalseString2 == false, "Should be able to cast element value as Bool.")
 
-        let firstTrueInt = try root["PLANT"]["TRUEINT"].bool
+        let firstTrueInt = root["PLANT"]["TRUEINT"].bool
         #expect(firstTrueInt == true, "Should be able to cast element value as Bool.")
 
-        let firstFalseInt = try root["PLANT"]["FALSEINT"].bool
+        let firstFalseInt = root["PLANT"]["FALSEINT"].bool
         #expect(firstFalseInt == false, "Should be able to cast element value as Bool.")
 
-        let firstElementWithoutValue = try root["PLANT"]["ELEMENTWITHOUTVALUE"].bool
+        let firstElementWithoutValue = root["PLANT"]["ELEMENTWITHOUTVALUE"].bool
         #expect(firstElementWithoutValue == nil, "Should be able to return nil if value can't be represented as Bool.")
     }
 
     @Test
     func testIntValue() throws {
-        let firstPlantZone = try plantsDocument.root["PLANT"]["ZONE"].int
+        let firstPlantZone = plantsDocument.root["PLANT"]["ZONE"].int
         #expect(firstPlantZone == 4, "Should be able to cast element value as Integer.")
 
-        let firstPlantPrice = try plantsDocument.root["PLANT"]["PRICE"].int
+        let firstPlantPrice = plantsDocument.root["PLANT"]["PRICE"].int
         #expect(firstPlantPrice == nil, "Should be able to return nil if value can't be represented as Integer.")
     }
 
     @Test
     func testDoubleValue() throws {
-        let firstPlantPrice = try plantsDocument.root["PLANT"]["PRICE"].double
+        let firstPlantPrice = plantsDocument.root["PLANT"]["PRICE"].double
         #expect(firstPlantPrice == 2.44, "Should be able to cast element value as Double.")
 
-        let firstPlantBotanical = try plantsDocument.root["PLANT"]["BOTANICAL"].double
+        let firstPlantBotanical = plantsDocument.root["PLANT"]["BOTANICAL"].double
         #expect(firstPlantBotanical == nil, "Should be able to return nil if value can't be represented as Double.")
     }
 
     @Test
     func testNotExistingElement() {
         // non-optional
-        #expect(throws: AEXMLError.elementNotFound) {
-            try exampleDocument.root["ducks"]["duck"]
-        }
+        let nonOptional = exampleDocument.root["ducks"]["duck"]
+        #expect(nonOptional.error == .elementNotFound)
 
         // optional
-        let optional = try? exampleDocument.root["ducks"]["duck"].first
+        let optional = exampleDocument.root["ducks"]["duck"].first
         #expect(optional == nil)
     }
 
     @Test
     func testAllElements() throws {
         var count = 0
-        let cats = try exampleDocument.root["cats"]["cat"]
+        let cats = exampleDocument.root["cats"]["cat"]
         let allCats = try #require(cats.all)
         for cat in allCats {
             #expect(cat.parent != nil, "Each child element should have its parent element.")
@@ -290,7 +287,7 @@ class AEXMLTests {
 
     @Test
     func testFirstElement() throws {
-        let catElement = try exampleDocument.root["cats"]["cat"]
+        let catElement = exampleDocument.root["cats"]["cat"]
         let firstCatExpectedValue = "Tinna"
         
         // non-optional
@@ -303,36 +300,36 @@ class AEXMLTests {
 
     @Test
     func testLastElement() throws {
-        let dogs = try exampleDocument.root["dogs"]["dog"]
+        let dogs = exampleDocument.root["dogs"]["dog"]
         #expect(dogs.last?.string == "Kika", "Should be able to find the last element.")
     }
 
     @Test
     func testCountElements() throws {
-        let dogsCount = try exampleDocument.root["dogs"]["dog"].count
+        let dogsCount = exampleDocument.root["dogs"]["dog"].count
         #expect(dogsCount == 4, "Should be able to count elements.")
     }
 
     @Test
     func testAllWithValue() throws {
-        let cats = try exampleDocument.root["cats"]
+        let cats = exampleDocument.root["cats"]
         cats.addChild(name: "cat", value: "Tinna")
 
-        let catsElement = try cats["cat"]
+        let catsElement = cats["cat"]
         let tinnas = try #require(catsElement.all(withValue: "Tinna"))
         #expect(tinnas.count == 2, "Should be able to return elements with given value.")
     }
 
     @Test
     func testAllWithAttributes() throws {
-        let dogElements = try exampleDocument.root["dogs"]["dog"]
+        let dogElements = exampleDocument.root["dogs"]["dog"]
         let bulls = try #require(dogElements.all(withAttributes: ["color" : "white"]))
         #expect(bulls.count == 2, "Should be able to return elements with given attributes.")
     }
 
     @Test
     func testAllContainingAttributes() throws {
-        let dogElements = try exampleDocument.root["dogs"]["dog"]
+        let dogElements = exampleDocument.root["dogs"]["dog"]
         let bulls = try #require(dogElements.all(containingAttributeKeys: ["gender"]))
         #expect(bulls.count == 2, "Should be able to return elements with given attribute keys.")
     }
@@ -346,8 +343,8 @@ class AEXMLTests {
 
     @Test
     func testFirstDescendantWherePredicate() throws {
-        let descendant = try plantsDocument.root.firstDescendant { $0.hasDescendant { $0.name == "LIGHT" && $0.value == "Sunny" } }
-        let plantName = try descendant?["COMMON"].value
+        let descendant = plantsDocument.root.firstDescendant { $0.hasDescendant { $0.name == "LIGHT" && $0.value == "Sunny" } }
+        let plantName = descendant?["COMMON"].value
 
         #expect(plantName == "Black-Eyed Susan", "Should be able to find first child satisfying predicate.")
     }
@@ -372,30 +369,30 @@ class AEXMLTests {
 
     @Test
     func testAddChild() throws {
-        let ducks = try exampleDocument.root.addChild(name: "ducks")
+        let ducks = exampleDocument.root.addChild(name: "ducks")
         ducks.addChild(name: "duck", value: "Donald")
         ducks.addChild(name: "duck", value: "Daisy")
         ducks.addChild(name: "duck", value: "Scrooge")
         
-        let animalsCount = try exampleDocument.root.children.count
+        let animalsCount = exampleDocument.root.children.count
         #expect(animalsCount == 3, "Should be able to add child elements to an element.")
 
-        let resultDucks = try exampleDocument.root["ducks"]["duck"]
+        let resultDucks = exampleDocument.root["ducks"]["duck"]
         #expect(resultDucks.last?.string == "Scrooge", "Should be able to iterate ducks now.")
     }
 
     @Test
     func testAddChildWithAttributes() throws {
-        let cats = try exampleDocument.root["cats"]
-        let dogs = try exampleDocument.root["dogs"]
+        let cats = exampleDocument.root["cats"]
+        let dogs = exampleDocument.root["dogs"]
 
         cats.addChild(name: "cat", value: "Garfield", attributes: ["breed" : "tabby", "color" : "orange"])
         dogs.addChild(name: "dog", value: "Snoopy", attributes: ["breed" : "beagle", "color" : "white"])
         
-        let catsCount = try cats["cat"].count
-        let dogsCount = try dogs["dog"].count
+        let catsCount = cats["cat"].count
+        let dogsCount = dogs["dog"].count
 
-        let lastCat = try cats["cat"].last!
+        let lastCat = cats["cat"].last!
         let penultDog = dogs.children[3]
         
         #expect(catsCount == 5, "Should be able to add child element with attributes to an element.")
@@ -412,15 +409,15 @@ class AEXMLTests {
             AEXMLElement(name: "birds"),
             AEXMLElement(name: "bugs"),
         ]
-        try exampleDocument.root.addChildren(animals)
+        exampleDocument.root.addChildren(animals)
 
-        let animalsCount = try exampleDocument.root.children.count
+        let animalsCount = exampleDocument.root.children.count
         #expect(animalsCount == 5, "Should be able to add children elements to an element.")
     }
 
     @Test
     func testAddAttributes() throws {
-        let firstCat = try exampleDocument.root["cats"]["cat"]
+        let firstCat = exampleDocument.root["cats"]["cat"]
 
         firstCat.attributes["funny"] = "true"
         firstCat.attributes["speed"] = "fast"
@@ -434,15 +431,15 @@ class AEXMLTests {
 
     @Test
     func testRemoveChild() throws {
-        let cats = try exampleDocument.root["cats"]
-        let lastCat = try cats["cat"].last!
+        let cats = exampleDocument.root["cats"]
+        let lastCat = cats["cat"].last!
         let duplicateCat = cats.addChild(name: "cat", value: "Tinna", attributes: ["breed" : "Siberian", "color" : "lightgray"])
         
         lastCat.removeFromParent()
         duplicateCat.removeFromParent()
         
-        let catsCount = try cats["cat"].count
-        let firstCat = try cats["cat"]
+        let catsCount = cats["cat"].count
+        let firstCat = cats["cat"]
         #expect(catsCount == 3, "Should be able to remove element from parent.")
         #expect(firstCat.string == "Tinna", "Should be able to remove the exact element from parent.")
     }
@@ -470,15 +467,16 @@ class AEXMLTests {
 
         #expect(testDocument.xmlDoubleSpace == "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<children>\n  <child attribute=\"attributeValue&lt;&amp;&gt;\">value</child>\n  <child />\n  <child>&amp;&lt;&gt;&apos;&quot;&#10;</child>\n</children>", "Should be able to print XML formatted string.")
     }
-    
+
+    @Test
     func testXMLStringKeepsTabsAndCarriageReturns() throws {
         let testDocument = AEXMLDocument()
         testDocument.addChild(name: "child", value: "a\tb\r\nc", attributes: ["attribute" : "x\ty\rz"])
 
         for xml in [testDocument.xml, testDocument.xmlCompact, testDocument.xmlSpaces, testDocument.xmlDoubleSpace] {
             let parsedDocument = try AEXMLDocument(xml: xml)
-            XCTAssertEqual(parsedDocument.root.value, "a\tb\r\nc", "Should keep tabs and carriage returns in values.")
-            XCTAssertEqual(parsedDocument.root.attributes["attribute"], "x\ty\rz", "Should keep tabs and carriage returns in attributes.")
+            #expect(parsedDocument.root.value == "a\tb\r\nc", "Should keep tabs and carriage returns in values.")
+            #expect(parsedDocument.root.attributes["attribute"] == "x\ty\rz", "Should keep tabs and carriage returns in attributes.")
         }
     }
     
