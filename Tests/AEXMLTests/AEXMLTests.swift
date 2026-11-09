@@ -101,6 +101,39 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(result, "Hello, ")
     }
     
+    func testXMLParserLeavesValueOfEmptyElementNil() throws {
+        let testDocument = try AEXMLDocument(xml: "<root><empty></empty><selfClosing /></root>")
+        
+        XCTAssertNil(testDocument.root["empty"].value)
+        XCTAssertNil(testDocument.root["selfClosing"].value)
+    }
+    
+    func testXMLParserTrimsWhitespaceOnlyValueToEmptyString() throws {
+        let testDocument = try AEXMLDocument(xml: "<root><blank>  \n  </blank></root>")
+        
+        XCTAssertEqual(testDocument.root["blank"].value, "")
+    }
+    
+    func testXMLParserJoinsValueSplitByEntityReferences() throws {
+        let testDocument = try AEXMLDocument(xml: "<root><text>a &amp; b &lt; c &gt; d &quot;e&quot; &apos;f&apos;</text></root>")
+        
+        XCTAssertEqual(testDocument.root["text"].value, "a & b < c > d \"e\" 'f'")
+    }
+    
+    func testXMLParserKeepsTextBeforeChildAndDropsTextAfterIt() throws {
+        let testDocument = try AEXMLDocument(xml: "<root><mixed> before <child>inner</child> after </mixed></root>")
+        
+        XCTAssertEqual(testDocument.root["mixed"].value, " before ")
+        XCTAssertEqual(testDocument.root["mixed"]["child"].value, "inner")
+    }
+    
+    func testXMLParserKeepsPartialValueWhenParsingFails() {
+        let testDocument = AEXMLDocument()
+        
+        XCTAssertThrowsError(try testDocument.loadXML("<root><text>hello wor".data(using: .utf8)!))
+        XCTAssertEqual(testDocument.root["text"].value, "hello wor", "Text found before the error should stay in the partial document.")
+    }
+    
     private func whitespaceResult(shouldTrimWhitespace: Bool) -> String?{
         do {
             var options = AEXMLOptions()
