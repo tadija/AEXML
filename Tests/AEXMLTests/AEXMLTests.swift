@@ -533,6 +533,43 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(testDocument.xml, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<root>\n\t<level1 a=\"1\" b=\"2\">\n\t\t<level2>\n\t\t\t<leaf>value</leaf>\n\t\t\t<empty />\n\t\t</level2>\n\t</level1>\n\t<sibling></sibling>\n</root>")
     }
     
+    func testXMLStringVariantsOfNestedDocument() {
+        let testDocument = AEXMLDocument()
+        let root = testDocument.addChild(name: "root")
+        let level1 = root.addChild(name: "level1", attributes: ["a" : "1"])
+        level1.addChild(name: "leaf", value: "value")
+        level1.addChild(name: "empty")
+        
+        let header = "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>"
+        XCTAssertEqual(testDocument.xmlCompact, header + "<root><level1 a=\"1\"><leaf>value</leaf><empty /></level1></root>")
+        XCTAssertEqual(testDocument.xmlSpaces, header + "\n<root>\n    <level1 a=\"1\">\n        <leaf>value</leaf>\n        <empty />\n    </level1>\n</root>")
+        XCTAssertEqual(testDocument.xmlDoubleSpace, header + "\n<root>\n  <level1 a=\"1\">\n    <leaf>value</leaf>\n    <empty />\n  </level1>\n</root>")
+        
+        XCTAssertEqual(level1.xmlCompact, "<level1 a=\"1\"><leaf>value</leaf><empty /></level1>")
+        XCTAssertEqual(level1.xmlSpaces, "    <level1 a=\"1\">\n        <leaf>value</leaf>\n        <empty />\n    </level1>")
+        XCTAssertEqual(level1.xmlDoubleSpace, "  <level1 a=\"1\">\n    <leaf>value</leaf>\n    <empty />\n  </level1>")
+    }
+    
+    private class CommentedElement: AEXMLElement {
+        override func appendXML(to xml: inout String, depth: Int, format: AEXMLFormat) {
+            xml += "<!-- \(name) -->\(format.newline)"
+            super.appendXML(to: &xml, depth: depth, format: format)
+        }
+    }
+    
+    func testSubclassSerializationIsUsedInsideParentAndAllVariants() {
+        let testDocument = AEXMLDocument()
+        let root = testDocument.addChild(name: "root")
+        root.addChild(CommentedElement(name: "custom", value: "value"))
+        root.addChild(name: "plain")
+        
+        let header = "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>"
+        XCTAssertEqual(testDocument.xml, header + "\n<root>\n<!-- custom -->\n\t<custom>value</custom>\n\t<plain />\n</root>")
+        XCTAssertEqual(testDocument.xmlCompact, header + "<root><!-- custom --><custom>value</custom><plain /></root>")
+        XCTAssertEqual(testDocument.xmlSpaces, header + "\n<root>\n<!-- custom -->\n    <custom>value</custom>\n    <plain />\n</root>")
+        XCTAssertEqual(root["custom"].xml, "<!-- custom -->\n\t<custom>value</custom>")
+    }
+    
     func testXMLStringOfNestedElementIsIndentedByItsDepth() {
         let testDocument = AEXMLDocument()
         let root = testDocument.addChild(name: "root")
