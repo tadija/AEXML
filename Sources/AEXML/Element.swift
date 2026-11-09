@@ -165,12 +165,9 @@ open class AEXMLElement {
         - returns: Optional Array of found XML elements.
     */
     open func all(containingAttributeKeys keys: [String]) -> [AEXMLElement]? {
-        let found = all?.compactMap { element in
-            keys.reduce(true) { (result, key) in
-                result && Array(element.attributes.keys).contains(key)
-            } ? element : nil
+        return all?.filter { element in
+            keys.allSatisfy { element.attributes[$0] != nil }
         }
-        return found
     }
     
     /**
@@ -181,13 +178,9 @@ open class AEXMLElement {
         - returns: Optional Array of found XML elements.
     */
     open func all(withAttributes attributes: [String : String]) -> [AEXMLElement]? {
-        let keys = Array(attributes.keys)
-        let found = all(containingAttributeKeys: keys)?.compactMap { element in
-            attributes.reduce(true) { (result, attribute) in
-                result && element.attributes[attribute.key] == attribute.value
-            } ? element : nil
+        return all?.filter { element in
+            attributes.allSatisfy { element.attributes[$0.key] == $0.value }
         }
-        return found
     }
     
     /**
