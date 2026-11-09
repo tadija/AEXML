@@ -430,6 +430,37 @@ class AEXMLTests: XCTestCase {
         XCTAssertEqual(escapedString, "&amp;&lt;&gt;&apos;&quot;")
     }
     
+    func testXMLEscapedStringEscapesWhitespaceControlCharacters() {
+        XCTAssertEqual("a\nb\rc\td".xmlEscaped, "a&#10;b&#13;c&#9;d")
+    }
+    
+    func testXMLEscapedStringKeepsStringWithoutSpecialCharacters() {
+        let string = "Plain text with unicode: Žđšćč, 日本語, 👨‍👩‍👧 and spaces"
+        XCTAssertEqual(string.xmlEscaped, string)
+    }
+    
+    func testXMLEscapedStringEscapesSpecialCharactersAmongUnicode() {
+        XCTAssertEqual("Žđ<šćč>&日本語'👨‍👩‍👧\"".xmlEscaped, "Žđ&lt;šćč&gt;&amp;日本語&apos;👨‍👩‍👧&quot;")
+    }
+    
+    func testXMLEscapedStringEscapesAlreadyEscapedEntities() {
+        XCTAssertEqual("&amp;&lt;".xmlEscaped, "&amp;amp;&amp;lt;")
+    }
+    
+    func testXMLEscapedStringOnEmptyString() {
+        XCTAssertEqual("".xmlEscaped, "")
+    }
+    
+    func testXMLEscapedStringOfLongString() {
+        let chunk = "Lorem ipsum <dolor> sit & amet, \"consectetur\" 'adipiscing' elit.\n"
+        let string = String(repeating: chunk, count: 20_000)
+        
+        let escaped = string.xmlEscaped
+        
+        XCTAssertTrue(escaped.hasPrefix("Lorem ipsum &lt;dolor&gt; sit &amp; amet, &quot;consectetur&quot; &apos;adipiscing&apos; elit.&#10;"))
+        XCTAssertEqual(escaped.utf8.count, string.utf8.count + 20_000 * (3 + 3 + 4 + 10 + 10 + 4))
+    }
+    
     func testXMLString() {
         let testDocument = AEXMLDocument()
         let children = testDocument.addChild(name: "children")
