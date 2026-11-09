@@ -457,6 +457,47 @@ class AEXMLTests: XCTestCase {
         }
     }
     
+    func testXMLStringOfNestedDocument() {
+        let testDocument = AEXMLDocument()
+        let root = testDocument.addChild(name: "root")
+        let level1 = root.addChild(name: "level1", attributes: ["b" : "2", "a" : "1"])
+        let level2 = level1.addChild(name: "level2")
+        level2.addChild(name: "leaf", value: "value")
+        level2.addChild(name: "empty")
+        root.addChild(name: "sibling", value: "")
+        
+        XCTAssertEqual(testDocument.xml, "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<root>\n\t<level1 a=\"1\" b=\"2\">\n\t\t<level2>\n\t\t\t<leaf>value</leaf>\n\t\t\t<empty />\n\t\t</level2>\n\t</level1>\n\t<sibling></sibling>\n</root>")
+    }
+    
+    func testXMLStringOfNestedElementIsIndentedByItsDepth() {
+        let testDocument = AEXMLDocument()
+        let root = testDocument.addChild(name: "root")
+        let level1 = root.addChild(name: "level1")
+        level1.addChild(name: "leaf", value: "value")
+        
+        XCTAssertEqual(root.xml, "<root>\n\t<level1>\n\t\t<leaf>value</leaf>\n\t</level1>\n</root>")
+        XCTAssertEqual(level1.xml, "\t<level1>\n\t\t<leaf>value</leaf>\n\t</level1>")
+        XCTAssertEqual(level1["leaf"].xml, "\t\t<leaf>value</leaf>")
+    }
+    
+    func testXMLStringOfDetachedElementIndentsRelativeToDocument() {
+        let element = AEXMLElement(name: "parent", attributes: ["key" : "value"])
+        element.addChild(name: "child", value: "text")
+        element.addChild(name: "child")
+        
+        XCTAssertEqual(element.xml, "<parent key=\"value\">\n<child>text</child>\n<child />\n</parent>")
+        XCTAssertEqual(element.xmlCompact, "<parent key=\"value\"><child>text</child><child /></parent>")
+        XCTAssertEqual(element.xmlSpaces, "<parent key=\"value\">\n<child>text</child>\n<child />\n</parent>")
+        XCTAssertEqual(element.xmlDoubleSpace, "<parent key=\"value\">\n<child>text</child>\n<child />\n</parent>")
+    }
+    
+    func testXMLStringOfElementWithChildrenIgnoresValue() {
+        let element = AEXMLElement(name: "parent", value: "ignored")
+        element.addChild(name: "child")
+        
+        XCTAssertEqual(element.xml, "<parent>\n<child />\n</parent>")
+    }
+    
 }
 
 // MARK: - Helpers
