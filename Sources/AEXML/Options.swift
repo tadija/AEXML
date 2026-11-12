@@ -11,10 +11,10 @@ import FoundationXML
 
 
 /// Options used in `AEXMLDocument`
-public struct AEXMLOptions {
+public struct AEXMLOptions: Sendable {
     
     /// Values used in XML Document header
-    public struct DocumentHeader {
+    public struct DocumentHeader: Sendable {
         /// Version value for XML Document header (defaults to 1.0).
         public var version = 1.0
         
@@ -31,7 +31,7 @@ public struct AEXMLOptions {
     }
     
     /// Settings used by `Foundation.XMLParser`
-    public struct ParserSettings {
+    public struct ParserSettings: Sendable {
         /// Parser reports the namespaces and qualified names of elements. (defaults to `false`)
         public var shouldProcessNamespaces = false
         

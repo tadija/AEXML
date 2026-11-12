@@ -1,4 +1,4 @@
-[![Swift 5.9](https://img.shields.io/badge/Swift-5.9-orange.svg?style=flat)](https://swift.org)
+[![Swift 6.4](https://img.shields.io/badge/Swift-6.0-orange.svg?style=flat)](https://swift.org)
 [![Platforms iOS | watchOS | tvOS | macOS](https://img.shields.io/badge/Platforms-iOS%20%7C%20watchOS%20%7C%20tvOS%20%7C%20macOS-lightgray.svg?style=flat)](http://www.apple.com)
 [![CocoaPods](https://img.shields.io/cocoapods/v/AEXML.svg?style=flat)](https://cocoapods.org/pods/AEXML)
 [![Swift Package Manager](https://img.shields.io/badge/SPM-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
@@ -57,13 +57,13 @@ This is how you can use **AEXML** for working with this data:
 (for even more examples, look at the unit tests code included in project)
 
 ```swift
-guard let
+guard
     let xmlPath = Bundle.main.path(forResource: "example", ofType: "xml"),
     let data = try? Data(contentsOf: URL(fileURLWithPath: xmlPath))
 else { return }
 
 do {
-    let xmlDoc = try AEXMLDocument(xml: data, options: options)
+    let xmlDoc = try AEXMLDocument(xml: data)
         
     // prints the same XML structure as original
     print(xmlDoc.xml)

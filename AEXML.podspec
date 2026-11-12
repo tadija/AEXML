@@ -8,7 +8,7 @@ s.summary = 'Swift minion for simple and lightweight XML parsing'
 s.source = { :git => 'https://github.com/tadija/AEXML.git', :tag => s.version }
 s.source_files = 'Sources/AEXML/*.swift'
 
-s.swift_versions = ['5.7', '5.9']
+s.swift_versions = ['5.7', '5.9', '6.0', '6.4']
 
 s.ios.deployment_target = '15.0'
 s.osx.deployment_target = '12.0'
