@@ -10,6 +10,48 @@ import FoundationXML
 #endif
 
 /**
+    This is formatting used when serializing an element hierarchy to a String.
+
+    Each nesting level is prefixed with `indent` and each child is followed by `newline`, so for
+    `AEXMLFormat(indent: "\t", newline: "\n")` the `<a><b /></a>` XML is written as `<a>\n\t<b />\n</a>`,
+    while `AEXMLFormat(indent: "", newline: "")` keeps it as `<a><b /></a>`.
+*/
+public struct AEXMLFormat {
+    
+    /// String written once per nesting level in front of an element.
+    public let indent: String
+    
+    /// String written after an opening tag and after each child.
+    public let newline: String
+    
+    /**
+        Designated initializer - Creates and returns new serialization format.
+     
+        - parameter indent: String written once per nesting level in front of an element.
+        - parameter newline: String written after an opening tag and after each child.
+     
+        - returns: An initialized `AEXMLFormat` object.
+    */
+    public init(indent: String, newline: String) {
+        self.indent = indent
+        self.newline = newline
+    }
+    
+    /// Format used by `xml` property (`\t` indentation, `\n` line breaks).
+    public static let tabs = AEXMLFormat(indent: "\t", newline: "\n")
+    
+    /// Format used by `xmlCompact` property (no indentation, no line breaks).
+    public static let compact = AEXMLFormat(indent: "", newline: "")
+    
+    /// Format used by `xmlSpaces` property (4 spaces indentation, `\n` line breaks).
+    public static let fourSpaces = AEXMLFormat(indent: "    ", newline: "\n")
+    
+    /// Format used by `xmlDoubleSpace` property (2 spaces indentation, `\n` line breaks).
+    public static let doubleSpace = AEXMLFormat(indent: "  ", newline: "\n")
+
+}
+
+/**
     This is base class for holding XML structure.
 
     You can access its structure by using subscript like this: `element["foo"]["bar"]` which would
@@ -123,12 +165,9 @@ open class AEXMLElement {
         - returns: Optional Array of found XML elements.
     */
     open func all(containingAttributeKeys keys: [String]) -> [AEXMLElement]? {
-        let found = all?.compactMap { element in
-            keys.reduce(true) { (result, key) in
-                result && Array(element.attributes.keys).contains(key)
-            } ? element : nil
+        return all?.filter { element in
+            keys.allSatisfy { element.attributes[$0] != nil }
         }
-        return found
     }
     
     /**
@@ -139,13 +178,9 @@ open class AEXMLElement {
         - returns: Optional Array of found XML elements.
     */
     open func all(withAttributes attributes: [String : String]) -> [AEXMLElement]? {
-        let keys = Array(attributes.keys)
-        let found = all(containingAttributeKeys: keys)?.compactMap { element in
-            attributes.reduce(true) { (result, attribute) in
-                result && element.attributes[attribute.key] == attribute.value
-            } ? element : nil
+        return all?.filter { element in
+            attributes.allSatisfy { element.attributes[$0.key] == $0.value }
         }
-        return found
     }
     
     /**
@@ -257,83 +292,99 @@ open class AEXMLElement {
     
     /// Complete hierarchy of `self` and `children` in **XML** escaped and formatted String
     open var xml: String {
-        var xml = String()
+        return xmlString(format: .tabs)
+    }
+    
+    /// Same as `xml` but without `\n` and `\t` characters (`xmlString(format: .compact)`)
+    open var xmlCompact: String {
+        return xmlString(format: .compact)
+    }
+    
+    /// Same as `xml` but with 4 spaces instead of '\t' character (`xmlString(format: .fourSpaces)`)
+    open var xmlSpaces: String {
+        return xmlString(format: .fourSpaces)
+    }
+    
+    /// Same as `xml` but with 2 spaces instead of '\t' character (`xmlString(format: .doubleSpace)`)
+    open var xmlDoubleSpace: String {
+        return xmlString(format: .doubleSpace)
+    }
+    
+    /**
+        Complete hierarchy of `self` and `children` in **XML** escaped String with the given formatting.
+     
+        To customize serialization, override `appendXML(to:depth:format:)` instead. Overriding `xml`
+        or one of its variants affects only direct calls on that element, not its output inside a parent.
+     
+        - parameter format: Indentation and line breaks to use.
+     
+        - returns: XML String.
+    */
+    public func xmlString(format: AEXMLFormat) -> String {
+        // depth of self relative to the document (root element is at depth 0)
+        var depth = -1
+        var element = self
+        while let parent = element.parent {
+            depth += 1
+            element = parent
+        }
         
+        var xml = String()
+        appendXML(to: &xml, depth: depth, format: format)
+        return xml
+    }
+    
+    /**
+        Writes `self` and its `children` into the given buffer in a single pass.
+     
+        This is the single customization point for serialization: `xml`, `xmlCompact`, `xmlSpaces`,
+        `xmlDoubleSpace` and `xmlString(format:)` all end up here, and parents serialize their children
+        through it, so overriding it in a subclass takes effect wherever the element appears in a tree.
+        Call `super` to write the standard representation.
+     
+        - parameter xml: Buffer to append to.
+        - parameter depth: Nesting level used for indentation (0 for the root element, -1 for the document
+          that contains it, so its root is written at depth 0).
+        - parameter format: Indentation and line breaks to use.
+    */
+    open func appendXML(to xml: inout String, depth: Int, format: AEXMLFormat) {
         // open element
-        xml += indent(withDepth: parentsCount - 1)
+        appendIndent(to: &xml, depth: depth, format: format)
         xml += "<\(name)"
         
-        if attributes.count > 0 {
+        if !attributes.isEmpty {
             // insert attributes
             for (key, value) in attributes.sorted(by: { $0.key < $1.key }) {
                 xml += " \(key)=\"\(value.xmlEscaped)\""
             }
         }
         
-        if value == nil && children.count == 0 {
+        if value == nil && children.isEmpty {
             // close element
             xml += " />"
         } else {
-            if children.count > 0 {
+            if !children.isEmpty {
                 // add children
-                xml += ">\n"
+                xml += ">\(format.newline)"
                 for child in children {
-                    xml += "\(child.xml)\n"
+                    child.appendXML(to: &xml, depth: depth + 1, format: format)
+                    xml += format.newline
                 }
-                // add indentation
-                xml += indent(withDepth: parentsCount - 1)
+                // add indentation and close element
+                appendIndent(to: &xml, depth: depth, format: format)
                 xml += "</\(name)>"
             } else {
                 // insert string value and close element
                 xml += ">\(string.xmlEscaped)</\(name)>"
             }
         }
-        
-        return xml
-    }
-    
-    /// Same as `xmlString` but without `\n` and `\t` characters
-    open var xmlCompact: String {
-        let chars = CharacterSet(charactersIn: "\n\t")
-        return xml.components(separatedBy: chars).joined(separator: "")
-    }
-    
-    /// Same as `xmlString` but with 4 spaces instead of '\t' character
-    open var xmlSpaces: String {
-        let chars = CharacterSet(charactersIn: "\t")
-        return xml.components(separatedBy: chars).joined(separator: "    ")
-    }
-    
-    /// Same as `xmlString` but with 2 spaces instead of '\t' character
-    open var xmlDoubleSpace: String {
-        let chars = CharacterSet(charactersIn: "\t")
-        return xml.components(separatedBy: chars).joined(separator: "  ")
     }
 
     // MARK: - Helpers
 
-    private var parentsCount: Int {
-        var count = 0
-        var element = self
-
-        while let parent = element.parent {
-            count += 1
-            element = parent
-        }
-
-        return count
-    }
-
-    private func indent(withDepth depth: Int) -> String {
-        var count = depth
-        var indent = String()
-
-        while count > 0 {
-            indent += "\t"
-            count -= 1
-        }
-
-        return indent
+    private func appendIndent(to xml: inout String, depth: Int, format: AEXMLFormat) {
+        guard depth > 0, !format.indent.isEmpty else { return }
+        xml += String(repeating: format.indent, count: depth)
     }
 
 }
@@ -342,16 +393,45 @@ public extension String {
     
     /// String representation of self with XML special characters escaped.
     var xmlEscaped: String {
-        // we need to make sure "&" is escaped first. Not doing this may break escaping the other characters
-        var escaped = replacingOccurrences(of: "&", with: "&amp;", options: .literal)
+        let scalars = unicodeScalars
         
-        // replace the other special characters and the whitespace that XML parsers would normalize
-        let escapeChars = ["<" : "&lt;", ">" : "&gt;", "'" : "&apos;", "\"" : "&quot;", "\n": "&#10;", "\r": "&#13;", "\t": "&#9;"]
-        for (char, echar) in escapeChars {
-            escaped = escaped.replacingOccurrences(of: char, with: echar, options: .literal)
+        // fast path: most values and attributes have nothing to escape
+        guard let firstIndex = scalars.firstIndex(where: { $0.xmlEscaped != nil }) else {
+            return self
+        }
+        
+        // single pass: copy the clean prefix, then escape the rest scalar by scalar
+        var escaped = String(scalars[..<firstIndex])
+        escaped.reserveCapacity(utf8.count + 16)
+        for scalar in scalars[firstIndex...] {
+            if let replacement = scalar.xmlEscaped {
+                escaped += replacement
+            } else {
+                escaped.unicodeScalars.append(scalar)
+            }
         }
         
         return escaped
+    }
+    
+}
+
+private extension Unicode.Scalar {
+    
+    /// XML entity for special characters and the whitespace that XML parsers would normalize
+    /// (`nil` if the scalar doesn't need escaping).
+    var xmlEscaped: String? {
+        switch self {
+        case "&": return "&amp;"
+        case "<": return "&lt;"
+        case ">": return "&gt;"
+        case "'": return "&apos;"
+        case "\"": return "&quot;"
+        case "\n": return "&#10;"
+        case "\r": return "&#13;"
+        case "\t": return "&#9;"
+        default: return nil
+        }
     }
     
 }
