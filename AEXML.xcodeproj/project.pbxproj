@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		40E18B7BF85B8B9527D122C8 /* plant_catalog.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8B080D3721504733009B8DBB /* plant_catalog.xml */; };
+		61118209290D05F9FF8C2731 /* AEXMLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B080D482150489F009B8DBB /* AEXMLTests.swift */; };
+		6185D37074128B7FE30F9E46 /* whitespace_examples.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8B080D3821504733009B8DBB /* whitespace_examples.xml */; };
+		7CF7D53853F6B3E8EAEF2660 /* AEXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B4A92DF1BDD5D330011F36F /* AEXML.framework */; };
 		8B080D1521504662009B8DBB /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B080D1021504662009B8DBB /* Document.swift */; };
 		8B080D1621504662009B8DBB /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B080D1021504662009B8DBB /* Document.swift */; };
 		8B080D1721504662009B8DBB /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B080D1021504662009B8DBB /* Document.swift */; };
@@ -50,11 +54,15 @@
 		8B79A7DA2B571A3E00826C72 /* Builders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B79A7D82B571A3E00826C72 /* Builders.swift */; };
 		8B79A7DB2B571A3E00826C72 /* Builders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B79A7D82B571A3E00826C72 /* Builders.swift */; };
 		8B79A7DC2B571A3E00826C72 /* Builders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B79A7D82B571A3E00826C72 /* Builders.swift */; };
-		61118209290D05F9FF8C2731 /* AEXMLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B080D482150489F009B8DBB /* AEXMLTests.swift */; };
-		7CF7D53853F6B3E8EAEF2660 /* AEXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B4A92DF1BDD5D330011F36F /* AEXML.framework */; };
+		9434FE0C30A5D3EF00FD5DA8 /* PerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9434FE0B30A5D3E700FD5DA8 /* PerformanceTests.swift */; };
+		9434FE0D30A5D3EF00FD5DA8 /* PerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9434FE0B30A5D3E700FD5DA8 /* PerformanceTests.swift */; };
+		9434FE0E30A5D3EF00FD5DA8 /* PerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9434FE0B30A5D3E700FD5DA8 /* PerformanceTests.swift */; };
+		9434FE0F30A5D3EF00FD5DA8 /* PerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9434FE0B30A5D3E700FD5DA8 /* PerformanceTests.swift */; };
+		9434FE1130A6944000FD5DA8 /* SharedTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9434FE1030A6943700FD5DA8 /* SharedTesting.swift */; };
+		9434FE1230A6944000FD5DA8 /* SharedTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9434FE1030A6943700FD5DA8 /* SharedTesting.swift */; };
+		9434FE1330A6944000FD5DA8 /* SharedTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9434FE1030A6943700FD5DA8 /* SharedTesting.swift */; };
+		9434FE1430A6944000FD5DA8 /* SharedTesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9434FE1030A6943700FD5DA8 /* SharedTesting.swift */; };
 		E73012EF09B870998ECE2837 /* example.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8B080D3621504733009B8DBB /* example.xml */; };
-		6185D37074128B7FE30F9E46 /* whitespace_examples.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8B080D3821504733009B8DBB /* whitespace_examples.xml */; };
-		40E18B7BF85B8B9527D122C8 /* plant_catalog.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8B080D3721504733009B8DBB /* plant_catalog.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +97,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		356B5E9831F9084C077C1BC8 /* AEXML watchOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AEXML watchOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B080D1021504662009B8DBB /* Document.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		8B080D1121504662009B8DBB /* Element.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Element.swift; sourceTree = "<group>"; };
 		8B080D1221504662009B8DBB /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
@@ -114,7 +123,8 @@
 		8BD7A14319F0093F005F73F4 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		8BD7A14419F0093F005F73F4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8BDEBA8C1AEC588700A12D92 /* AEXML.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AEXML.podspec; sourceTree = "<group>"; };
-		356B5E9831F9084C077C1BC8 /* AEXML watchOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AEXML watchOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9434FE0B30A5D3E700FD5DA8 /* PerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceTests.swift; sourceTree = "<group>"; };
+		9434FE1030A6943700FD5DA8 /* SharedTesting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTesting.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,6 +243,8 @@
 		8B080D472150489F009B8DBB /* AEXMLTests */ = {
 			isa = PBXGroup;
 			children = (
+				9434FE1030A6943700FD5DA8 /* SharedTesting.swift */,
+				9434FE0B30A5D3E700FD5DA8 /* PerformanceTests.swift */,
 				8B080D3521504733009B8DBB /* Resources */,
 				8B080D482150489F009B8DBB /* AEXMLTests.swift */,
 			);
@@ -318,6 +330,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		3AC12BA32F9A002EF79A337C /* AEXML watchOS Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B7498F7514B2C2226CFDEB5C /* Build configuration list for PBXNativeTarget "AEXML watchOS Tests" */;
+			buildPhases = (
+				AFD219D1A28267B51EA1C0BA /* Sources */,
+				8FF992CB8DCBAE4C124B4E62 /* Frameworks */,
+				353DF2FEFDCEF1D3AC550C7C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B0AC6507B4182E91FB4F5DF6 /* PBXTargetDependency */,
+			);
+			name = "AEXML watchOS Tests";
+			productName = "AEXML watchOS Tests";
+			productReference = 356B5E9831F9084C077C1BC8 /* AEXML watchOS Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		8B4A92781BDD47210011F36F /* AEXML iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8B4A92801BDD47210011F36F /* Build configuration list for PBXNativeTarget "AEXML iOS" */;
@@ -444,24 +474,6 @@
 			productReference = 8B4A92DF1BDD5D330011F36F /* AEXML.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		3AC12BA32F9A002EF79A337C /* AEXML watchOS Tests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = B7498F7514B2C2226CFDEB5C /* Build configuration list for PBXNativeTarget "AEXML watchOS Tests" */;
-			buildPhases = (
-				AFD219D1A28267B51EA1C0BA /* Sources */,
-				8FF992CB8DCBAE4C124B4E62 /* Frameworks */,
-				353DF2FEFDCEF1D3AC550C7C /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				B0AC6507B4182E91FB4F5DF6 /* PBXTargetDependency */,
-			);
-			name = "AEXML watchOS Tests";
-			productName = "AEXML watchOS Tests";
-			productReference = 356B5E9831F9084C077C1BC8 /* AEXML watchOS Tests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -473,6 +485,9 @@
 				LastUpgradeCheck = 2700;
 				ORGANIZATIONNAME = AE;
 				TargetAttributes = {
+					3AC12BA32F9A002EF79A337C = {
+						CreatedOnToolsVersion = 7.1;
+					};
 					8B4A92781BDD47210011F36F = {
 						CreatedOnToolsVersion = 7.1;
 						LastSwiftMigration = 1020;
@@ -503,9 +518,6 @@
 						CreatedOnToolsVersion = 7.1;
 						LastSwiftMigration = 0800;
 					};
-					3AC12BA32F9A002EF79A337C = {
-						CreatedOnToolsVersion = 7.1;
-					};
 				};
 			};
 			buildConfigurationList = 8BFE78A419F0054100914487 /* Build configuration list for PBXProject "AEXML" */;
@@ -534,6 +546,16 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		353DF2FEFDCEF1D3AC550C7C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E73012EF09B870998ECE2837 /* example.xml in Resources */,
+				6185D37074128B7FE30F9E46 /* whitespace_examples.xml in Resources */,
+				40E18B7BF85B8B9527D122C8 /* plant_catalog.xml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8B4A92771BDD47210011F36F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -592,16 +614,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		353DF2FEFDCEF1D3AC550C7C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E73012EF09B870998ECE2837 /* example.xml in Resources */,
-				6185D37074128B7FE30F9E46 /* whitespace_examples.xml in Resources */,
-				40E18B7BF85B8B9527D122C8 /* plant_catalog.xml in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -635,7 +647,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9434FE0D30A5D3EF00FD5DA8 /* PerformanceTests.swift in Sources */,
 				8B080D4A2150489F009B8DBB /* AEXMLTests.swift in Sources */,
+				9434FE1130A6944000FD5DA8 /* SharedTesting.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -643,7 +657,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9434FE0C30A5D3EF00FD5DA8 /* PerformanceTests.swift in Sources */,
 				8B080D4C2150489F009B8DBB /* AEXMLTests.swift in Sources */,
+				9434FE1330A6944000FD5DA8 /* SharedTesting.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -664,7 +680,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9434FE0E30A5D3EF00FD5DA8 /* PerformanceTests.swift in Sources */,
 				8B080D4B2150489F009B8DBB /* AEXMLTests.swift in Sources */,
+				9434FE1430A6944000FD5DA8 /* SharedTesting.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -685,7 +703,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9434FE0F30A5D3EF00FD5DA8 /* PerformanceTests.swift in Sources */,
 				61118209290D05F9FF8C2731 /* AEXMLTests.swift in Sources */,
+				9434FE1230A6944000FD5DA8 /* SharedTesting.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -715,6 +735,26 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		2F0D18F9A14895DB46BC8306 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Resources/AEXMLTests.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "net.tadija.AEXML-watchOS-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = watchos;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Debug;
+		};
 		8B4A927E1BDD47210011F36F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1211,26 +1251,6 @@
 				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;
-		};
-		2F0D18F9A14895DB46BC8306 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "$(SRCROOT)/Resources/AEXMLTests.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "net.tadija.AEXML-watchOS-Tests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = watchos;
-				TARGETED_DEVICE_FAMILY = 4;
-			};
-			name = Debug;
 		};
 		B3C6D6247013117C45548388 /* Release */ = {
 			isa = XCBuildConfiguration;
