@@ -40,6 +40,9 @@ internal class AEXMLParser: NSObject, XMLParserDelegate {
     // MARK: - API
     
     func parse() throws {
+        // FoundationXML on Linux can report success for empty input.
+        guard !data.isEmpty else { throw AEXMLError.parsingFailed }
+
         let parser = XMLParser(data: data)
         parser.delegate = self
 
