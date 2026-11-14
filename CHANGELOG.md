@@ -1,6 +1,13 @@
 # Changelog
 
+## Version 4.7.4
+
+- Fix: #196
+- Merged: #192, #195
+- Remove Carthage references
+
 ## Version 4.7.3
+
 - Merged: #194
 
 ## Version 4.7.2

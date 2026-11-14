@@ -203,7 +203,7 @@ private func buildSoapEnvelope(
 - [Swift Package Manager](https://swift.org/package-manager/):
 
 	```swift
-    .package(url: "https://github.com/tadija/AEXML.git", from: "4.7.3")
+    .package(url: "https://github.com/tadija/AEXML.git", from: "4.7.4")
 	```
 
 - [CocoaPods](http://cocoapods.org/):

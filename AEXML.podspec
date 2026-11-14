@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name = 'AEXML'
-s.version = '4.7.3'
+s.version = '4.7.4'
 s.license = { :type => 'MIT', :file => 'LICENSE' }
 s.summary = 'Swift minion for simple and lightweight XML parsing'
 
