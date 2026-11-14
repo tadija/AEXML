@@ -111,6 +111,7 @@
 		8B080D3821504733009B8DBB /* whitespace_examples.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = whitespace_examples.xml; sourceTree = "<group>"; };
 		8B080D482150489F009B8DBB /* AEXMLTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AEXMLTests.swift; sourceTree = "<group>"; };
 		8B0D48AA1C594F8D0075C8BF /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
+		8B3BE44E30A924FA0086B8C4 /* swift.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; name = swift.yml; path = .github/workflows/swift.yml; sourceTree = "<group>"; };
 		8B4A92791BDD47210011F36F /* AEXML.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AEXML.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B4A928A1BDD49390011F36F /* AEXML.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AEXML.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B4A92991BDD4CEF0011F36F /* AEXML iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AEXML iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -258,6 +259,7 @@
 				8BD7A14419F0093F005F73F4 /* README.md */,
 				8B0D48AA1C594F8D0075C8BF /* CHANGELOG.md */,
 				8BDEBA8C1AEC588700A12D92 /* AEXML.podspec */,
+				8B3BE44E30A924FA0086B8C4 /* swift.yml */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";

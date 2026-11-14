@@ -12,10 +12,19 @@ on:
 jobs:
   build:
 
-    runs-on: macos-latest
+    name: Swift on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-15, ubuntu-24.04]
 
     steps:
     - uses: actions/checkout@v4
+    - name: Show platform
+      run: uname -s
+    - name: Show Swift version
+      run: swift --version
     - name: Build
       run: swift build -v
     - name: Run tests
