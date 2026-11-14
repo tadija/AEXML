@@ -5,9 +5,9 @@ import PackageDescription
 let package = Package(
     name: "AEXML",
     platforms: [
-        .iOS(.v12),
-        .macOS(.v10_13),
-        .tvOS(.v12),
+        .iOS(.v15),
+        .macOS(.v12),
+        .tvOS(.v15),
         .watchOS(.v9)
     ],
     products: [
