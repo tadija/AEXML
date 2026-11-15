@@ -257,49 +257,64 @@ open class AEXMLElement {
     
     /// Complete hierarchy of `self` and `children` in **XML** escaped and formatted String
     open var xml: String {
+        return xmlString(format: .tabs)
+    }
+    
+    /// Same as `xml` but without `\n` and `\t` characters (`xmlString(format: .compact)`)
+    open var xmlCompact: String {
+        return xmlString(format: .compact)
+    }
+    
+    /// Same as `xml` but with 4 spaces instead of '\t' character (`xmlString(format: .fourSpaces)`)
+    open var xmlSpaces: String {
+        return xmlString(format: .fourSpaces)
+    }
+    
+    /// Same as `xml` but with 2 spaces instead of '\t' character (`xmlString(format: .doubleSpace)`)
+    open var xmlDoubleSpace: String {
+        return xmlString(format: .doubleSpace)
+    }
+    
+    /**
+        Complete hierarchy of `self` and `children` in **XML** escaped String with the given formatting.
+     
+        To customize serialization, override `appendXML(to:depth:format:)` instead. Overriding `xml`
+        or one of its variants affects only direct calls on that element, not its output inside a parent.
+     
+        - parameter format: Indentation and line breaks to use.
+     
+        - returns: XML String.
+    */
+    public func xmlString(format: AEXMLFormat) -> String {
+        // depth of self relative to the document (root element is at depth 0)
+        var depth = -1
+        var element = self
+        while let parent = element.parent {
+            depth += 1
+            element = parent
+        }
+        
         var xml = String()
-        appendXML(to: &xml, depth: parentsCount - 1)
+        appendXML(to: &xml, depth: depth, format: format)
         return xml
     }
     
-    /// Same as `xmlString` but without `\n` and `\t` characters
-    open var xmlCompact: String {
-        let chars = CharacterSet(charactersIn: "\n\t")
-        return xml.components(separatedBy: chars).joined(separator: "")
-    }
-    
-    /// Same as `xmlString` but with 4 spaces instead of '\t' character
-    open var xmlSpaces: String {
-        let chars = CharacterSet(charactersIn: "\t")
-        return xml.components(separatedBy: chars).joined(separator: "    ")
-    }
-    
-    /// Same as `xmlString` but with 2 spaces instead of '\t' character
-    open var xmlDoubleSpace: String {
-        let chars = CharacterSet(charactersIn: "\t")
-        return xml.components(separatedBy: chars).joined(separator: "  ")
-    }
-
-    // MARK: - Helpers
-
-    private var parentsCount: Int {
-        var count = 0
-        var element = self
-
-        while let parent = element.parent {
-            count += 1
-            element = parent
-        }
-
-        return count
-    }
-
-    /// Writes `self` and its `children` into the shared buffer in a single pass.
-    /// Depth is passed down so it's never recomputed per element and
-    /// no intermediate strings are created for nested levels.
-    private func appendXML(to xml: inout String, depth: Int) {
+    /**
+        Writes `self` and its `children` into the given buffer in a single pass.
+     
+        This is the single customization point for serialization: `xml`, `xmlCompact`, `xmlSpaces`,
+        `xmlDoubleSpace` and `xmlString(format:)` all end up here, and parents serialize their children
+        through it, so overriding it in a subclass takes effect wherever the element appears in a tree.
+        Call `super` to write the standard representation.
+     
+        - parameter xml: Buffer to append to.
+        - parameter depth: Nesting level used for indentation (0 for the root element, -1 for the document
+          that contains it, so its root is written at depth 0).
+        - parameter format: Indentation and line breaks to use.
+    */
+    open func appendXML(to xml: inout String, depth: Int, format: AEXMLFormat) {
         // open element
-        appendIndent(to: &xml, depth: depth)
+        appendIndent(to: &xml, depth: depth, format: format)
         xml += "<\(name)"
         
         if !attributes.isEmpty {
@@ -315,13 +330,13 @@ open class AEXMLElement {
         } else {
             if !children.isEmpty {
                 // add children
-                xml += ">\n"
+                xml += ">\(format.newline)"
                 for child in children {
-                    child.appendXML(to: &xml, depth: depth + 1)
-                    xml += "\n"
+                    child.appendXML(to: &xml, depth: depth + 1, format: format)
+                    xml += format.newline
                 }
                 // add indentation and close element
-                appendIndent(to: &xml, depth: depth)
+                appendIndent(to: &xml, depth: depth, format: format)
                 xml += "</\(name)>"
             } else {
                 // insert string value and close element
@@ -329,10 +344,12 @@ open class AEXMLElement {
             }
         }
     }
-    
-    private func appendIndent(to xml: inout String, depth: Int) {
-        guard depth > 0 else { return }
-        xml += String(repeating: "\t", count: depth)
+
+    // MARK: - Helpers
+
+    private func appendIndent(to xml: inout String, depth: Int, format: AEXMLFormat) {
+        guard depth > 0, !format.indent.isEmpty else { return }
+        xml += String(repeating: format.indent, count: depth)
     }
 
 }

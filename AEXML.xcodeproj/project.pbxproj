@@ -54,6 +54,10 @@
 		8B79A7DA2B571A3E00826C72 /* Builders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B79A7D82B571A3E00826C72 /* Builders.swift */; };
 		8B79A7DB2B571A3E00826C72 /* Builders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B79A7D82B571A3E00826C72 /* Builders.swift */; };
 		8B79A7DC2B571A3E00826C72 /* Builders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B79A7D82B571A3E00826C72 /* Builders.swift */; };
+		8BF04A112EC8D3A100C41F7E /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF04A102EC8D3A100C41F7E /* Format.swift */; };
+		8BF04A122EC8D3A100C41F7E /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF04A102EC8D3A100C41F7E /* Format.swift */; };
+		8BF04A132EC8D3A100C41F7E /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF04A102EC8D3A100C41F7E /* Format.swift */; };
+		8BF04A142EC8D3A100C41F7E /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BF04A102EC8D3A100C41F7E /* Format.swift */; };
 		9434FE0C30A5D3EF00FD5DA8 /* PerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9434FE0B30A5D3E700FD5DA8 /* PerformanceTests.swift */; };
 		9434FE0D30A5D3EF00FD5DA8 /* PerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9434FE0B30A5D3E700FD5DA8 /* PerformanceTests.swift */; };
 		9434FE0E30A5D3EF00FD5DA8 /* PerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9434FE0B30A5D3E700FD5DA8 /* PerformanceTests.swift */; };
@@ -124,6 +128,7 @@
 		8BD7A14319F0093F005F73F4 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		8BD7A14419F0093F005F73F4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8BDEBA8C1AEC588700A12D92 /* AEXML.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = AEXML.podspec; sourceTree = "<group>"; };
+		8BF04A102EC8D3A100C41F7E /* Format.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Format.swift; sourceTree = "<group>"; };
 		9434FE0B30A5D3E700FD5DA8 /* PerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceTests.swift; sourceTree = "<group>"; };
 		9434FE1030A6943700FD5DA8 /* SharedTesting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTesting.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -207,6 +212,7 @@
 				8B080D1021504662009B8DBB /* Document.swift */,
 				8B080D1121504662009B8DBB /* Element.swift */,
 				8B080D1221504662009B8DBB /* Error.swift */,
+				8BF04A102EC8D3A100C41F7E /* Format.swift */,
 				8B080D1321504662009B8DBB /* Options.swift */,
 				8B080D1421504662009B8DBB /* Parser.swift */,
 			);
@@ -629,6 +635,7 @@
 				8B080D1D21504662009B8DBB /* Error.swift in Sources */,
 				8B080D1521504662009B8DBB /* Document.swift in Sources */,
 				8B79A7D92B571A3E00826C72 /* Builders.swift in Sources */,
+				8BF04A112EC8D3A100C41F7E /* Format.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -642,6 +649,7 @@
 				8B080D2021504662009B8DBB /* Error.swift in Sources */,
 				8B080D1821504662009B8DBB /* Document.swift in Sources */,
 				8B79A7DA2B571A3E00826C72 /* Builders.swift in Sources */,
+				8BF04A122EC8D3A100C41F7E /* Format.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -675,6 +683,7 @@
 				8B080D1F21504662009B8DBB /* Error.swift in Sources */,
 				8B080D1721504662009B8DBB /* Document.swift in Sources */,
 				8B79A7DB2B571A3E00826C72 /* Builders.swift in Sources */,
+				8BF04A132EC8D3A100C41F7E /* Format.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -698,6 +707,7 @@
 				8B080D1E21504662009B8DBB /* Error.swift in Sources */,
 				8B080D1621504662009B8DBB /* Document.swift in Sources */,
 				8B79A7DC2B571A3E00826C72 /* Builders.swift in Sources */,
+				8BF04A142EC8D3A100C41F7E /* Format.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -100,11 +100,11 @@ open class AEXMLDocument: AEXMLElement {
     
     // MARK: - Override
     
-    /// Override of `xml` property of `AEXMLElement` - it just inserts XML Document header at the beginning.
-    open override var xml: String {
-        var xml =  "\(options.documentHeader.xmlString)\n"
-        xml += root.xml
-        return xml
+    /// Override of `AEXMLElement` serialization - it just inserts XML Document header at the beginning.
+    open override func appendXML(to xml: inout String, depth: Int, format: AEXMLFormat) {
+        xml += options.documentHeader.xmlString
+        xml += format.newline
+        root.appendXML(to: &xml, depth: depth + 1, format: format)
     }
     
 }
