@@ -258,37 +258,7 @@ open class AEXMLElement {
     /// Complete hierarchy of `self` and `children` in **XML** escaped and formatted String
     open var xml: String {
         var xml = String()
-        
-        // open element
-        xml += indent(withDepth: parentsCount - 1)
-        xml += "<\(name)"
-        
-        if attributes.count > 0 {
-            // insert attributes
-            for (key, value) in attributes.sorted(by: { $0.key < $1.key }) {
-                xml += " \(key)=\"\(value.xmlEscaped)\""
-            }
-        }
-        
-        if value == nil && children.count == 0 {
-            // close element
-            xml += " />"
-        } else {
-            if children.count > 0 {
-                // add children
-                xml += ">\n"
-                for child in children {
-                    xml += "\(child.xml)\n"
-                }
-                // add indentation
-                xml += indent(withDepth: parentsCount - 1)
-                xml += "</\(name)>"
-            } else {
-                // insert string value and close element
-                xml += ">\(string.xmlEscaped)</\(name)>"
-            }
-        }
-        
+        appendXML(to: &xml, depth: parentsCount - 1)
         return xml
     }
     
@@ -324,16 +294,45 @@ open class AEXMLElement {
         return count
     }
 
-    private func indent(withDepth depth: Int) -> String {
-        var count = depth
-        var indent = String()
-
-        while count > 0 {
-            indent += "\t"
-            count -= 1
+    /// Writes `self` and its `children` into the shared buffer in a single pass.
+    /// Depth is passed down so it's never recomputed per element and
+    /// no intermediate strings are created for nested levels.
+    private func appendXML(to xml: inout String, depth: Int) {
+        // open element
+        appendIndent(to: &xml, depth: depth)
+        xml += "<\(name)"
+        
+        if !attributes.isEmpty {
+            // insert attributes
+            for (key, value) in attributes.sorted(by: { $0.key < $1.key }) {
+                xml += " \(key)=\"\(value.xmlEscaped)\""
+            }
         }
-
-        return indent
+        
+        if value == nil && children.isEmpty {
+            // close element
+            xml += " />"
+        } else {
+            if !children.isEmpty {
+                // add children
+                xml += ">\n"
+                for child in children {
+                    child.appendXML(to: &xml, depth: depth + 1)
+                    xml += "\n"
+                }
+                // add indentation and close element
+                appendIndent(to: &xml, depth: depth)
+                xml += "</\(name)>"
+            } else {
+                // insert string value and close element
+                xml += ">\(string.xmlEscaped)</\(name)>"
+            }
+        }
+    }
+    
+    private func appendIndent(to xml: inout String, depth: Int) {
+        guard depth > 0 else { return }
+        xml += String(repeating: "\t", count: depth)
     }
 
 }

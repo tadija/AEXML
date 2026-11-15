@@ -449,4 +449,49 @@ class AEXMLTests: SharedTesting {
             #expect(parsedDocument.root.attributes["attribute"] == "x\ty\rz", "Should keep tabs and carriage returns in attributes.")
         }
     }
+
+    @Test
+    func testXMLStringOfNestedDocument() {
+        let testDocument = AEXMLDocument()
+        let root = testDocument.addChild(name: "root")
+        let level1 = root.addChild(name: "level1", attributes: ["b" : "2", "a" : "1"])
+        let level2 = level1.addChild(name: "level2")
+        level2.addChild(name: "leaf", value: "value")
+        level2.addChild(name: "empty")
+        root.addChild(name: "sibling", value: "")
+
+        #expect(testDocument.xml == "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?>\n<root>\n\t<level1 a=\"1\" b=\"2\">\n\t\t<level2>\n\t\t\t<leaf>value</leaf>\n\t\t\t<empty />\n\t\t</level2>\n\t</level1>\n\t<sibling></sibling>\n</root>")
+    }
+
+    @Test
+    func testXMLStringOfNestedElementIsIndentedByItsDepth() {
+        let testDocument = AEXMLDocument()
+        let root = testDocument.addChild(name: "root")
+        let level1 = root.addChild(name: "level1")
+        level1.addChild(name: "leaf", value: "value")
+
+        #expect(root.xml == "<root>\n\t<level1>\n\t\t<leaf>value</leaf>\n\t</level1>\n</root>")
+        #expect(level1.xml == "\t<level1>\n\t\t<leaf>value</leaf>\n\t</level1>")
+        #expect(level1["leaf"].xml == "\t\t<leaf>value</leaf>")
+    }
+
+    @Test
+    func testXMLStringOfDetachedElementIndentsRelativeToDocument() {
+        let element = AEXMLElement(name: "parent", attributes: ["key" : "value"])
+        element.addChild(name: "child", value: "text")
+        element.addChild(name: "child")
+
+        #expect(element.xml == "<parent key=\"value\">\n<child>text</child>\n<child />\n</parent>")
+        #expect(element.xmlCompact == "<parent key=\"value\"><child>text</child><child /></parent>")
+        #expect(element.xmlSpaces == "<parent key=\"value\">\n<child>text</child>\n<child />\n</parent>")
+        #expect(element.xmlDoubleSpace == "<parent key=\"value\">\n<child>text</child>\n<child />\n</parent>")
+    }
+
+    @Test
+    func testXMLStringOfElementWithChildrenIgnoresValue() {
+        let element = AEXMLElement(name: "parent", value: "ignored")
+        element.addChild(name: "child")
+
+        #expect(element.xml == "<parent>\n<child />\n</parent>")
+    }
 }
