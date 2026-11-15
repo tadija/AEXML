@@ -422,6 +422,43 @@ class AEXMLTests: SharedTesting {
     }
 
     @Test
+    func testXMLEscapedStringEscapesWhitespaceControlCharacters() {
+        #expect("a\nb\rc\td".xmlEscaped == "a&#10;b&#13;c&#9;d")
+    }
+
+    @Test
+    func testXMLEscapedStringKeepsStringWithoutSpecialCharacters() {
+        let string = "Plain text with unicode: Žđšćč, 日本語, 👨‍👩‍👧 and spaces"
+        #expect(string.xmlEscaped == string)
+    }
+
+    @Test
+    func testXMLEscapedStringEscapesSpecialCharactersAmongUnicode() {
+        #expect("Žđ<šćč>&日本語'👨‍👩‍👧\"".xmlEscaped == "Žđ&lt;šćč&gt;&amp;日本語&apos;👨‍👩‍👧&quot;")
+    }
+
+    @Test
+    func testXMLEscapedStringEscapesAlreadyEscapedEntities() {
+        #expect("&amp;&lt;".xmlEscaped == "&amp;amp;&amp;lt;")
+    }
+
+    @Test
+    func testXMLEscapedStringOnEmptyString() {
+        #expect("".xmlEscaped == "")
+    }
+
+    @Test
+    func testXMLEscapedStringOfLongString() {
+        let chunk = "Lorem ipsum <dolor> sit & amet, \"consectetur\" 'adipiscing' elit.\n"
+        let string = String(repeating: chunk, count: 20_000)
+
+        let escaped = string.xmlEscaped
+
+        #expect(escaped.hasPrefix("Lorem ipsum &lt;dolor&gt; sit &amp; amet, &quot;consectetur&quot; &apos;adipiscing&apos; elit.&#10;"))
+        #expect(escaped.utf8.count == string.utf8.count + 20_000 * (3 + 3 + 4 + 10 + 10 + 4))
+    }
+
+    @Test
     func testXMLString() {
         let testDocument = AEXMLDocument()
         let children = testDocument.addChild(name: "children")
