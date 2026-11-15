@@ -52,6 +52,10 @@ internal class AEXMLParser: NSObject, XMLParserDelegate {
         
         let success = parser.parse()
         
+        // keep text of an element left open by truncated input in the document
+        // (FoundationXML on Linux reports success for such input)
+        flushCurrentValue()
+        
         if !success {
             guard let error = parseError else { throw AEXMLError.parsingFailed }
             throw error
@@ -65,20 +69,26 @@ internal class AEXMLParser: NSObject, XMLParserDelegate {
                 namespaceURI: String?,
                 qualifiedName qName: String?,
                 attributes attributeDict: [String : String]) {
-        currentValue = String()
+        // text found before a child element belongs to the parent
+        flushCurrentValue()
+        
         currentElement = currentParent?.addChild(name: elementName, attributes: attributeDict)
         currentParent = currentElement
     }
     
     func parser(_ parser: XMLParser, foundCharacters string: String) {
+        // only accumulate value here
         currentValue.append(string)
-        currentElement?.value = currentValue.isEmpty ? nil : currentValue
     }
     
     func parser(_ parser: XMLParser,
                 didEndElement elementName: String,
                 namespaceURI: String?,
                 qualifiedName qName: String?) {
+        // assign text accumulated for the element that just ended
+        // (text found after a child element has no element to go to and is dropped)
+        flushCurrentValue()
+        
         if parserSettings.shouldTrimWhitespace {
             currentElement?.value = currentElement?.value?
                 .trimmingCharacters(in: .whitespacesAndNewlines)
@@ -89,6 +99,15 @@ internal class AEXMLParser: NSObject, XMLParserDelegate {
     
     func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
         self.parseError = parseError
+    }
+    
+    // MARK: - Helpers
+    
+    private func flushCurrentValue() {
+        if !currentValue.isEmpty {
+            currentElement?.value = currentValue
+        }
+        currentValue = String()
     }
     
 }

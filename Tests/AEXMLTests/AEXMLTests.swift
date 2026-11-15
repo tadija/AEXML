@@ -84,6 +84,46 @@ class AEXMLTests: SharedTesting {
         let result = try whitespaceResult(shouldTrimWhitespace: false)
         #expect(result == "Hello, ")
     }
+
+    @Test
+    func testXMLParserLeavesValueOfEmptyElementNil() throws {
+        let testDocument = try AEXMLDocument(xml: "<root><empty></empty><selfClosing /></root>")
+
+        #expect(testDocument.root["empty"].value == nil)
+        #expect(testDocument.root["selfClosing"].value == nil)
+    }
+
+    @Test
+    func testXMLParserTrimsWhitespaceOnlyValueToEmptyString() throws {
+        let testDocument = try AEXMLDocument(xml: "<root><blank>  \n  </blank></root>")
+
+        #expect(testDocument.root["blank"].value == "")
+    }
+
+    @Test
+    func testXMLParserJoinsValueSplitByEntityReferences() throws {
+        let testDocument = try AEXMLDocument(xml: "<root><text>a &amp; b &lt; c &gt; d &quot;e&quot; &apos;f&apos;</text></root>")
+
+        #expect(testDocument.root["text"].value == "a & b < c > d \"e\" 'f'")
+    }
+
+    @Test
+    func testXMLParserKeepsTextBeforeChildAndDropsTextAfterIt() throws {
+        let testDocument = try AEXMLDocument(xml: "<root><mixed> before <child>inner</child> after </mixed></root>")
+
+        #expect(testDocument.root["mixed"].value == " before ")
+        #expect(testDocument.root["mixed"]["child"].value == "inner")
+    }
+
+    @Test
+    func testXMLParserKeepsValueOfElementLeftOpenByTruncatedInput() {
+        let testDocument = AEXMLDocument()
+
+        // truncated input is a parsing error on Apple platforms, while FoundationXML on Linux reports success
+        try? testDocument.loadXML("<root><text>hello wor".data(using: .utf8)!)
+
+        #expect(testDocument.root["text"].value == "hello wor", "Text of an element left open by truncated input should stay in the document.")
+    }
     
     private func whitespaceResult(shouldTrimWhitespace: Bool) throws -> String? {
         var options = AEXMLOptions()
