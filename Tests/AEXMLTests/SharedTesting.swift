@@ -49,7 +49,7 @@ extension SharedTesting {
 /// - SeeAlso: https://stackoverflow.com/a/61263653/2165585
 extension Foundation.Bundle {
     /// Returns the resource bundle associated with the current Swift module.
-    static var module: Bundle = {
+    static let module: Bundle = {
         let bundleName = "AEXML_AEXMLTests"
 
         let candidates = [
