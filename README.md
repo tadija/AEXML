@@ -18,6 +18,7 @@
     - [Read XML](#read-xml)
     - [Write XML](#write-xml)
 - [Installation](#installation)
+- [Migrating to version 5](#migrating-to-version-5)
 - [License](#license)
 
 ## Intro
@@ -211,6 +212,41 @@ private func buildSoapEnvelope(
 	```ruby
 	pod 'AEXML'
 	```
+
+## Migrating to version 5
+
+### Custom serialization in subclasses
+
+If your subclass overrides `xml`, move that customization to `appendXML(to:depth:format:)`, see [#198](https://github.com/tadija/AEXML/pull/198) for more details.
+
+Before:
+
+```swift
+class CustomElement: AEXMLElement {
+    override var xml: String {
+        "<!-- custom element -->\n" + super.xml
+    }
+}
+```
+
+After:
+
+```swift
+class CustomElement: AEXMLElement {
+    override func appendXML(to xml: inout String, depth: Int, format: AEXMLFormat) {
+        xml += "<!-- custom element -->" + format.newline
+        super.appendXML(to: &xml, depth: depth, format: format)
+    }
+}
+```
+
+This works inside parent elements and across all output formats. An `xml` override
+now affects only direct calls to `.xml`, so move any redaction logic to the new method too.
+
+### Attribute-search overrides
+
+`all(withAttributes:)` no longer calls `all(containingAttributeKeys:)`. If your subclass
+customizes key searches, override both methods to apply the same behavior to value searches.
 
 ## License
 AEXML is released under the MIT license. See [LICENSE](LICENSE) for details.

@@ -576,7 +576,70 @@ class AEXMLTests: SharedTesting {
         #expect(testDocument.xml == header + "\n<root>\n<!-- custom -->\n\t<custom>value</custom>\n\t<plain />\n</root>")
         #expect(testDocument.xmlCompact == header + "<root><!-- custom --><custom>value</custom><plain /></root>")
         #expect(testDocument.xmlSpaces == header + "\n<root>\n<!-- custom -->\n    <custom>value</custom>\n    <plain />\n</root>")
+        #expect(testDocument.xmlDoubleSpace == header + "\n<root>\n<!-- custom -->\n  <custom>value</custom>\n  <plain />\n</root>")
+        #expect(testDocument.xmlString(format: AEXMLFormat(indent: " ", newline: "\r\n")) == header + "\r\n<root>\r\n<!-- custom -->\r\n <custom>value</custom>\r\n <plain />\r\n</root>")
         #expect(root["custom"].xml == "<!-- custom -->\n\t<custom>value</custom>")
+    }
+
+    private class LegacyElement: AEXMLElement {
+        override var xml: String { "<!-- legacy override -->" }
+    }
+
+    @Test
+    func testLegacyXMLOverrideOnlyAffectsDirectPropertyAccess() {
+        let element = LegacyElement(name: "custom", value: "value")
+        let document = AEXMLDocument(root: element)
+
+        #expect(element.xml == "<!-- legacy override -->")
+        #expect(!document.xml.contains("legacy override"))
+        #expect(document.xml.contains("<custom>value</custom>"))
+        #expect(element.xmlCompact == "<custom>value</custom>")
+        #expect(element.xmlSpaces == "<custom>value</custom>")
+        #expect(element.xmlDoubleSpace == "<custom>value</custom>")
+        #expect(element.xmlString(format: .tabs) == "<custom>value</custom>")
+    }
+
+    private class RedactedElement: AEXMLElement {
+        override func appendXML(to xml: inout String, depth: Int, format: AEXMLFormat) {
+            let replacement = AEXMLElement(name: name, value: "[redacted]")
+            replacement.appendXML(to: &xml, depth: depth, format: format)
+        }
+    }
+
+    @Test
+    func testSerializationHookRedactsContentInEveryFormatAndInsideParent() {
+        let secret = "private-token<&"
+        let element = RedactedElement(name: "secret", value: secret, attributes: ["token": secret])
+        element.addChild(name: "nested", value: secret)
+        let document = AEXMLDocument(root: AEXMLElement(name: "root"))
+        document.root.addChild(element)
+
+        for output in [element.xml, element.xmlCompact, element.xmlSpaces, element.xmlDoubleSpace,
+                       element.xmlString(format: .compact), document.xml, document.xmlCompact,
+                       document.xmlSpaces, document.xmlDoubleSpace,
+                       document.xmlString(format: AEXMLFormat(indent: " ", newline: "\r\n"))] {
+            #expect(output.contains("<secret>[redacted]</secret>"))
+            #expect(!output.contains("private-token"))
+            #expect(!output.contains("nested"))
+            #expect(!output.contains("token="))
+        }
+        #expect(element.value == secret, "Serialization should not mutate the element.")
+    }
+
+    private class AttributeSearchElement: AEXMLElement {
+        override func all(containingAttributeKeys keys: [String]) -> [AEXMLElement]? { [] }
+    }
+
+    @Test
+    func testAttributeValueSearchDoesNotCallAttributeKeySearchOverride() {
+        let parent = AEXMLElement(name: "parent")
+        let element = AttributeSearchElement(name: "item", attributes: ["key": "value"])
+        parent.addChild(element)
+
+        #expect(element.all(containingAttributeKeys: ["key"])?.isEmpty == true)
+        let matches = element.all(withAttributes: ["key": "value"])
+        #expect(matches?.count == 1)
+        #expect(matches?.first === element)
     }
 
     @Test
