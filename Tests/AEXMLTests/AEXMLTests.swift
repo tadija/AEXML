@@ -59,6 +59,20 @@ class AEXMLTests: SharedTesting {
         let firstString = testDocument.root["bar"].first?.string
         #expect(firstString == "hello")
     }
+    
+    @Test
+    func testXMLDocumentWithoutStandaloneDeclaration() throws {
+        var options = AEXMLOptions()
+        options.documentHeader.standalone = nil
+
+        let document = try AEXMLDocument(xml: "<root><child>value</child></root>", options: options)
+        let header = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+        #expect(document.xml == header + "\n<root>\n\t<child>value</child>\n</root>")
+        #expect(document.xmlCompact == header + "<root><child>value</child></root>")
+        #expect(document.xmlSpaces == header + "\n<root>\n    <child>value</child>\n</root>")
+        #expect(document.xmlDoubleSpace == header + "\n<root>\n  <child>value</child>\n</root>")
+        #expect(document.xmlString(format: AEXMLFormat(indent: " ", newline: "\r\n")) == header + "\r\n<root>\r\n <child>value</child>\r\n</root>")
+    }
 
     @Test
     func testXMLParser() throws {

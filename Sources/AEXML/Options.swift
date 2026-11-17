@@ -21,12 +21,16 @@ public struct AEXMLOptions: Sendable {
         /// Encoding value for XML Document header (defaults to "utf-8").
         public var encoding = "utf-8"
         
-        /// Standalone value for XML Document header (defaults to "no").
-        public var standalone = "no"
+        /// Standalone value for XML Document header (defaults to "no"); omitted when `nil`.
+        public var standalone: String? = "no"
         
         /// XML Document header
         public var xmlString: String {
-            return "<?xml version=\"\(version)\" encoding=\"\(encoding)\" standalone=\"\(standalone)\"?>"
+            var xml = "<?xml version=\"\(version)\" encoding=\"\(encoding)\""
+            if let standalone {
+                xml += " standalone=\"\(standalone)\""
+            }
+            return xml + "?>"
         }
     }
     
