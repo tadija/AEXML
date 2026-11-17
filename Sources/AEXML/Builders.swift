@@ -39,7 +39,7 @@ public extension AEXMLDocument {
 
      - returns: Initialized XML Document object.
      */
-    convenience init(options: AEXMLOptions = AEXMLOptions(),
+    convenience init(options: any AEXMLOptionsProtocol = AEXMLOptions(),
                      @AEXMLDocumentBuilder rootBuilder: () -> AEXMLElement) {
         self.init(root: rootBuilder(),
                   options: options)

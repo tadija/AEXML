@@ -28,7 +28,7 @@ open class AEXMLDocument: AEXMLElement {
         return rootElement
     }
     
-    public let options: AEXMLOptions
+    public let options: any AEXMLOptionsProtocol
     
     // MARK: - Lifecycle
     
@@ -40,7 +40,7 @@ open class AEXMLDocument: AEXMLElement {
     
         - returns: Initialized XML Document object.
     */
-    public init(root: AEXMLElement? = nil, options: AEXMLOptions = AEXMLOptions()) {
+    public init(root: AEXMLElement? = nil, options: any AEXMLOptionsProtocol = AEXMLOptions()) {
         self.options = options
         
         let documentName = String(describing: AEXMLDocument.self)
@@ -63,7 +63,7 @@ open class AEXMLDocument: AEXMLElement {
     
         - returns: Initialized XML Document object containing parsed data. Throws error if data could not be parsed.
     */
-    public convenience init(xml: Data, options: AEXMLOptions = AEXMLOptions()) throws {
+    public convenience init(xml: Data, options: any AEXMLOptionsProtocol = AEXMLOptions()) throws {
         self.init(options: options)
         try loadXML(xml)
     }
@@ -79,7 +79,7 @@ open class AEXMLDocument: AEXMLElement {
     */
     public convenience init(xml: String,
                             encoding: String.Encoding = String.Encoding.utf8,
-                            options: AEXMLOptions = AEXMLOptions()) throws {
+                            options: any AEXMLOptionsProtocol = AEXMLOptions()) throws {
         guard let data = xml.data(using: encoding) else { throw AEXMLError.parsingFailed }
         try self.init(xml: data, options: options)
     }
@@ -100,10 +100,9 @@ open class AEXMLDocument: AEXMLElement {
     
     // MARK: - Override
     
-    /// Override of `AEXMLElement` serialization - it just inserts XML Document header at the beginning.
+    /// Writes the options' document prolog followed by the root element.
     open override func appendXML(to xml: inout String, depth: Int, format: AEXMLFormat) {
-        xml += options.documentHeader.xmlString
-        xml += format.newline
+        options.appendDocumentProlog(to: &xml, format: format)
         root.appendXML(to: &xml, depth: depth + 1, format: format)
     }
     

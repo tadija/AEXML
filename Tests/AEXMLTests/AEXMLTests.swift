@@ -87,6 +87,94 @@ class AEXMLTests: SharedTesting {
         #expect(rootName == "animals")
     }
 
+    private struct PlistOptions: AEXMLOptionsProtocol {
+        var documentHeader = AEXMLOptions().documentHeader
+        var parserSettings = AEXMLOptions().parserSettings
+
+        init() {
+            documentHeader.standalone = nil
+            parserSettings.shouldTrimWhitespace = false
+        }
+
+        func appendDocumentProlog(to xml: inout String, format: AEXMLFormat) {
+            xml += documentHeader.xmlString + format.newline
+            xml += "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
+            xml += format.newline
+        }
+    }
+
+    @Test(arguments: [AEXMLFormat.tabs, .compact, .fourSpaces, .doubleSpace,
+                      AEXMLFormat(indent: " ", newline: "\r\n")])
+    func testCustomOptionsWriteDocumentTypeInEveryFormat(format: AEXMLFormat) throws {
+        let options: any AEXMLOptionsProtocol = PlistOptions()
+        let root = AEXMLElement(name: "plist")
+        root.addChild(name: "string", value: " value ")
+        let document = AEXMLDocument(root: root, options: options)
+
+        let header = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+        let doctype = "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
+        let expected = header + format.newline + doctype + format.newline
+            + "<plist>" + format.newline + format.indent + "<string> value </string>"
+            + format.newline + "</plist>"
+        let xml = document.xmlString(format: format)
+        #expect(xml == expected)
+
+        let parsed = try AEXMLDocument(xml: xml, options: options)
+        #expect(parsed.root["string"].value == " value ")
+        #expect(parsed.xmlString(format: format) == expected)
+
+        let fromData = try AEXMLDocument(xml: Data(xml.utf8), options: options)
+        #expect(fromData.root["string"].value == " value ")
+        #expect(fromData.xmlString(format: format) == expected)
+    }
+
+    private struct HeaderlessOptions: AEXMLOptionsProtocol {
+        func appendDocumentProlog(to xml: inout String, format: AEXMLFormat) {}
+    }
+
+    private struct DeclarationOptions: AEXMLOptionsProtocol {
+        var documentHeader = AEXMLOptions().documentHeader
+
+        init() {
+            documentHeader.standalone = nil
+        }
+    }
+
+    @Test
+    func testCustomOptionsUseDefaultPrologWithTheirOwnHeader() throws {
+        let options: any AEXMLOptionsProtocol = DeclarationOptions()
+        let document = try AEXMLDocument(xml: "<root> value </root>", options: options)
+
+        #expect(document.xml == "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<root>value</root>")
+        #expect(document.options.parserSettings.shouldResolveExternalEntities == false)
+    }
+
+    @Test
+    func testCustomOptionsCanOmitPrologWithoutAddingWhitespace() throws {
+        let document = try AEXMLDocument(xml: "<root> value </root>", options: HeaderlessOptions())
+        #expect(document.root.value == "value", "Custom options should inherit default parser settings.")
+        #expect(document.xml == "<root>value</root>")
+        #expect(document.xmlCompact == "<root>value</root>")
+        #expect(document.xmlSpaces == "<root>value</root>")
+        #expect(document.xmlDoubleSpace == "<root>value</root>")
+    }
+
+    private struct CustomHeaderOptions: AEXMLOptionsProtocol {
+        var documentHeader: AEXMLOptions.DocumentHeader {
+            var header = AEXMLOptions().documentHeader
+            header.standalone = "yes"
+            return header
+        }
+    }
+
+    @Test
+    func testDefaultPrologUsesCustomOptionsHeaderThroughProtocol() {
+        let options: any AEXMLOptionsProtocol = CustomHeaderOptions()
+        let document = AEXMLDocument(root: AEXMLElement(name: "root"), options: options)
+        #expect(document.xml == "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>\n<root />")
+        #expect(document.options.documentHeader.standalone == "yes")
+    }
+
     @Test
     func testXMLParserTrimsWhitespace() throws {
         let result = try whitespaceResult(shouldTrimWhitespace: true)

@@ -17,6 +17,7 @@
 - [Usage](#usage)
     - [Read XML](#read-xml)
     - [Write XML](#write-xml)
+    - [Custom options](#custom-options)
 - [Installation](#installation)
 - [Migrating to version 5](#migrating-to-version-5)
 - [License](#license)
@@ -199,6 +200,35 @@ private func buildSoapEnvelope(
 }
 ```
 
+### Custom options
+
+Set `standalone` to `nil` to leave it out of the XML declaration:
+
+```swift
+var options = AEXMLOptions()
+options.documentHeader.standalone = nil
+let document = AEXMLDocument(options: options)
+```
+
+For a DOCTYPE or a custom prolog, implement `AEXMLOptionsProtocol`:
+
+```swift
+struct PlistOptions: AEXMLOptionsProtocol {
+    func appendDocumentProlog(to xml: inout String, format: AEXMLFormat) {
+        xml += documentHeader.xmlString + format.newline
+        xml += "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">"
+        xml += format.newline
+    }
+}
+
+let document = AEXMLDocument(root: AEXMLElement(name: "plist"), options: PlistOptions())
+```
+
+The protocol supplies default header and parser settings; provide your own properties
+to customize them. Prolog output is written verbatim, so use trusted declarations and
+`format.newline` for separators. This adds declarations to output; input DOCTYPEs are
+not automatically preserved or validated.
+
 ## Installation
 
 - [Swift Package Manager](https://swift.org/package-manager/):
@@ -214,6 +244,12 @@ private func buildSoapEnvelope(
 	```
 
 ## Migrating to version 5
+
+### Options
+
+`DocumentHeader.standalone` is now `String?`; its default remains `"no"`.
+`AEXMLDocument.options` now stores `any AEXMLOptionsProtocol`, allowing custom options.
+Existing calls that pass `AEXMLOptions` still work.
 
 ### Custom serialization in subclasses
 

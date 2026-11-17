@@ -10,8 +10,32 @@ import FoundationXML
 #endif
 
 
-/// Options used in `AEXMLDocument`
-public struct AEXMLOptions: Sendable {
+/// Options for parsing XML and writing declarations before the document's root element.
+public protocol AEXMLOptionsProtocol: Sendable {
+    var documentHeader: AEXMLOptions.DocumentHeader { get }
+    var parserSettings: AEXMLOptions.ParserSettings { get }
+
+    /// Appends the document prolog, including any separator before the root element.
+    /// Use `format.newline` for separators so compact output stays compact.
+    func appendDocumentProlog(to xml: inout String, format: AEXMLFormat)
+}
+
+public extension AEXMLOptionsProtocol {
+    /// Default XML declaration for custom options that do not supply one.
+    var documentHeader: AEXMLOptions.DocumentHeader { AEXMLOptions().documentHeader }
+
+    /// Default parser settings for custom options that do not supply them.
+    var parserSettings: AEXMLOptions.ParserSettings { AEXMLOptions().parserSettings }
+
+    /// Writes the XML declaration followed by the format's newline.
+    func appendDocumentProlog(to xml: inout String, format: AEXMLFormat) {
+        xml += documentHeader.xmlString
+        xml += format.newline
+    }
+}
+
+/// Default options used in `AEXMLDocument`.
+public struct AEXMLOptions: AEXMLOptionsProtocol {
     
     /// Values used in XML Document header
     public struct DocumentHeader: Sendable {
