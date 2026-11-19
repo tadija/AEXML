@@ -30,6 +30,11 @@ open class AEXMLElement {
     
     /// XML Element value.
     open var value: String?
+
+    /// Writes a leaf element's non-nil value as CDATA (defaults to `false`).
+    /// Attributes remain escaped. Ignored when the element has children or its value is nil.
+    /// Parsing reads CDATA as text and does not automatically enable this option.
+    open var usesCDATA = false
     
     /// XML Element attributes.
     open var attributes: [String : String]
@@ -333,7 +338,18 @@ open class AEXMLElement {
                 xml += "</\(name)>"
             } else {
                 // insert string value and close element
-                xml += ">\(string.xmlEscaped)</\(name)>"
+                xml += ">"
+                if usesCDATA {
+                    // Split forbidden terminators into adjacent sections. Carriage returns
+                    // must be character references outside CDATA to avoid XML normalization.
+                    let content = string
+                        .replacingOccurrences(of: "]]>", with: "]]]]><![CDATA[>")
+                        .replacingOccurrences(of: "\r", with: "]]>&#13;<![CDATA[")
+                    xml += "<![CDATA[\(content)]]>"
+                } else {
+                    xml += string.xmlEscaped
+                }
+                xml += "</\(name)>"
             }
         }
     }

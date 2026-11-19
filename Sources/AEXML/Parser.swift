@@ -80,6 +80,15 @@ internal class AEXMLParser: NSObject, XMLParserDelegate {
         // only accumulate value here
         currentValue.append(string)
     }
+
+    func parser(_ parser: XMLParser, foundCDATA CDATABlock: Data) {
+        // XMLParser supplies CDATA as UTF-8, regardless of the source encoding.
+        // Preserve an explicitly empty section as an empty value rather than nil.
+        if currentElement?.value == nil {
+            currentElement?.value = ""
+        }
+        currentValue.append(String(decoding: CDATABlock, as: UTF8.self))
+    }
     
     func parser(_ parser: XMLParser,
                 didEndElement elementName: String,

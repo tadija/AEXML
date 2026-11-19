@@ -200,6 +200,18 @@ private func buildSoapEnvelope(
 }
 ```
 
+### CDATA
+
+To write CDATA:
+
+```swift
+let document = AEXMLDocument()
+let message = document.addChild(name: "message", value: "<b>Hello & welcome</b>")
+message.usesCDATA = true
+print(document.root.xmlCompact)
+// <message><![CDATA[<b>Hello & welcome</b>]]></message>
+```
+
 ### Custom options
 
 Set `standalone` to `nil` to leave it out of the XML declaration:

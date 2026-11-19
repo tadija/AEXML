@@ -618,6 +618,63 @@ class AEXMLTests: SharedTesting {
     }
 
     @Test
+    func testCDATAWritingAcrossFormats() throws {
+        let document = AEXMLDocument()
+        let root = document.addChild(name: "root")
+        let text = "<b>Živeli 🌍 & \"hello\"</b>]]>again]]>\r\n\tend"
+        let leaf = root.addChild(name: "message", value: text, attributes: ["key": "<&\""])
+        leaf.usesCDATA = true
+        root.addChild(name: "plain", value: "<&")
+
+        for output in [document.xml, document.xmlCompact, document.xmlSpaces,
+                       document.xmlDoubleSpace,
+                       document.xmlString(format: AEXMLFormat(indent: " ", newline: "\r\n"))] {
+            #expect(output.contains("<![CDATA[<b>Živeli 🌍 & \"hello\"</b>]]]]><![CDATA[>again]]]]><![CDATA[>]]>&#13;<![CDATA[\n\tend]]>"))
+            #expect(output.contains("key=\"&lt;&amp;&quot;\""))
+            #expect(output.contains("<plain>&lt;&amp;</plain>"))
+            let parsed = try AEXMLDocument(xml: output)
+            #expect(parsed.root["message"].value == text)
+            #expect(parsed.root["message"].attributes["key"] == "<&\"")
+            #expect(!parsed.root["message"].usesCDATA)
+        }
+        #expect(leaf.value == text)
+    }
+
+    @Test
+    func testCDATAEmptyNilAndParentValues() throws {
+        let document = AEXMLDocument()
+        let root = document.addChild(name: "root", value: "ignored")
+        root.usesCDATA = true
+        let empty = root.addChild(name: "empty", value: "")
+        empty.usesCDATA = true
+        let missing = root.addChild(name: "missing")
+        missing.usesCDATA = true
+        #expect(root.xmlCompact == "<root><empty><![CDATA[]]></empty><missing /></root>")
+        let parsed = try AEXMLDocument(xml: document.xml)
+        #expect(parsed.root["empty"].value == "")
+        #expect(parsed.root["missing"].value == nil)
+    }
+
+    @Test
+    func testCDATAParsingCombinesTextAndSections() throws {
+        let xml = "<root>  before &amp; <![CDATA[<first>]]><![CDATA[🌍]]> after  </root>"
+        let trimmed = try AEXMLDocument(xml: xml)
+        #expect(trimmed.root.value == "before & <first>🌍 after")
+        var options = AEXMLOptions()
+        options.parserSettings.shouldTrimWhitespace = false
+        let untrimmed = try AEXMLDocument(xml: xml, options: options)
+        #expect(untrimmed.root.value == "  before & <first>🌍 after  ")
+    }
+
+    @Test
+    func testCDATAParsingNonUTF8Source() throws {
+        let xml = "<?xml version=\"1.0\" encoding=\"utf-16\"?><root><![CDATA[Živeli 🌍]]></root>"
+        let data = try #require(xml.data(using: .utf16))
+        let document = try AEXMLDocument(xml: data)
+        #expect(document.root.value == "Živeli 🌍")
+    }
+
+    @Test
     func testXMLStringKeepsTabsAndCarriageReturns() throws {
         let testDocument = AEXMLDocument()
         testDocument.addChild(name: "child", value: "a\tb\r\nc", attributes: ["attribute" : "x\ty\rz"])
